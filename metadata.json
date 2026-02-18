@@ -1,0 +1,9 @@
+{
+  "name": "Cegah.AI",
+  "description": "An AI-powered disaster preparedness companion for Indonesia. Features real-time AI chat assistance, visual damage assessment, and location-based risk analysis.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
