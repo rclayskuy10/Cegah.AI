@@ -2,7 +2,25 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { RiskReport, DamageAnalysis, DisasterStat } from "../types";
 
 // Initialize Gemini Client
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+// Helper to parse API errors
+const parseApiError = (error: any): string => {
+  const msg = error?.message || error?.toString() || '';
+  if (msg.includes('429') || msg.includes('RESOURCE_EXHAUSTED') || msg.includes('quota')) {
+    return 'Kuota API harian telah habis (maks 20 request/hari untuk free tier). Silakan coba lagi besok atau upgrade ke paket berbayar di Google AI Studio.';
+  }
+  if (msg.includes('403') || msg.includes('PERMISSION_DENIED')) {
+    return 'API key tidak valid atau tidak memiliki izin. Periksa kembali API key Anda.';
+  }
+  if (msg.includes('404') || msg.includes('NOT_FOUND')) {
+    return 'Model AI tidak ditemukan. Hubungi developer.';
+  }
+  if (msg.includes('NetworkError') || msg.includes('Failed to fetch') || msg.includes('ERR_NETWORK')) {
+    return 'Tidak ada koneksi internet. Periksa jaringan Anda.';
+  }
+  return `Terjadi kesalahan: ${msg}`;
+};
 
 // System instructions for the chatbot
 const CHAT_SYSTEM_INSTRUCTION = `
@@ -30,7 +48,7 @@ export const sendMessageToGemini = async (message: string, history: {role: strin
     return result.text || "Maaf, saya tidak dapat memproses permintaan Anda saat ini.";
   } catch (error) {
     console.error("Gemini Chat Error:", error);
-    return "Terjadi kesalahan koneksi. Silakan coba lagi.";
+    return parseApiError(error);
   }
 };
 
@@ -80,7 +98,7 @@ export const analyzeDamageImage = async (base64Image: string): Promise<DamageAna
     return JSON.parse(jsonText) as DamageAnalysis;
   } catch (error) {
     console.error("Damage Analysis Error:", error);
-    throw error;
+    throw new Error(parseApiError(error));
   }
 };
 
@@ -115,7 +133,7 @@ export const analyzeLocationRisk = async (lat: number, lon: number): Promise<Ris
     return JSON.parse(jsonText) as RiskReport;
   } catch (error) {
     console.error("Location Risk Error:", error);
-    throw error;
+    throw new Error(parseApiError(error));
   }
 };
 
@@ -155,3 +173,5 @@ export const getDisasterStats = async (): Promise<DisasterStat[]> => {
     return [];
   }
 };
+
+export { parseApiError };
