@@ -8,7 +8,7 @@ const ChatAssistant: React.FC = () => {
     {
       id: '1',
       role: MessageRole.MODEL,
-      text: 'Halo! Saya SiagaBot. Ada yang bisa saya bantu terkait kesiapsiagaan bencana atau pertolongan pertama?',
+      text: 'Halo! Saya CegahBot. Ada yang bisa saya bantu terkait kesiapsiagaan bencana atau pertolongan pertama?',
       timestamp: new Date(),
     },
   ]);
@@ -106,7 +106,7 @@ const ChatAssistant: React.FC = () => {
                     )}
                 </div>
                 <div
-                    className={`p-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
+                    className={`p-3 rounded-2xl text-base leading-relaxed shadow-sm ${
                     msg.role === MessageRole.USER
                         ? 'bg-slate-700 text-white rounded-tr-none'
                         : msg.isError 
@@ -127,7 +127,7 @@ const ChatAssistant: React.FC = () => {
                 </div>
                 <div className="bg-white border border-slate-100 p-3 rounded-2xl rounded-tl-none shadow-sm flex items-center">
                     <Loader2 className="w-4 h-4 animate-spin text-slate-400" />
-                    <span className="ml-2 text-xs text-slate-400">Sedang berpikir...</span>
+                    <span className="ml-2 text-sm text-slate-400">Sedang berpikir...</span>
                 </div>
                 </div>
             </div>
@@ -143,7 +143,7 @@ const ChatAssistant: React.FC = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Tanya tentang banjir, gempa..."
-            className="w-full pl-4 pr-12 py-3 bg-slate-50 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm"
+            className="w-full pl-4 pr-12 py-3 bg-slate-50 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-base"
             disabled={isLoading}
           />
           <button

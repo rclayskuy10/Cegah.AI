@@ -53,7 +53,7 @@ const Dashboard: React.FC = () => {
           onClick={() => navigate('/chat')}
           className="bg-white text-red-600 px-4 py-2 rounded-lg text-sm font-bold shadow hover:bg-red-50 transition-colors w-full sm:w-auto"
         >
-          Tanya SiagaBot Sekarang
+          Tanya CegahBot Sekarang
         </button>
       </div>
 
