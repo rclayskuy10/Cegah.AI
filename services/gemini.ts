@@ -2,8 +2,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { RiskReport, DamageAnalysis, DisasterStat } from "../types";
 
 // Initialize Gemini Client
-// IMPORTANT: Accessing process.env.API_KEY directly as per instructions.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 // System instructions for the chatbot
 const CHAT_SYSTEM_INSTRUCTION = `
