@@ -117,7 +117,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         }`}>
           <div className="bg-white/5 rounded-xl p-4 border border-white/5">
             <p className="text-[11px] text-slate-400 font-medium whitespace-nowrap">Dibuat oleh</p>
-            <p className="text-sm font-bold text-white mt-0.5 whitespace-nowrap">Kak Riski Pratama</p>
+            <p className="text-sm font-bold text-white mt-0.5 whitespace-nowrap">Riski Pratama</p>
           </div>
         </div>
       </aside>
@@ -212,7 +212,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="p-6 border-t border-white/10">
             <div className="bg-white/5 rounded-xl p-4 border border-white/5">
               <p className="text-[11px] text-slate-400 font-medium">Dibuat oleh</p>
-              <p className="text-sm font-bold text-white mt-0.5">Kak Riski Pratama</p>
+              <p className="text-sm font-bold text-white mt-0.5">Riski Pratama</p>
             </div>
           </div>
         </div>

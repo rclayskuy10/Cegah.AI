@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShieldAlert, Activity, PhoneCall, ChevronRight, Loader2, Shield, Zap, ArrowRight, Sparkles, MapPin, Camera, MessageSquare } from 'lucide-react';
+import { ShieldAlert, Activity, PhoneCall, ChevronRight, Loader2, Shield, Zap, ArrowRight, Sparkles, MapPin, Camera, MessageSquare, Radio } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { DisasterStat } from '../types';
-import { getDisasterStats } from '../services/gemini';
+import { getRealTimeDisasterStats } from '../services/bmkg';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -13,9 +13,9 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const data = await getDisasterStats();
-        if (data && data.length > 0) {
-          setStats(data);
+        const result = await getRealTimeDisasterStats();
+        if (result && result.stats && result.stats.length > 0) {
+          setStats(result.stats);
         } else {
              setStats([
                 { name: 'Banjir', count: 42, color: '#3b82f6' },
@@ -49,12 +49,6 @@ const Dashboard: React.FC = () => {
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-orange-500 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
         </div>
         <div className="relative z-10">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="bg-white/10 backdrop-blur-sm border border-white/10 px-3 py-1 rounded-full flex items-center gap-1.5">
-              <Sparkles className="w-3 h-3 text-yellow-400" />
-              <span className="text-[11px] font-semibold text-white/80">Powered by AI</span>
-            </div>
-          </div>
           <h2 className="text-3xl md:text-4xl font-black mb-3 leading-tight">Siaga Bencana<br/>Dimulai dari <span className="gradient-text">Kesiapan.</span></h2>
           <p className="text-slate-300 text-sm md:text-base mb-6 max-w-lg leading-relaxed">
             Indonesia rawan bencana. Persiapkan diri Anda dan keluarga dengan informasi yang tepat dan akurat berbasis AI.
@@ -117,10 +111,10 @@ const Dashboard: React.FC = () => {
         <div className="flex justify-between items-center mb-6">
           <div>
             <h3 className="font-bold text-lg text-slate-800">Statistik Risiko</h3>
-            <p className="text-xs text-slate-400 mt-0.5">Data regional terkini</p>
+            <p className="text-xs text-slate-400 mt-0.5">Data real-time BMKG</p>
           </div>
-          <span className="text-[11px] font-semibold text-slate-500 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-100 flex items-center gap-1">
-            <Sparkles className="w-3 h-3 text-yellow-500" /> AI Generated
+          <span className="text-[11px] font-semibold text-green-600 bg-green-50 px-3 py-1.5 rounded-full border border-green-100 flex items-center gap-1">
+            <Radio className="w-3 h-3 animate-pulse" /> Data Real-Time
           </span>
         </div>
         
