@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Home, MessageSquare, Camera, MapPin, AlertTriangle, Menu, X, Shield, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Home, MessageSquare, Camera, MapPin, AlertTriangle, Menu, X, Shield, ChevronLeft, ChevronRight, Package } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -14,6 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { path: '/', icon: Home, label: 'Beranda', desc: 'Dashboard utama' },
     { path: '/risk', icon: MapPin, label: 'Peta Rawan', desc: 'Analisis risiko lokasi' },
     { path: '/report', icon: Camera, label: 'Lapor', desc: 'Lapor kerusakan' },
+    { path: '/checklist', icon: Package, label: 'Tas Siaga', desc: 'Persiapan darurat' },
     { path: '/chat', icon: MessageSquare, label: 'CegahBot', desc: 'Asisten AI bencana' },
   ];
 

@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import ChatAssistant from './pages/ChatAssistant';
 import DamageReporter from './pages/DamageReporter';
 import RiskAssessment from './pages/RiskAssessment';
+import EmergencyChecklist from './pages/EmergencyChecklist';
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
           <Route path="/chat" element={<ChatAssistant />} />
           <Route path="/report" element={<DamageReporter />} />
           <Route path="/risk" element={<RiskAssessment />} />
+          <Route path="/checklist" element={<EmergencyChecklist />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>

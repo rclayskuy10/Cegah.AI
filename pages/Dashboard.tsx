@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShieldAlert, Activity, PhoneCall, ChevronRight, Loader2, Shield, Zap, ArrowRight, Sparkles, MapPin, Camera, MessageSquare, Radio } from 'lucide-react';
+import { ShieldAlert, Activity, PhoneCall, ChevronRight, Loader2, Shield, Zap, ArrowRight, Sparkles, MapPin, Camera, MessageSquare, Radio, AlertCircle, CloudRain } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { DisasterStat } from '../types';
-import { getRealTimeDisasterStats } from '../services/bmkg';
+import { getRealTimeDisasterStats, getLatestEarthquakeInfo, getWeatherWarnings } from '../services/bmkg';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState<DisasterStat[]>([]);
   const [loadingStats, setLoadingStats] = useState(true);
+  const [earthquakeInfo, setEarthquakeInfo] = useState<any>(null);
+  const [loadingQuake, setLoadingQuake] = useState(true);
+  const [weatherWarning, setWeatherWarning] = useState<any>(null);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -36,7 +39,31 @@ const Dashboard: React.FC = () => {
       }
     };
 
+    const fetchEarthquake = async () => {
+      try {
+        const quakeData = await getLatestEarthquakeInfo();
+        setEarthquakeInfo(quakeData);
+      } catch (error) {
+        console.error('Failed to fetch earthquake data:', error);
+      } finally {
+        setLoadingQuake(false);
+      }
+    };
+
+    const fetchWeather = async () => {
+      try {
+        const weatherData = await getWeatherWarnings();
+        if (weatherData && weatherData.warning && weatherData.warning.length > 0) {
+          setWeatherWarning(weatherData);
+        }
+      } catch (error) {
+        console.error('Failed to fetch weather warnings:', error);
+      }
+    };
+
     fetchStats();
+    fetchEarthquake();
+    fetchWeather();
   }, []);
 
   return (
@@ -63,6 +90,33 @@ const Dashboard: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Weather Warning Alert */}
+      {weatherWarning && weatherWarning.warning && weatherWarning.warning.length > 0 && (
+        <div className="animate-slide-up bg-gradient-to-r from-yellow-50 via-orange-50 to-red-50 border-l-4 border-orange-500 p-4 md:p-5 rounded-2xl shadow-sm">
+          <div className="flex items-start gap-3">
+            <div className="bg-orange-500 p-2 rounded-xl flex-shrink-0">
+              <CloudRain className="w-5 h-5 text-white" />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-bold text-orange-900 text-sm md:text-base flex items-center gap-2">
+                Peringatan Cuaca
+                <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full">BMKG</span>
+              </h4>
+              <div className="mt-2 space-y-1">
+                {weatherWarning.warning.slice(0, 3).map((warning: string, idx: number) => (
+                  <p key={idx} className="text-xs md:text-sm text-orange-800 leading-relaxed">
+                    • {warning}
+                  </p>
+                ))}
+              </div>
+              <p className="text-xs text-orange-600 mt-2 font-medium">
+                Tetap waspada dan ikuti arahan dari pihak berwenang.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Quick Actions Grid */}
       <div className="animate-slide-up grid grid-cols-3 gap-3 md:gap-4">
@@ -105,6 +159,53 @@ const Dashboard: React.FC = () => {
           </div>
         </button>
       </div>
+
+      {/* Latest Earthquake Info - Real-time BMKG */}
+      {loadingQuake ? (
+        <div className="animate-slide-up bg-gradient-to-br from-red-50 to-orange-50 p-5 md:p-6 rounded-3xl border border-red-100 shadow-sm">
+          <div className="flex items-center justify-center gap-2 text-slate-400">
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span className="text-xs font-medium">Memuat data gempa terkini...</span>
+          </div>
+        </div>
+      ) : earthquakeInfo ? (
+        <div className="animate-slide-up bg-gradient-to-br from-red-50 to-orange-50 p-5 md:p-6 rounded-3xl border border-red-100 shadow-sm">
+          <div className="flex items-start gap-4">
+            <div className="bg-red-500 p-3 rounded-2xl flex-shrink-0 shadow-lg shadow-red-500/30">
+              <AlertCircle className="w-6 h-6 text-white" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-start justify-between mb-2">
+                <div>
+                  <h3 className="font-bold text-red-900 text-base md:text-lg">Gempa Terkini</h3>
+                  <p className="text-xs text-red-600 mt-0.5">Sumber: BMKG Indonesia</p>
+                </div>
+                <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                  M {earthquakeInfo.magnitude}
+                </span>
+              </div>
+              <div className="space-y-2 mt-3">
+                <div className="flex items-start gap-2">
+                  <MapPin className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-slate-700">{earthquakeInfo.location}</p>
+                    <p className="text-xs text-slate-500">{earthquakeInfo.depth}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-red-500 flex-shrink-0" />
+                  <p className="text-xs text-slate-600">{earthquakeInfo.time}</p>
+                </div>
+                {earthquakeInfo.potential && (
+                  <div className="mt-3 bg-white/60 backdrop-blur-sm p-3 rounded-xl border border-red-200">
+                    <p className="text-xs font-semibold text-red-700">{earthquakeInfo.potential}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       {/* Stats Section */}
       <div className="animate-slide-up bg-white p-5 md:p-8 rounded-3xl shadow-sm border border-slate-100 min-h-[300px]">
