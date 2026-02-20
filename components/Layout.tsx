@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Home, MessageSquare, Camera, MapPin, AlertTriangle, Menu, X, Shield, ChevronLeft, ChevronRight, Package } from 'lucide-react';
+import { Home, MessageSquare, Camera, MapPin, Menu, X, Shield, ChevronLeft, ChevronRight, Package, Activity, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
+import OfflineBanner from './OfflineBanner';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -9,17 +11,19 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { darkMode, toggleDarkMode } = useTheme();
 
   const navItems = [
     { path: '/', icon: Home, label: 'Beranda', desc: 'Dashboard utama' },
     { path: '/risk', icon: MapPin, label: 'Peta Rawan', desc: 'Analisis risiko lokasi' },
+    { path: '/earthquakes', icon: Activity, label: 'Gempa', desc: 'Riwayat gempa BMKG' },
     { path: '/report', icon: Camera, label: 'Lapor', desc: 'Lapor kerusakan' },
     { path: '/checklist', icon: Package, label: 'Tas Siaga', desc: 'Persiapan darurat' },
     { path: '/chat', icon: MessageSquare, label: 'CegahBot', desc: 'Asisten AI bencana' },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 flex flex-col md:flex-row transition-colors duration-300">
       
       {/* Collapsible Sidebar - Desktop */}
       <aside className={`hidden md:flex flex-col glass-dark text-white sticky top-0 h-screen border-r border-white/5 transition-all duration-300 ease-in-out relative overflow-hidden ${
@@ -113,6 +117,28 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
         </div>
 
+        {/* Dark Mode Toggle */}
+        <div className={`px-4 mb-2 transition-all duration-300 overflow-hidden ${sidebarOpen ? 'opacity-100 max-h-16' : 'opacity-0 max-h-0'}`}>
+          <button
+            onClick={toggleDarkMode}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all text-sm"
+          >
+            {darkMode ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4 text-slate-400" />}
+            <span className="text-slate-300 font-medium">{darkMode ? 'Light Mode' : 'Dark Mode'}</span>
+          </button>
+        </div>
+        {!sidebarOpen && (
+          <div className="px-2 mb-2">
+            <button
+              onClick={toggleDarkMode}
+              title={darkMode ? 'Light Mode' : 'Dark Mode'}
+              className="w-full flex items-center justify-center p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all"
+            >
+              {darkMode ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4 text-slate-400" />}
+            </button>
+          </div>
+        )}
+
         <div className={`p-4 space-y-3 transition-all duration-300 overflow-hidden ${
           sidebarOpen ? 'opacity-100 max-h-32' : 'opacity-0 max-h-0'
         }`}>
@@ -124,23 +150,31 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </aside>
       
       {/* Header - Mobile */}
-      <header className="md:hidden glass sticky top-0 z-40 border-b border-slate-200/50">
+      <header className="md:hidden glass dark:glass-dark sticky top-0 z-40 border-b border-slate-200/50 dark:border-slate-700/50">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center space-x-3">
             <div className="bg-gradient-to-br from-red-500 to-red-600 p-2 rounded-xl shadow-lg shadow-red-500/20">
               <Shield className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-lg font-extrabold tracking-tight text-slate-800">Cegah<span className="gradient-text">.AI</span></h1>
+              <h1 className="text-lg font-extrabold tracking-tight text-slate-800 dark:text-white">Cegah<span className="gradient-text">.AI</span></h1>
               <p className="text-[10px] text-slate-400 font-medium -mt-0.5">IDCamp 2025 Challenge</p>
             </div>
           </div>
-          <button 
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 rounded-xl hover:bg-slate-100 transition-colors"
-          >
-            <Menu className="w-5 h-5 text-slate-600" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleDarkMode}
+              className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            >
+              {darkMode ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-slate-600" />}
+            </button>
+            <button 
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            >
+              <Menu className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -220,14 +254,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto pb-20 md:pb-0 custom-scrollbar">
+      <main className="flex-1 overflow-y-auto pb-20 md:pb-0 custom-scrollbar dark:bg-slate-900">
+        <OfflineBanner />
         <div className="max-w-5xl mx-auto">
           {children}
         </div>
       </main>
 
       {/* Bottom Navigation - Mobile Only */}
-      <nav className="md:hidden fixed bottom-0 w-full glass border-t border-slate-200/50 z-50">
+      <nav className="md:hidden fixed bottom-0 w-full glass dark:glass-dark border-t border-slate-200/50 dark:border-slate-700/50 z-50">
         <div className="flex justify-around items-center py-2 px-2">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -236,16 +271,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <NavLink
                 key={item.path}
                 to={item.path}
-                className={`flex flex-col items-center justify-center py-1.5 px-3 rounded-xl transition-all duration-300 ${
+                className={`flex flex-col items-center justify-center py-1.5 px-2 rounded-xl transition-all duration-300 ${
                   isActive 
-                    ? 'text-red-600' 
-                    : 'text-slate-400 hover:text-slate-600'
+                    ? 'text-red-600 dark:text-red-400' 
+                    : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
                 }`}
               >
-                <div className={`p-1.5 rounded-xl transition-all duration-300 ${isActive ? 'bg-red-50 scale-110' : ''}`}>
+                <div className={`p-1.5 rounded-xl transition-all duration-300 ${isActive ? 'bg-red-50 dark:bg-red-900/30 scale-110' : ''}`}>
                   <Icon className="w-5 h-5" strokeWidth={isActive ? 2.5 : 1.8} />
                 </div>
-                <span className={`text-[10px] font-semibold mt-0.5 ${isActive ? 'text-red-600' : ''}`}>{item.label}</span>
+                <span className={`text-[9px] font-semibold mt-0.5 ${isActive ? 'text-red-600 dark:text-red-400' : ''}`}>{item.label}</span>
                 {isActive && <div className="w-4 h-0.5 rounded-full bg-red-500 mt-1"></div>}
               </NavLink>
             );

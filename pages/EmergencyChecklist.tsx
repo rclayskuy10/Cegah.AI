@@ -115,8 +115,8 @@ const EmergencyChecklist: React.FC = () => {
     <div className="p-4 md:p-8 space-y-6">
       {/* Header */}
       <div className="animate-fade-in">
-        <h2 className="text-2xl md:text-3xl font-black text-slate-800">Tas Siaga Bencana</h2>
-        <p className="text-sm text-slate-400 mt-1">Checklist persiapan untuk keluarga Anda</p>
+        <h2 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-white">Tas Siaga Bencana</h2>
+        <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">Checklist persiapan untuk keluarga Anda</p>
       </div>
 
       {/* Progress Card */}
@@ -158,7 +158,7 @@ const EmergencyChecklist: React.FC = () => {
             className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
               selectedCategory === cat
                 ? 'bg-red-500 text-white shadow-lg shadow-red-500/30'
-                : 'bg-white text-slate-600 border border-slate-200 hover:border-red-300'
+                : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-red-300 dark:hover:border-red-600'
             }`}
           >
             {cat}
@@ -172,10 +172,10 @@ const EmergencyChecklist: React.FC = () => {
           <div
             key={item.id}
             onClick={() => toggleItem(item.id)}
-            className={`bg-white rounded-2xl p-4 border-2 transition-all cursor-pointer hover:shadow-md ${
+            className={`bg-white dark:bg-slate-800 rounded-2xl p-4 border-2 transition-all cursor-pointer hover:shadow-md ${
               item.checked 
-                ? 'border-green-300 bg-green-50/30' 
-                : 'border-slate-100 hover:border-red-200'
+                ? 'border-green-300 dark:border-green-700 bg-green-50/30 dark:bg-green-900/20' 
+                : 'border-slate-100 dark:border-slate-700 hover:border-red-200 dark:hover:border-red-700'
             }`}
           >
             <div className="flex items-start gap-3">
@@ -192,7 +192,7 @@ const EmergencyChecklist: React.FC = () => {
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2 mb-1">
                   <h4 className={`font-bold text-sm transition-all ${
-                    item.checked ? 'text-green-700 line-through' : 'text-slate-800'
+                    item.checked ? 'text-green-700 dark:text-green-400 line-through' : 'text-slate-800 dark:text-slate-200'
                   }`}>
                     {item.item}
                   </h4>
@@ -201,7 +201,7 @@ const EmergencyChecklist: React.FC = () => {
                   </span>
                 </div>
                 <p className={`text-xs leading-relaxed ${
-                  item.checked ? 'text-green-600' : 'text-slate-500'
+                  item.checked ? 'text-green-600 dark:text-green-400' : 'text-slate-500 dark:text-slate-400'
                 }`}>
                   {item.description}
                 </p>
@@ -215,7 +215,7 @@ const EmergencyChecklist: React.FC = () => {
       <div className="flex gap-3 sticky bottom-4">
         <button
           onClick={resetChecklist}
-          className="flex-1 bg-white text-slate-700 px-4 py-3 rounded-2xl font-bold shadow-sm border border-slate-200 hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
+          className="flex-1 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-4 py-3 rounded-2xl font-bold shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center justify-center gap-2"
         >
           <RotateCcw className="w-4 h-4" />
           Reset
@@ -223,9 +223,9 @@ const EmergencyChecklist: React.FC = () => {
       </div>
 
       {/* Tips Section */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 p-5 rounded-2xl">
-        <h4 className="font-bold text-blue-900 text-sm mb-2">💡 Tips Penting</h4>
-        <ul className="text-xs text-blue-700 space-y-1.5 leading-relaxed">
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-100 dark:border-blue-800 p-5 rounded-2xl">
+        <h4 className="font-bold text-blue-900 dark:text-blue-200 text-sm mb-2">💡 Tips Penting</h4>
+        <ul className="text-xs text-blue-700 dark:text-blue-300 space-y-1.5 leading-relaxed">
           <li>• Simpan tas siaga di tempat yang mudah dijangkau</li>
           <li>• Periksa dan perbarui isi tas setiap 6 bulan sekali</li>
           <li>• Pastikan semua anggota keluarga tahu lokasi tas</li>

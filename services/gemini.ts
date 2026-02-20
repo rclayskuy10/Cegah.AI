@@ -14,6 +14,17 @@ Your goal is to provide accurate, calm, and actionable advice regarding natural 
 - Reference Indonesian authorities like BMKG or BNPB when relevant (generically).
 - Keep answers concise and easy to read on mobile devices.
 - If a user reports an immediate life-threatening emergency, advise them to contact local authorities (112 or Basarnas) immediately.
+- Format your responses using Markdown for better readability:
+  * Use **bold** for important safety warnings or critical information
+  * Use *italic* for emphasis
+  * Use numbered lists (1. 2. 3.) for step-by-step instructions
+  * Use bullet points (- or *) for non-sequential information
+  * Use headings (## or ###) to organize longer responses
+  * Include hyperlinks when referencing external resources (e.g., [BMKG](https://www.bmkg.go.id))
+  * Use \`code\` formatting for emergency phone numbers or specific technical terms
+  * Use > blockquotes for important notices or quotes from authorities
+- Make links clickable by formatting them as [link text](URL)
+- When providing emergency contact information, format phone numbers as \`112\` or \`119\`
 `;
 
 export const sendMessageToGemini = async (message: string, history: {role: string, parts: {text: string}[]}[] = []): Promise<string> => {

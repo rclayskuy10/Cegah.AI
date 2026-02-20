@@ -122,40 +122,40 @@ const Dashboard: React.FC = () => {
       <div className="animate-slide-up grid grid-cols-3 gap-3 md:gap-4">
         <button 
           onClick={() => navigate('/risk')}
-          className="hover-card bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center gap-3 group"
+          className="hover-card bg-white dark:bg-slate-800 p-4 md:p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center gap-3 group"
         >
-          <div className="bg-blue-50 group-hover:bg-blue-100 p-3 md:p-4 rounded-2xl text-blue-600 transition-colors duration-300">
+          <div className="bg-blue-50 dark:bg-blue-900/30 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 p-3 md:p-4 rounded-2xl text-blue-600 dark:text-blue-400 transition-colors duration-300">
             <MapPin size={22} />
           </div>
           <div className="text-center">
-            <span className="font-bold text-slate-700 text-xs md:text-sm">Cek Risiko</span>
-            <p className="text-[10px] text-slate-400 mt-0.5 hidden md:block">Analisis lokasi</p>
+            <span className="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-sm">Cek Risiko</span>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 hidden md:block">Analisis lokasi</p>
           </div>
         </button>
 
         <button 
           onClick={() => navigate('/report')}
-          className="hover-card bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center gap-3 group"
+          className="hover-card bg-white dark:bg-slate-800 p-4 md:p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center gap-3 group"
         >
-          <div className="bg-orange-50 group-hover:bg-orange-100 p-3 md:p-4 rounded-2xl text-orange-600 transition-colors duration-300">
+          <div className="bg-orange-50 dark:bg-orange-900/30 group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 p-3 md:p-4 rounded-2xl text-orange-600 dark:text-orange-400 transition-colors duration-300">
             <Camera size={22} />
           </div>
           <div className="text-center">
-            <span className="font-bold text-slate-700 text-xs md:text-sm">Lapor Dampak</span>
-            <p className="text-[10px] text-slate-400 mt-0.5 hidden md:block">Upload foto</p>
+            <span className="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-sm">Lapor Dampak</span>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 hidden md:block">Upload foto</p>
           </div>
         </button>
 
         <button 
           onClick={() => navigate('/chat')}
-          className="hover-card bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center gap-3 group"
+          className="hover-card bg-white dark:bg-slate-800 p-4 md:p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center gap-3 group"
         >
-          <div className="bg-green-50 group-hover:bg-green-100 p-3 md:p-4 rounded-2xl text-green-600 transition-colors duration-300">
+          <div className="bg-green-50 dark:bg-green-900/30 group-hover:bg-green-100 dark:group-hover:bg-green-900/50 p-3 md:p-4 rounded-2xl text-green-600 dark:text-green-400 transition-colors duration-300">
             <MessageSquare size={22} />
           </div>
           <div className="text-center">
-            <span className="font-bold text-slate-700 text-xs md:text-sm">CegahBot</span>
-            <p className="text-[10px] text-slate-400 mt-0.5 hidden md:block">Tanya AI</p>
+            <span className="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-sm">CegahBot</span>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 hidden md:block">Tanya AI</p>
           </div>
         </button>
       </div>
@@ -208,11 +208,11 @@ const Dashboard: React.FC = () => {
       ) : null}
 
       {/* Stats Section */}
-      <div className="animate-slide-up bg-white p-5 md:p-8 rounded-3xl shadow-sm border border-slate-100 min-h-[300px]">
+      <div className="animate-slide-up bg-white dark:bg-slate-800 p-5 md:p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 min-h-[300px]">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h3 className="font-bold text-lg text-slate-800">Statistik Risiko</h3>
-            <p className="text-xs text-slate-400 mt-0.5">Data real-time BMKG</p>
+            <h3 className="font-bold text-lg text-slate-800 dark:text-white">Statistik Risiko</h3>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">Data real-time BMKG</p>
           </div>
           <span className="text-[11px] font-semibold text-green-600 bg-green-50 px-3 py-1.5 rounded-full border border-green-100 flex items-center gap-1">
             <Radio className="w-3 h-3 animate-pulse" /> Data Real-Time
@@ -266,11 +266,11 @@ const Dashboard: React.FC = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-3 mt-4 md:mt-0 md:flex-1">
                     {stats.map((stat) => (
-                        <div key={stat.name} className="flex items-center gap-3 bg-slate-50 p-3 rounded-xl">
+                        <div key={stat.name} className="flex items-center gap-3 bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl">
                             <div className="w-3 h-3 rounded-full flex-shrink-0" style={{backgroundColor: stat.color}}></div>
                             <div>
-                              <p className="text-xs font-bold text-slate-700">{stat.name}</p>
-                              <p className="text-[10px] text-slate-400">{stat.count}%</p>
+                              <p className="text-xs font-bold text-slate-700 dark:text-slate-200">{stat.name}</p>
+                              <p className="text-[10px] text-slate-400 dark:text-slate-500">{stat.count}%</p>
                             </div>
                         </div>
                     ))}
