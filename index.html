@@ -25,9 +25,15 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+      * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
       body {
         font-family: 'Inter', system-ui, sans-serif;
         background-color: #f1f5f9;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
       html.dark body {
         background-color: #0f172a;
@@ -128,7 +134,10 @@
   
   <!-- Service Worker Registration for PWA -->
   <script>
-    if ('serviceWorker' in navigator) {
+    // Only register Service Worker in production (not on localhost)
+    if ('serviceWorker' in navigator && 
+        window.location.hostname !== 'localhost' && 
+        window.location.hostname !== '127.0.0.1') {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
           .then(registration => {
@@ -137,6 +146,14 @@
           .catch(error => {
             console.log('Service Worker registration failed:', error);
           });
+      });
+    } else if ('serviceWorker' in navigator) {
+      // Unregister any existing service workers in development
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+          registration.unregister();
+          console.log('Service Worker unregistered in development mode');
+        }
       });
     }
   </script>

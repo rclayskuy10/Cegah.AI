@@ -26,9 +26,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 flex flex-col md:flex-row transition-colors duration-300">
       
       {/* Collapsible Sidebar - Desktop */}
-      <aside className={`hidden md:flex flex-col glass-dark text-white sticky top-0 h-screen border-r border-white/5 transition-all duration-300 ease-in-out relative overflow-hidden ${
+      <aside className={`hidden md:flex flex-col glass dark:glass-dark ${darkMode ? 'text-white' : 'text-slate-800'} sticky top-0 h-screen border-r ${darkMode ? 'border-white/5' : 'border-slate-200/50'} transition-all duration-300 ease-in-out relative overflow-hidden ${
         sidebarOpen ? 'w-72' : 'w-20'
-      }`}>
+      }`} style={{ WebkitFontSmoothing: 'antialiased', MozOsxFontSmoothing: 'grayscale' }}>
         <div className={`p-4 transition-all duration-300 ${
           sidebarOpen ? '' : 'px-2'
         }`}>
@@ -42,14 +42,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div className={`transition-all duration-300 overflow-hidden ${
                 sidebarOpen ? 'opacity-100 max-w-xs' : 'opacity-0 max-w-0'
               }`}>
-                <h1 className="text-xl font-black tracking-tight whitespace-nowrap">Cegah.AI</h1>
-                <p className="text-[10px] text-slate-400 font-medium whitespace-nowrap">IDCamp 2025</p>
+                <h1 className={`text-xl font-black tracking-tight whitespace-nowrap ${darkMode ? 'text-white' : 'text-slate-800'}`}>Cegah.AI</h1>
+                <p className={`text-[10px] font-medium whitespace-nowrap ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>IDCamp 2025</p>
               </div>
             </div>
             {sidebarOpen && (
               <button
                 onClick={() => setSidebarOpen(false)}
-                className="p-2 rounded-xl bg-gradient-to-r from-red-500/20 to-orange-500/20 hover:from-red-500/30 hover:to-orange-500/30 border border-red-500/30 transition-all flex-shrink-0 hover:scale-105"
+                className={`p-2 rounded-xl bg-gradient-to-r from-red-500/20 to-orange-500/20 hover:from-red-500/30 hover:to-orange-500/30 border border-red-500/30 transition-all flex-shrink-0 hover:scale-105 ${darkMode ? 'text-white' : 'text-slate-800'}`}
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -58,7 +58,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           {!sidebarOpen && (
             <button
               onClick={() => setSidebarOpen(true)}
-              className="w-full mt-2 p-2 rounded-xl bg-gradient-to-r from-red-500/20 to-orange-500/20 hover:from-red-500/30 hover:to-orange-500/30 border border-red-500/30 transition-all flex items-center justify-center hover:scale-105"
+              className={`w-full mt-2 p-2 rounded-xl bg-gradient-to-r from-red-500/20 to-orange-500/20 hover:from-red-500/30 hover:to-orange-500/30 border border-red-500/30 transition-all flex items-center justify-center hover:scale-105 ${darkMode ? 'text-white' : 'text-slate-800'}`}
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -68,7 +68,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className={`px-4 mb-2 transition-all duration-300 overflow-hidden ${
           sidebarOpen ? 'opacity-100 max-h-4' : 'opacity-0 max-h-0'
         }`}>
-          <div className="h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
+          <div className={`h-px bg-gradient-to-r from-transparent ${darkMode ? 'via-slate-600' : 'via-slate-300'} to-transparent`}></div>
         </div>
         
         <nav className={`flex-1 py-2 space-y-1 overflow-y-auto custom-scrollbar transition-all duration-300 ${
@@ -86,12 +86,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   sidebarOpen ? 'px-3 py-3.5 space-x-3' : 'px-2 py-3 justify-center'
                 } ${
                   isActive 
-                    ? 'bg-gradient-to-r from-red-500/20 to-orange-500/10 text-white border border-red-500/20' 
-                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                    ? `bg-gradient-to-r from-red-500/20 to-orange-500/10 border border-red-500/20 ${darkMode ? 'text-white' : 'text-red-600'}` 
+                    : `${darkMode ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'} ${darkMode ? 'hover:bg-white/5' : 'hover:bg-red-50/50'}`
                 }`}
               >
                 <div className={`p-1.5 rounded-lg transition-colors flex-shrink-0 ${
-                  isActive ? 'bg-red-500/20' : 'group-hover:bg-white/10'
+                  isActive ? 'bg-red-500/20' : `${darkMode ? 'group-hover:bg-white/10' : 'group-hover:bg-red-50'}`
                 }`}>
                   <Icon className="w-4 h-4" />
                 </div>
@@ -100,7 +100,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 }`}>
                   <span className="font-semibold text-sm block whitespace-nowrap">{item.label}</span>
                   <p className={`text-[10px] block whitespace-nowrap ${
-                    isActive ? 'text-slate-300' : 'text-slate-500'
+                    isActive ? `${darkMode ? 'text-slate-300' : 'text-red-400'}` : `${darkMode ? 'text-slate-500' : 'text-slate-500'}`
                   }`}>{item.desc}</p>
                 </div>
                 {sidebarOpen && isActive && (
@@ -114,17 +114,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className={`px-4 mb-2 transition-all duration-300 overflow-hidden ${
           sidebarOpen ? 'opacity-100 max-h-4' : 'opacity-0 max-h-0'
         }`}>
-          <div className="h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
+          <div className={`h-px bg-gradient-to-r from-transparent ${darkMode ? 'via-slate-600' : 'via-slate-300'} to-transparent`}></div>
         </div>
 
         {/* Dark Mode Toggle */}
         <div className={`px-4 mb-2 transition-all duration-300 overflow-hidden ${sidebarOpen ? 'opacity-100 max-h-16' : 'opacity-0 max-h-0'}`}>
           <button
             onClick={toggleDarkMode}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all text-sm"
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-sm ${darkMode ? 'bg-white/5 hover:bg-white/10 border border-white/5' : 'bg-slate-100 hover:bg-slate-200 border border-slate-200'}`}
           >
-            {darkMode ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4 text-slate-400" />}
-            <span className="text-slate-300 font-medium">{darkMode ? 'Light Mode' : 'Dark Mode'}</span>
+            {darkMode ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
+            <span className={`font-medium ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>{darkMode ? 'Light Mode' : 'Dark Mode'}</span>
           </button>
         </div>
         {!sidebarOpen && (
@@ -132,9 +132,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <button
               onClick={toggleDarkMode}
               title={darkMode ? 'Light Mode' : 'Dark Mode'}
-              className="w-full flex items-center justify-center p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all"
+              className={`w-full flex items-center justify-center p-2.5 rounded-xl transition-all ${darkMode ? 'bg-white/5 hover:bg-white/10 border border-white/5' : 'bg-slate-100 hover:bg-slate-200 border border-slate-200'}`}
             >
-              {darkMode ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4 text-slate-400" />}
+              {darkMode ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
             </button>
           </div>
         )}
@@ -142,9 +142,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className={`p-4 space-y-3 transition-all duration-300 overflow-hidden ${
           sidebarOpen ? 'opacity-100 max-h-32' : 'opacity-0 max-h-0'
         }`}>
-          <div className="bg-white/5 rounded-xl p-4 border border-white/5">
-            <p className="text-[11px] text-slate-400 font-medium whitespace-nowrap">Dibuat oleh</p>
-            <p className="text-sm font-bold text-white mt-0.5 whitespace-nowrap">Riski Pratama</p>
+          <div className={`rounded-xl p-4 border ${darkMode ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
+            <p className={`text-[11px] font-medium whitespace-nowrap ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>Dibuat oleh</p>
+            <p className={`text-sm font-bold mt-0.5 whitespace-nowrap ${darkMode ? 'text-white' : 'text-slate-800'}`}>Riski Pratama</p>
           </div>
         </div>
       </aside>
@@ -187,25 +187,25 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       )}
 
       {/* Mobile Drawer */}
-      <div className={`md:hidden fixed top-0 right-0 h-full w-72 glass-dark text-white z-50 transform transition-transform duration-300 ease-out ${
+      <div className={`md:hidden fixed top-0 right-0 h-full w-72 glass dark:glass-dark ${darkMode ? 'text-white' : 'text-slate-800'} z-50 transform transition-transform duration-300 ease-out ${
         sidebarOpen ? 'translate-x-0' : 'translate-x-full'
-      }`}>
+      }`} style={{ WebkitFontSmoothing: 'antialiased', MozOsxFontSmoothing: 'grayscale' }}>
         <div className="flex flex-col h-full">
           {/* Drawer Header */}
-          <div className="p-6 border-b border-white/10">
+          <div className={`p-6 border-b ${darkMode ? 'border-white/10' : 'border-slate-200/50'}`}>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
                 <div className="bg-gradient-to-br from-red-500 to-orange-500 p-2.5 rounded-2xl shadow-lg shadow-red-500/30">
                   <Shield className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-black tracking-tight">Cegah.AI</h1>
-                  <p className="text-[10px] text-slate-400 font-medium">IDCamp 2025</p>
+                  <h1 className={`text-xl font-black tracking-tight ${darkMode ? 'text-white' : 'text-slate-800'}`}>Cegah.AI</h1>
+                  <p className={`text-[10px] font-medium ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>IDCamp 2025</p>
                 </div>
               </div>
               <button 
                 onClick={() => setSidebarOpen(false)}
-                className="p-2 rounded-xl hover:bg-white/10 transition-colors"
+                className={`p-2 rounded-xl transition-colors ${darkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -224,16 +224,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-300 ${
                     isActive 
-                      ? 'bg-gradient-to-r from-red-500/20 to-orange-500/10 text-white border border-red-500/20' 
-                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                      ? `bg-gradient-to-r from-red-500/20 to-orange-500/10 border border-red-500/20 ${darkMode ? 'text-white' : 'text-red-600'}` 
+                      : `${darkMode ? 'text-slate-400 hover:text-white hover:bg-white/5' : 'text-slate-600 hover:text-slate-900 hover:bg-red-50/50'}`
                   }`}
                 >
-                  <div className={`p-1.5 rounded-lg transition-colors ${isActive ? 'bg-red-500/20' : 'hover:bg-white/10'}`}>
+                  <div className={`p-1.5 rounded-lg transition-colors ${isActive ? 'bg-red-500/20' : `${darkMode ? 'hover:bg-white/10' : 'hover:bg-red-50'}`}`}>
                     <Icon className="w-4 h-4" />
                   </div>
                   <div className="flex-1">
                     <span className="font-semibold text-sm">{item.label}</span>
-                    <p className={`text-[10px] ${isActive ? 'text-slate-300' : 'text-slate-500'}`}>{item.desc}</p>
+                    <p className={`text-[10px] ${isActive ? `${darkMode ? 'text-slate-300' : 'text-red-400'}` : `${darkMode ? 'text-slate-500' : 'text-slate-500'}`}`}>{item.desc}</p>
                   </div>
                   {isActive && (
                     <div className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse-soft"></div>
@@ -244,10 +244,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </nav>
 
           {/* Drawer Footer */}
-          <div className="p-6 border-t border-white/10">
-            <div className="bg-white/5 rounded-xl p-4 border border-white/5">
-              <p className="text-[11px] text-slate-400 font-medium">Dibuat oleh</p>
-              <p className="text-sm font-bold text-white mt-0.5">Riski Pratama</p>
+          <div className={`p-6 border-t ${darkMode ? 'border-white/10' : 'border-slate-200/50'}`}>
+            <div className={`rounded-xl p-4 border ${darkMode ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
+              <p className={`text-[11px] font-medium ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>Dibuat oleh</p>
+              <p className={`text-sm font-bold mt-0.5 ${darkMode ? 'text-white' : 'text-slate-800'}`}>Riski Pratama</p>
             </div>
           </div>
         </div>
