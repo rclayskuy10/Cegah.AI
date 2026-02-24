@@ -140,14 +140,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
         )}
 
-        <div className={`p-4 space-y-3 transition-all duration-300 overflow-hidden ${
-          sidebarOpen ? 'opacity-100 max-h-32' : 'opacity-0 max-h-0'
-        }`}>
-          <div className={`rounded-xl p-4 border ${darkMode ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
-            <p className={`text-[11px] font-medium whitespace-nowrap ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>Dibuat oleh</p>
-            <p className={`text-sm font-bold mt-0.5 whitespace-nowrap ${darkMode ? 'text-white' : 'text-slate-800'}`}>Riski Pratama</p>
-          </div>
-        </div>
       </aside>
       
       {/* Header - Mobile */}
@@ -244,13 +236,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             })}
           </nav>
 
-          {/* Drawer Footer */}
-          <div className={`p-6 border-t ${darkMode ? 'border-white/10' : 'border-slate-200/50'}`}>
-            <div className={`rounded-xl p-4 border ${darkMode ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
-              <p className={`text-[11px] font-medium ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>Dibuat oleh</p>
-              <p className={`text-sm font-bold mt-0.5 ${darkMode ? 'text-white' : 'text-slate-800'}`}>Riski Pratama</p>
-            </div>
-          </div>
         </div>
       </div>
 
