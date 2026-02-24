@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { CheckCircle2, Circle, Package, Download, Share2, RotateCcw } from 'lucide-react';
 
 interface ChecklistItem {
@@ -88,14 +88,20 @@ const EmergencyChecklist: React.FC = () => {
     }
   };
 
-  const categories = ['Semua', ...Array.from(new Set(CHECKLIST_DATA.map(item => item.category)))];
+  const categories = useMemo(
+    () => ['Semua', ...Array.from(new Set(CHECKLIST_DATA.map(item => item.category)))],
+    []
+  );
   
-  const filteredChecklist = selectedCategory === 'Semua' 
-    ? checklist 
-    : checklist.filter(item => item.category === selectedCategory);
+  const filteredChecklist = useMemo(
+    () => selectedCategory === 'Semua' 
+      ? checklist 
+      : checklist.filter(item => item.category === selectedCategory),
+    [checklist, selectedCategory]
+  );
 
   const totalItems = checklist.length;
-  const checkedItems = checklist.filter(item => item.checked).length;
+  const checkedItems = useMemo(() => checklist.filter(item => item.checked).length, [checklist]);
   const progress = Math.round((checkedItems / totalItems) * 100);
 
   const getCategoryColor = (category: string) => {

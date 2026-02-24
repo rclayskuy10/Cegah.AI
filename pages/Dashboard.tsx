@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShieldAlert, Activity, PhoneCall, ChevronRight, Loader2, Shield, Zap, ArrowRight, Sparkles, MapPin, Camera, MessageSquare, Radio, AlertCircle, CloudRain } from 'lucide-react';
+import { Activity, PhoneCall, Loader2, Zap, ArrowRight, MapPin, Camera, MessageSquare, Radio, AlertCircle, CloudRain } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { DisasterStat } from '../types';
 import { getRealTimeDisasterStats, getLatestEarthquakeInfo, getWeatherWarnings } from '../services/bmkg';
@@ -14,56 +14,39 @@ const Dashboard: React.FC = () => {
   const [weatherWarning, setWeatherWarning] = useState<any>(null);
 
   useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const result = await getRealTimeDisasterStats();
-        if (result && result.stats && result.stats.length > 0) {
-          setStats(result.stats);
-        } else {
-             setStats([
-                { name: 'Banjir', count: 42, color: '#3b82f6' },
-                { name: 'Cuaca Ekstrem', count: 28, color: '#8b5cf6' },
-                { name: 'Longsor', count: 18, color: '#f59e0b' },
-                { name: 'Gempa', count: 12, color: '#ef4444' },
-            ]);
-        }
-      } catch (error) {
-         setStats([
-            { name: 'Banjir', count: 42, color: '#3b82f6' },
-            { name: 'Cuaca Ekstrem', count: 28, color: '#8b5cf6' },
-            { name: 'Longsor', count: 18, color: '#f59e0b' },
-            { name: 'Gempa', count: 12, color: '#ef4444' },
+    const fetchAllData = async () => {
+      const [statsResult, quakeResult, weatherResult] = await Promise.allSettled([
+        getRealTimeDisasterStats(),
+        getLatestEarthquakeInfo(),
+        getWeatherWarnings(),
+      ]);
+
+      // Handle stats
+      if (statsResult.status === 'fulfilled' && statsResult.value?.stats?.length > 0) {
+        setStats(statsResult.value.stats);
+      } else {
+        setStats([
+          { name: 'Banjir', count: 42, color: '#3b82f6' },
+          { name: 'Cuaca Ekstrem', count: 28, color: '#8b5cf6' },
+          { name: 'Longsor', count: 18, color: '#f59e0b' },
+          { name: 'Gempa', count: 12, color: '#ef4444' },
         ]);
-      } finally {
-        setLoadingStats(false);
+      }
+      setLoadingStats(false);
+
+      // Handle earthquake
+      if (quakeResult.status === 'fulfilled') {
+        setEarthquakeInfo(quakeResult.value);
+      }
+      setLoadingQuake(false);
+
+      // Handle weather
+      if (weatherResult.status === 'fulfilled' && weatherResult.value?.warning?.length > 0) {
+        setWeatherWarning(weatherResult.value);
       }
     };
 
-    const fetchEarthquake = async () => {
-      try {
-        const quakeData = await getLatestEarthquakeInfo();
-        setEarthquakeInfo(quakeData);
-      } catch (error) {
-        console.error('Failed to fetch earthquake data:', error);
-      } finally {
-        setLoadingQuake(false);
-      }
-    };
-
-    const fetchWeather = async () => {
-      try {
-        const weatherData = await getWeatherWarnings();
-        if (weatherData && weatherData.warning && weatherData.warning.length > 0) {
-          setWeatherWarning(weatherData);
-        }
-      } catch (error) {
-        console.error('Failed to fetch weather warnings:', error);
-      }
-    };
-
-    fetchStats();
-    fetchEarthquake();
-    fetchWeather();
+    fetchAllData();
   }, []);
 
   return (

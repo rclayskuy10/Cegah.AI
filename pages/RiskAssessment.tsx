@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { MapPin, Navigation, AlertTriangle, ShieldCheck, Info, Sparkles, Compass } from 'lucide-react';
 import { analyzeLocationRisk } from '../services/gemini';
 import { RiskReport } from '../types';
@@ -43,32 +43,17 @@ const RiskAssessment: React.FC = () => {
     }
   };
 
-  const getRiskColor = (level: string) => {
-      switch(level) {
-          case 'Critical': return 'from-red-500 to-red-600';
-          case 'High': return 'from-orange-500 to-orange-600';
-          case 'Medium': return 'from-yellow-500 to-yellow-600';
-          default: return 'from-green-500 to-green-600';
-      }
+  // Consolidated risk level style lookup - avoids 3 separate switch statements
+  const RISK_STYLES: Record<string, { gradient: string; bg: string; text: string }> = {
+    Critical: { gradient: 'from-red-500 to-red-600',    bg: 'bg-red-50 border-red-100',       text: 'text-red-600' },
+    High:     { gradient: 'from-orange-500 to-orange-600', bg: 'bg-orange-50 border-orange-100', text: 'text-orange-600' },
+    Medium:   { gradient: 'from-yellow-500 to-yellow-600', bg: 'bg-yellow-50 border-yellow-100', text: 'text-yellow-600' },
+    Low:      { gradient: 'from-green-500 to-green-600',   bg: 'bg-green-50 border-green-100',   text: 'text-green-600' },
   };
-
-  const getRiskBgColor = (level: string) => {
-      switch(level) {
-          case 'Critical': return 'bg-red-50 border-red-100';
-          case 'High': return 'bg-orange-50 border-orange-100';
-          case 'Medium': return 'bg-yellow-50 border-yellow-100';
-          default: return 'bg-green-50 border-green-100';
-      }
-  };
-
-  const getRiskTextColor = (level: string) => {
-      switch(level) {
-          case 'Critical': return 'text-red-600';
-          case 'High': return 'text-orange-600';
-          case 'Medium': return 'text-yellow-600';
-          default: return 'text-green-600';
-      }
-  };
+  const getRiskStyle = useCallback((level: string) => RISK_STYLES[level] ?? RISK_STYLES.Low, []);
+  const getRiskColor    = (level: string) => getRiskStyle(level).gradient;
+  const getRiskBgColor  = (level: string) => getRiskStyle(level).bg;
+  const getRiskTextColor = (level: string) => getRiskStyle(level).text;
 
   return (
     <div className="p-4 md:p-8 space-y-6">

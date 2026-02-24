@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Send, Bot, User, Loader2, Sparkles } from 'lucide-react';
 import { ChatMessage, MessageRole } from '../types';
 import { sendMessageToGemini } from '../services/gemini';
@@ -17,15 +17,15 @@ const ChatAssistant: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = async () => {
+  const handleSend = useCallback(async () => {
     if (!input.trim() || isLoading) return;
 
     const userMsg: ChatMessage = {
@@ -66,24 +66,24 @@ const ChatAssistant: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [input, isLoading, messages]);
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
-  };
+  }, [handleSend]);
 
-  const formatTime = (date: Date) => {
+  const formatTime = useCallback((date: Date) => {
     return date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-  };
+  }, []);
 
-  const quickActions = [
+  const quickActions = useMemo(() => [
     'Apa yang harus dilakukan saat gempa?',
     'Cara evakuasi saat banjir',
     'Tanda-tanda tsunami',
-  ];
+  ], []);
 
   return (
     <div className="flex flex-col h-[calc(100vh-140px)] md:h-screen">

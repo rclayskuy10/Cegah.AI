@@ -1,14 +1,14 @@
 // Service Worker for Cegah.AI PWA
 // Provides offline support and caching for emergency access
+// VERSION is updated on each deployment to force cache refresh
 
-const CACHE_NAME = 'cegah-ai-v2';
+const SW_VERSION = 'cegah-ai-v3-' + '20260225';
+const CACHE_NAME = 'cegah-ai-v3';
 const OFFLINE_URL = '/';
 const OFFLINE_DATA_KEY = 'cegah-offline-data';
 
-// Files to cache for offline access
+// Files to cache for offline access (only truly static assets)
 const CACHE_FILES = [
-  '/',
-  '/index.html',
   '/manifest.json'
 ];
 
@@ -88,7 +88,7 @@ const OFFLINE_EMERGENCY_DATA = {
 
 // Install event - cache essential files and offline data
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing Service Worker v2...');
+  console.log('[SW] Installing Service Worker', SW_VERSION);
   event.waitUntil(
     Promise.all([
       caches.open(CACHE_NAME).then((cache) => {
@@ -104,28 +104,39 @@ self.addEventListener('install', (event) => {
       })
     ])
   );
+  // Force immediate activation - don't wait for old SW to finish
   self.skipWaiting();
 });
 
-// Activate event - clean up old caches
+// Activate event - clean up ALL old caches and take control immediately
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating Service Worker v2...');
+  console.log('[SW] Activating Service Worker', SW_VERSION);
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
+          // Delete ALL caches that don't match the current version
           if (cacheName !== CACHE_NAME && cacheName !== OFFLINE_DATA_KEY) {
             console.log('[SW] Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
+    }).then(() => {
+      // Take control of all clients immediately
+      return self.clients.claim();
+    }).then(() => {
+      // Notify all clients to refresh
+      return self.clients.matchAll({ type: 'window' }).then((clients) => {
+        clients.forEach((client) => {
+          client.postMessage({ type: 'SW_UPDATED', version: SW_VERSION });
+        });
+      });
     })
   );
-  self.clients.claim();
 });
 
-// Fetch event - serve from cache when offline, network first for API calls
+// Fetch event - NETWORK FIRST for HTML/navigation, cache for static assets
 self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') return;
@@ -161,15 +172,56 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache first for static assets
+  // NETWORK FIRST for navigation requests (HTML pages)
+  // This ensures users always get the latest version
+  if (event.request.mode === 'navigate' || 
+      event.request.url.endsWith('.html') ||
+      event.request.url.endsWith('.tsx') ||
+      event.request.url.endsWith('.ts') ||
+      event.request.url.endsWith('.js') ||
+      event.request.url.endsWith('.css')) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // Cache the latest version
+          if (response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseClone);
+            });
+          }
+          return response;
+        })
+        .catch(() => {
+          // Fall back to cache when offline
+          return caches.match(event.request).then((cachedResponse) => {
+            if (cachedResponse) return cachedResponse;
+            // Return offline page for navigation requests
+            if (event.request.mode === 'navigate') {
+              return caches.match(OFFLINE_URL);
+            }
+          });
+        })
+    );
+    return;
+  }
+
+  // Cache first for truly static assets (images, fonts, etc.)
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
+        // Revalidate in background (stale-while-revalidate)
+        fetch(event.request).then((response) => {
+          if (response.status === 200) {
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, response);
+            });
+          }
+        }).catch(() => {});
         return cachedResponse;
       }
 
       return fetch(event.request).then((response) => {
-        // Cache successful responses
         if (response.status === 200) {
           const responseClone = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -178,7 +230,6 @@ self.addEventListener('fetch', (event) => {
         }
         return response;
       }).catch(() => {
-        // Return offline page for navigation requests
         if (event.request.mode === 'navigate') {
           return caches.match(OFFLINE_URL);
         }

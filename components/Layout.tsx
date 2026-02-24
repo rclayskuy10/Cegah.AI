@@ -10,7 +10,8 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  // Desktop sidebar open by default; mobile drawer starts closed
+  const [sidebarOpen, setSidebarOpen] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 768);
   const { darkMode, toggleDarkMode } = useTheme();
 
   const navItems = [

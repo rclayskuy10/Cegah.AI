@@ -1,6 +1,14 @@
 // BMKG (Badan Meteorologi, Klimatologi, dan Geofisika) API Service
 // Fetches real-time disaster and weather data from Indonesia's official meteorological agency
 
+/** Helper: fetch with an 8-second timeout */
+const fetchWithTimeout = (url: string, options?: RequestInit, timeoutMs = 8000): Promise<Response> => {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  return fetch(url, { ...options, signal: controller.signal })
+    .finally(() => clearTimeout(timeoutId));
+};
+
 export interface BMKGEarthquake {
   Tanggal: string;
   Jam: string;
@@ -32,11 +40,8 @@ export interface DisasterStats {
  */
 export const getLatestEarthquakes = async (): Promise<BMKGEarthquake[]> => {
   try {
-    const response = await fetch('https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-      },
+    const response = await fetchWithTimeout('https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json', {
+      headers: { 'Accept': 'application/json' },
     });
 
     if (!response.ok) {
@@ -62,11 +67,8 @@ export const getLatestEarthquakes = async (): Promise<BMKGEarthquake[]> => {
  */
 export const getRecentEarthquakes = async (): Promise<BMKGEarthquake[]> => {
   try {
-    const response = await fetch('https://data.bmkg.go.id/DataMKG/TEWS/gempadirasakan.json', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-      },
+    const response = await fetchWithTimeout('https://data.bmkg.go.id/DataMKG/TEWS/gempadirasakan.json', {
+      headers: { 'Accept': 'application/json' },
     });
 
     if (!response.ok) {
@@ -93,12 +95,8 @@ export const getRecentEarthquakes = async (): Promise<BMKGEarthquake[]> => {
  */
 export const getWeatherWarnings = async (): Promise<BMKGWeatherWarning | null> => {
   try {
-    // BMKG weather warning API endpoint
-    const response = await fetch('https://data.bmkg.go.id/DataMKG/MEWS/DigitalForecast/prakicu_indonesia.json', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-      },
+    const response = await fetchWithTimeout('https://data.bmkg.go.id/DataMKG/MEWS/DigitalForecast/prakicu_indonesia.json', {
+      headers: { 'Accept': 'application/json' },
     });
 
     if (!response.ok) {

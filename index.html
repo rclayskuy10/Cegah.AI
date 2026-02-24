@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,6 +14,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Cegah.AI" />
+    
+    <!-- Cache Control - Prevent stale content -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     
     <title>Cegah.AI - Solusi Kesiapsiagaan Bencana</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -105,6 +110,14 @@
       .animate-bounce-soft {
         animation: bounceSoft 1s ease-in-out infinite;
       }
+      /* Hover card lift effect */
+      .hover-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .hover-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px -5px rgba(0,0,0,0.10), 0 4px 10px -5px rgba(0,0,0,0.06);
+      }
       /* Gradient text */
       .gradient-text {
           background: linear-gradient(135deg, #dc2626, #f97316);
@@ -126,35 +139,66 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
   
-  <!-- Service Worker Registration for PWA -->
+  <!-- Service Worker Registration for PWA with Auto-Update -->
   <script>
-    // Only register Service Worker in production (not on localhost)
-    if ('serviceWorker' in navigator && 
-        window.location.hostname !== 'localhost' && 
-        window.location.hostname !== '127.0.0.1') {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(registration => {
-            console.log('Service Worker registered successfully:', registration.scope);
-          })
-          .catch(error => {
-            console.log('Service Worker registration failed:', error);
+    if ('serviceWorker' in navigator) {
+      const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      let refreshing = false; // Guard against infinite reload loops
+      
+      if (isDev) {
+        // Unregister all service workers in development
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for (let registration of registrations) {
+            registration.unregister();
+            console.log('[SW] Unregistered in development mode');
+          }
+        });
+        // Also clear all caches in development
+        if ('caches' in window) {
+          caches.keys().then(function(names) {
+            for (let name of names) caches.delete(name);
           });
-      });
-    } else if ('serviceWorker' in navigator) {
-      // Unregister any existing service workers in development
-      navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        for(let registration of registrations) {
-          registration.unregister();
-          console.log('Service Worker unregistered in development mode');
         }
-      });
+      } else {
+        // Production: register SW with update detection
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' })
+            .then(registration => {
+              console.log('[SW] Registered:', registration.scope);
+              
+              // Check for updates immediately, then every 5 minutes
+              registration.update();
+              setInterval(() => {
+                registration.update();
+              }, 5 * 60 * 1000);
+              
+              // Detect when a new SW is installing
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                if (newWorker) {
+                  console.log('[SW] Update found, new worker installing...');
+                }
+              });
+            })
+            .catch(error => {
+              console.error('[SW] Registration failed:', error);
+            });
+        });
+        
+        // Handle controller change (new SW took over) - single reliable reload
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            refreshing = true;
+            console.log('[SW] Controller changed, refreshing page...');
+            window.location.reload();
+          }
+        });
+      }
     }
   </script>
 </body>
