@@ -44,7 +44,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 sidebarOpen ? 'opacity-100 max-w-xs' : 'opacity-0 max-w-0'
               }`}>
                 <h1 className={`text-xl font-black tracking-tight whitespace-nowrap ${darkMode ? 'text-white' : 'text-slate-800'}`}>Cegah.AI</h1>
-                <p className={`text-[10px] font-medium whitespace-nowrap ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>IDCamp 2025</p>
               </div>
             </div>
             {sidebarOpen && (
@@ -151,7 +150,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
             <div>
               <h1 className="text-lg font-extrabold tracking-tight text-slate-800 dark:text-white">Cegah<span className="gradient-text">.AI</span></h1>
-              <p className="text-[10px] text-slate-400 font-medium -mt-0.5">IDCamp 2025 Challenge</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -193,7 +191,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </div>
                 <div>
                   <h1 className={`text-xl font-black tracking-tight ${darkMode ? 'text-white' : 'text-slate-800'}`}>Cegah.AI</h1>
-                  <p className={`text-[10px] font-medium ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>IDCamp 2025</p>
                 </div>
               </div>
               <button 
