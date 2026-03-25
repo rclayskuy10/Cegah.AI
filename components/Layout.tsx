@@ -176,13 +176,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Mobile Drawer Overlay */}
       {sidebarOpen && (
         <div 
-          className="md:hidden fixed inset-0 bg-black/50 z-50 animate-fade-in"
+          className="md:hidden fixed inset-0 bg-slate-900/35 dark:bg-black/45 backdrop-blur-sm z-[990] animate-fade-in"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Mobile Drawer */}
-      <div id="mobile-navigation-drawer" className={`md:hidden fixed top-0 right-0 h-full w-72 glass dark:glass-dark ${darkMode ? 'text-white' : 'text-slate-800'} z-50 transform transition-transform duration-300 ease-out ${
+      <div id="mobile-navigation-drawer" className={`md:hidden fixed top-0 right-0 h-full w-72 bg-white dark:bg-slate-900 border-l border-slate-200/50 dark:border-slate-700/50 shadow-2xl ${darkMode ? 'text-white' : 'text-slate-800'} z-[1000] transform transition-transform duration-300 ease-out ${
         sidebarOpen ? 'translate-x-0' : 'translate-x-full'
       }`} style={{ WebkitFontSmoothing: 'antialiased', MozOsxFontSmoothing: 'grayscale' }}>
         <div className="flex flex-col h-full">
