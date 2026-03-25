@@ -155,12 +155,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="flex items-center gap-2">
             <button
               onClick={toggleDarkMode}
+              aria-label={darkMode ? 'Aktifkan light mode' : 'Aktifkan dark mode'}
               className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               {darkMode ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-slate-600" />}
             </button>
             <button 
               onClick={() => setSidebarOpen(!sidebarOpen)}
+              aria-label={sidebarOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
+              aria-expanded={sidebarOpen}
+              aria-controls="mobile-navigation-drawer"
               className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               <Menu className="w-5 h-5 text-slate-600 dark:text-slate-300" />
@@ -178,7 +182,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       )}
 
       {/* Mobile Drawer */}
-      <div className={`md:hidden fixed top-0 right-0 h-full w-72 glass dark:glass-dark ${darkMode ? 'text-white' : 'text-slate-800'} z-50 transform transition-transform duration-300 ease-out ${
+      <div id="mobile-navigation-drawer" className={`md:hidden fixed top-0 right-0 h-full w-72 glass dark:glass-dark ${darkMode ? 'text-white' : 'text-slate-800'} z-50 transform transition-transform duration-300 ease-out ${
         sidebarOpen ? 'translate-x-0' : 'translate-x-full'
       }`} style={{ WebkitFontSmoothing: 'antialiased', MozOsxFontSmoothing: 'grayscale' }}>
         <div className="flex flex-col h-full">
@@ -195,6 +199,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </div>
               <button 
                 onClick={() => setSidebarOpen(false)}
+                aria-label="Tutup menu navigasi"
                 className={`p-2 rounded-xl transition-colors ${darkMode ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`}
               >
                 <X className="w-5 h-5" />
@@ -237,39 +242,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto pb-20 md:pb-0 custom-scrollbar dark:bg-slate-900">
+      <main className="flex-1 overflow-y-auto pb-0 custom-scrollbar dark:bg-slate-900">
         <OfflineBanner />
         <div className="max-w-5xl mx-auto">
           {children}
         </div>
       </main>
-
-      {/* Bottom Navigation - Mobile Only */}
-      <nav className="md:hidden fixed bottom-0 w-full glass dark:glass-dark border-t border-slate-200/50 dark:border-slate-700/50 z-50">
-        <div className="flex justify-around items-center py-2 px-2">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path;
-            return (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={`flex flex-col items-center justify-center py-1.5 px-2 rounded-xl transition-all duration-300 ${
-                  isActive 
-                    ? 'text-red-600 dark:text-red-400' 
-                    : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
-                }`}
-              >
-                <div className={`p-1.5 rounded-xl transition-all duration-300 ${isActive ? 'bg-red-50 dark:bg-red-900/30 scale-110' : ''}`}>
-                  <Icon className="w-5 h-5" strokeWidth={isActive ? 2.5 : 1.8} />
-                </div>
-                <span className={`text-[9px] font-semibold mt-0.5 ${isActive ? 'text-red-600 dark:text-red-400' : ''}`}>{item.label}</span>
-                {isActive && <div className="w-4 h-0.5 rounded-full bg-red-500 mt-1"></div>}
-              </NavLink>
-            );
-          })}
-        </div>
-      </nav>
     </div>
   );
 };
