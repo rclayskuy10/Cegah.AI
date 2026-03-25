@@ -34,6 +34,23 @@ export interface DisasterStats {
   lastUpdate: string;
 }
 
+export interface StatsMetadata {
+  source: string;
+  sourceDetail: string;
+  lastUpdate: string;
+  earthquakeCount: number;
+  strongQuakes: number;
+  isRainySeason: boolean;
+  dataQuality: 'estimated' | 'fallback';
+  references: string[];
+  error?: string;
+}
+
+export interface RealTimeDisasterStatsResult {
+  stats: Array<{ name: string; count: number; color: string }>;
+  metadata: StatsMetadata;
+}
+
 /**
  * Fetch latest earthquake data from BMKG
  * API: https://data.bmkg.go.id/DataMKG/TEWS/
@@ -115,7 +132,7 @@ export const getWeatherWarnings = async (): Promise<BMKGWeatherWarning | null> =
  * Get comprehensive disaster statistics from BMKG data
  * Returns data for dashboard visualization
  */
-export const getRealTimeDisasterStats = async () => {
+export const getRealTimeDisasterStats = async (): Promise<RealTimeDisasterStatsResult> => {
   try {
     // Fetch earthquake data from last 30 days
     const [latestQuake, recentQuakes] = await Promise.all([
@@ -181,11 +198,17 @@ export const getRealTimeDisasterStats = async () => {
     return {
       stats: normalized,
       metadata: {
-        source: 'BMKG (Badan Meteorologi, Klimatologi, dan Geofisika)',
+        source: 'BMKG (Gempa) + Estimasi Musiman',
+        sourceDetail: 'Komponen gempa diambil dari BMKG TEWS, sedangkan banjir/longsor/cuaca ekstrem adalah estimasi proporsional.',
         lastUpdate: new Date().toISOString(),
         earthquakeCount,
         strongQuakes,
         isRainySeason,
+        dataQuality: 'estimated',
+        references: [
+          'https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json',
+          'https://data.bmkg.go.id/DataMKG/TEWS/gempadirasakan.json',
+        ],
       }
     };
   } catch (error) {
@@ -200,7 +223,16 @@ export const getRealTimeDisasterStats = async () => {
       ],
       metadata: {
         source: 'Fallback Data',
+        sourceDetail: 'Data estimasi cadangan karena sumber utama tidak dapat diakses.',
         lastUpdate: new Date().toISOString(),
+        earthquakeCount: 0,
+        strongQuakes: 0,
+        isRainySeason: false,
+        dataQuality: 'fallback',
+        references: [
+          'https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json',
+          'https://data.bmkg.go.id/DataMKG/TEWS/gempadirasakan.json',
+        ],
         error: 'API unavailable',
       }
     };

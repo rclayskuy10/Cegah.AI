@@ -59,7 +59,7 @@ const RiskAssessment: React.FC = () => {
     <div className="p-4 md:p-8 space-y-6">
       <div className="mb-2 animate-fade-in">
         <h2 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-white">Peta Rawan</h2>
-        <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">Analisis risiko bencana di lokasi Anda berbasis AI.</p>
+        <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">Analisis risiko berbasis AI untuk indikasi awal, bukan pengganti data resmi BMKG/BNPB.</p>
       </div>
 
       {!report && !loading && (
@@ -73,7 +73,7 @@ const RiskAssessment: React.FC = () => {
               </div>
             </div>
             <h3 className="font-black text-xl md:text-2xl mb-2 text-slate-800 dark:text-white">Dimana Anda berada?</h3>
-            <p className="text-slate-400 dark:text-slate-500 text-sm mb-8 max-w-sm leading-relaxed">Izinkan kami mengakses lokasi Anda untuk memberikan analisis risiko bencana yang akurat menggunakan AI.</p>
+            <p className="text-slate-400 dark:text-slate-500 text-sm mb-8 max-w-sm leading-relaxed">Izinkan kami mengakses lokasi Anda untuk memberikan analisis indikatif berbasis AI sebagai referensi awal.</p>
             <button 
                 onClick={getLocation}
                 className="group bg-gradient-to-r from-red-500 to-red-600 text-white px-8 py-4 rounded-2xl font-bold shadow-xl shadow-red-500/20 hover:shadow-2xl hover:shadow-red-500/30 transition-all active:scale-[0.98] flex items-center gap-2.5"
@@ -93,7 +93,7 @@ const RiskAssessment: React.FC = () => {
                 </div>
               </div>
               <p className="mt-8 font-bold text-lg text-slate-700 dark:text-slate-200">Menganalisis Data Geografis...</p>
-              <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">Mengambil data historis bencana dari AI.</p>
+              <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">Menyusun estimasi risiko berbasis AI dari koordinat lokasi.</p>
               <div className="mt-4 flex gap-1">
                 <div className="w-2 h-2 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
                 <div className="w-2 h-2 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>

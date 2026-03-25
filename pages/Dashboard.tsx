@@ -3,7 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { Activity, PhoneCall, Loader2, Zap, ArrowRight, MapPin, Camera, MessageSquare, Radio, AlertCircle, CloudRain } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { DisasterStat } from '../types';
-import { getRealTimeDisasterStats, getLatestEarthquakeInfo, getWeatherWarnings } from '../services/bmkg';
+import { getRealTimeDisasterStats, getLatestEarthquakeInfo, getWeatherWarnings, StatsMetadata } from '../services/bmkg';
+
+const FALLBACK_STATS: DisasterStat[] = [
+  { name: 'Banjir', count: 42, color: '#3b82f6' },
+  { name: 'Cuaca Ekstrem', count: 28, color: '#8b5cf6' },
+  { name: 'Longsor', count: 18, color: '#f59e0b' },
+  { name: 'Gempa', count: 12, color: '#ef4444' },
+];
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -12,6 +19,7 @@ const Dashboard: React.FC = () => {
   const [earthquakeInfo, setEarthquakeInfo] = useState<any>(null);
   const [loadingQuake, setLoadingQuake] = useState(true);
   const [weatherWarning, setWeatherWarning] = useState<any>(null);
+  const [statsMeta, setStatsMeta] = useState<StatsMetadata | null>(null);
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -24,13 +32,22 @@ const Dashboard: React.FC = () => {
       // Handle stats
       if (statsResult.status === 'fulfilled' && statsResult.value?.stats?.length > 0) {
         setStats(statsResult.value.stats);
+        setStatsMeta(statsResult.value.metadata);
       } else {
-        setStats([
-          { name: 'Banjir', count: 42, color: '#3b82f6' },
-          { name: 'Cuaca Ekstrem', count: 28, color: '#8b5cf6' },
-          { name: 'Longsor', count: 18, color: '#f59e0b' },
-          { name: 'Gempa', count: 12, color: '#ef4444' },
-        ]);
+        setStats(FALLBACK_STATS);
+        setStatsMeta({
+          source: 'Fallback Data',
+          sourceDetail: 'Data estimasi cadangan karena layanan sumber tidak tersedia.',
+          lastUpdate: new Date().toISOString(),
+          earthquakeCount: 0,
+          strongQuakes: 0,
+          isRainySeason: false,
+          dataQuality: 'fallback',
+          references: [
+            'https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json',
+            'https://data.bmkg.go.id/DataMKG/TEWS/gempadirasakan.json',
+          ],
+        });
       }
       setLoadingStats(false);
 
@@ -43,6 +60,8 @@ const Dashboard: React.FC = () => {
       // Handle weather
       if (weatherResult.status === 'fulfilled' && weatherResult.value?.warning?.length > 0) {
         setWeatherWarning(weatherResult.value);
+      } else {
+        setWeatherWarning(null);
       }
     };
 
@@ -98,6 +117,22 @@ const Dashboard: React.FC = () => {
               </p>
             </div>
           </div>
+        </div>
+      )}
+      {!weatherWarning && (
+        <div className="animate-slide-up bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl">
+          <p className="text-xs md:text-sm text-slate-600 dark:text-slate-300">
+            Peringatan cuaca BMKG belum tersedia dari endpoint otomatis aplikasi. Untuk informasi resmi terbaru, cek{' '}
+            <a
+              href="https://www.bmkg.go.id/cuaca/peringatan-dini-cuaca"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              halaman peringatan dini BMKG
+            </a>
+            .
+          </p>
         </div>
       )}
 
@@ -195,12 +230,20 @@ const Dashboard: React.FC = () => {
         <div className="flex justify-between items-center mb-6">
           <div>
             <h3 className="font-bold text-lg text-slate-800 dark:text-white">Statistik Risiko</h3>
-            <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">Data real-time BMKG</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">Estimasi berbasis data gempa BMKG</p>
           </div>
-          <span className="text-[11px] font-semibold text-green-600 bg-green-50 px-3 py-1.5 rounded-full border border-green-100 flex items-center gap-1">
-            <Radio className="w-3 h-3 animate-pulse" /> Data Real-Time
+          <span className={`text-[11px] font-semibold px-3 py-1.5 rounded-full border flex items-center gap-1 ${statsMeta?.dataQuality === 'fallback' ? 'text-amber-700 bg-amber-50 border-amber-100' : 'text-blue-700 bg-blue-50 border-blue-100'}`}>
+            <Radio className="w-3 h-3 animate-pulse" /> {statsMeta?.dataQuality === 'fallback' ? 'Data Cadangan' : 'Data Estimasi'}
           </span>
         </div>
+        {statsMeta && (
+          <div className="mb-5 bg-slate-50 dark:bg-slate-700/40 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
+            <p className="text-[11px] text-slate-600 dark:text-slate-300 font-medium">{statsMeta.sourceDetail}</p>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
+              Sumber: {statsMeta.source} | Update aplikasi: {new Date(statsMeta.lastUpdate).toLocaleString('id-ID')}
+            </p>
+          </div>
+        )}
         
         {loadingStats ? (
             <div className="h-48 w-full flex flex-col items-center justify-center text-slate-400">
