@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Activity, PhoneCall, Loader2, Zap, ArrowRight, MapPin, Camera, MessageSquare, Radio, AlertCircle, CloudRain } from 'lucide-react';
+import { Activity, PhoneCall, Loader2, Zap, ArrowRight, MapPin, Camera, MessageSquare, Radio, AlertCircle, CloudRain, Siren, Sparkles, Brain } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { DisasterStat } from '../types';
 import { getRealTimeDisasterStats, getLatestEarthquakeInfo, getWeatherWarnings, StatsMetadata } from '../services/bmkg';
+import { getAIDailyInsight } from '../services/gemini';
 
 const FALLBACK_STATS: DisasterStat[] = [
   { name: 'Banjir', count: 42, color: '#3b82f6' },
@@ -20,6 +21,8 @@ const Dashboard: React.FC = () => {
   const [loadingQuake, setLoadingQuake] = useState(true);
   const [weatherWarning, setWeatherWarning] = useState<any>(null);
   const [statsMeta, setStatsMeta] = useState<StatsMetadata | null>(null);
+  const [aiInsight, setAiInsight] = useState<string>('');
+  const [loadingInsight, setLoadingInsight] = useState(true);
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -63,6 +66,16 @@ const Dashboard: React.FC = () => {
       } else {
         setWeatherWarning(null);
       }
+
+      // Fetch AI daily insight
+      try {
+        const quakeData = quakeResult.status === 'fulfilled' ? quakeResult.value : null;
+        const insight = await getAIDailyInsight(quakeData);
+        setAiInsight(insight);
+      } catch {
+        setAiInsight('');
+      }
+      setLoadingInsight(false);
     };
 
     fetchAllData();
@@ -137,7 +150,20 @@ const Dashboard: React.FC = () => {
       )}
 
       {/* Quick Actions Grid */}
-      <div className="animate-slide-up grid grid-cols-3 gap-3 md:gap-4">
+      <div className="animate-slide-up grid grid-cols-4 gap-3 md:gap-4">
+        <button 
+          onClick={() => navigate('/sos')}
+          className="hover-card bg-gradient-to-br from-red-500 to-red-600 p-4 md:p-6 rounded-2xl shadow-lg shadow-red-500/20 flex flex-col items-center justify-center gap-3 group"
+        >
+          <div className="bg-white/20 p-3 md:p-4 rounded-2xl text-white">
+            <Siren size={22} />
+          </div>
+          <div className="text-center">
+            <span className="font-bold text-white text-xs md:text-sm">SOS</span>
+            <p className="text-[10px] text-white/70 mt-0.5 hidden md:block">Darurat</p>
+          </div>
+        </button>
+
         <button 
           onClick={() => navigate('/risk')}
           className="hover-card bg-white dark:bg-slate-800 p-4 md:p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center gap-3 group"
@@ -352,16 +378,31 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Educational Snippet */}
-      <div className="animate-slide-up bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100/50 p-5 rounded-2xl flex items-start gap-4 hover-card">
-        <div className="bg-blue-100 p-2.5 rounded-xl text-blue-600 flex-shrink-0">
-            <Zap size={18} />
-        </div>
-        <div>
-            <h4 className="font-bold text-blue-900 text-sm">Tip Kesiapsiagaan</h4>
-            <p className="text-blue-700 text-sm mt-1.5 leading-relaxed">
+      {/* AI Daily Insight */}
+      <div className="animate-slide-up bg-gradient-to-r from-indigo-50 via-blue-50 to-purple-50 dark:from-indigo-900/20 dark:via-blue-900/20 dark:to-purple-900/20 border border-indigo-100/50 dark:border-indigo-800/50 p-5 rounded-2xl hover-card">
+        <div className="flex items-start gap-4">
+          <div className="bg-gradient-to-br from-indigo-500 to-purple-500 p-2.5 rounded-xl text-white flex-shrink-0 shadow-lg shadow-indigo-500/20">
+            <Brain size={18} />
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1.5">
+              <h4 className="font-bold text-indigo-900 dark:text-indigo-200 text-sm">Analisis AI Hari Ini</h4>
+              <Sparkles className="w-3.5 h-3.5 text-yellow-500" />
+            </div>
+            {loadingInsight ? (
+              <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500">
+                <Loader2 className="w-3 h-3 animate-spin" />
+                <span className="text-xs">AI sedang menganalisis situasi terkini...</span>
+              </div>
+            ) : aiInsight ? (
+              <p className="text-indigo-700 dark:text-indigo-300 text-sm leading-relaxed">{aiInsight}</p>
+            ) : (
+              <p className="text-indigo-700 dark:text-indigo-300 text-sm leading-relaxed">
                 Siapkan tas siaga bencana berisi dokumen penting, obat-obatan, air minum, senter, dan makanan tahan lama untuk bertahan minimal 3 hari.
-            </p>
+              </p>
+            )}
+            <p className="text-[10px] text-indigo-400 dark:text-indigo-500 mt-2 font-medium">Diberdayakan oleh Google Gemini AI</p>
+          </div>
         </div>
       </div>
 

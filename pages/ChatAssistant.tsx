@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { Send, Bot, User, Loader2, Sparkles } from 'lucide-react';
+import { Send, Bot, User, Loader2, Sparkles, Mic, MicOff } from 'lucide-react';
 import { ChatMessage, MessageRole } from '../types';
 import { sendMessageToGemini } from '../services/gemini';
 import MessageContent from '../components/MessageContent';
@@ -15,7 +15,45 @@ const ChatAssistant: React.FC = () => {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const recognitionRef = useRef<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Initialize Web Speech API
+  useEffect(() => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'id-ID';
+      recognition.continuous = false;
+      recognition.interimResults = true;
+
+      recognition.onresult = (event: any) => {
+        const transcript = Array.from(event.results)
+          .map((result: any) => result[0].transcript)
+          .join('');
+        setInput(transcript);
+      };
+
+      recognition.onend = () => setIsListening(false);
+      recognition.onerror = () => setIsListening(false);
+
+      recognitionRef.current = recognition;
+    }
+  }, []);
+
+  const toggleListening = useCallback(() => {
+    if (!recognitionRef.current) return;
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    } else {
+      setInput('');
+      recognitionRef.current.start();
+      setIsListening(true);
+      if (navigator.vibrate) navigator.vibrate(50);
+    }
+  }, [isListening]);
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -194,13 +232,30 @@ const ChatAssistant: React.FC = () => {
       {/* Input Area */}
       <div className="glass dark:glass-dark border-t border-slate-100 dark:border-slate-700 p-4 md:px-6">
         <div className="relative flex items-center gap-2">
+          {/* Voice Input Button */}
+          {recognitionRef.current && (
+            <button
+              onClick={toggleListening}
+              disabled={isLoading}
+              className={`p-3.5 rounded-2xl transition-all duration-300 flex-shrink-0 ${
+                isListening
+                  ? 'bg-red-500 text-white animate-pulse-soft shadow-lg shadow-red-500/30'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-500'
+              }`}
+              title={isListening ? 'Berhenti mendengarkan' : 'Bicara untuk mengetik'}
+            >
+              {isListening ? <MicOff size={18} /> : <Mic size={18} />}
+            </button>
+          )}
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ketik pertanyaan tentang bencana..."
-            className="flex-1 px-5 py-3.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-300 dark:focus:border-red-600 text-[15px] text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 transition-all duration-200"
+            placeholder={isListening ? 'Mendengarkan...' : 'Ketik atau bicara tentang bencana...'}
+            className={`flex-1 px-5 py-3.5 bg-slate-50 dark:bg-slate-800 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-300 dark:focus:border-red-600 text-[15px] text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 transition-all duration-200 ${
+              isListening ? 'border-red-300 dark:border-red-600 ring-2 ring-red-500/20' : 'border-slate-200 dark:border-slate-700'
+            }`}
             disabled={isLoading}
           />
           <button

@@ -166,3 +166,26 @@ export const getDisasterStats = async (): Promise<DisasterStat[]> => {
     return [];
   }
 };
+
+export const getAIDailyInsight = async (earthquakeInfo?: any): Promise<string> => {
+  try {
+    const now = new Date();
+    const month = now.toLocaleString('id-ID', { month: 'long' });
+    const quakeContext = earthquakeInfo
+      ? `Gempa terbaru: M${earthquakeInfo.magnitude} di ${earthquakeInfo.location} (${earthquakeInfo.time}).`
+      : 'Tidak ada data gempa terbaru.';
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: `Kamu adalah AI analis bencana Indonesia. Berikan 1 paragraf singkat (maksimal 2-3 kalimat) berisi analisis situasi hari ini dan tip kesiapsiagaan yang relevan.
+      Konteks: Bulan ${month} ${now.getFullYear()}. ${quakeContext}
+      Pertimbangkan musim (hujan/kemarau), aktivitas seismik, dan pola bencana di Indonesia.
+      Jawab dalam Bahasa Indonesia, fokus pada kesadaran dan tindakan praktis. Jangan gunakan heading atau bullet points.`,
+    });
+
+    return response.text?.trim() || '';
+  } catch (error) {
+    console.error("AI Insight Error:", error);
+    return '';
+  }
+};

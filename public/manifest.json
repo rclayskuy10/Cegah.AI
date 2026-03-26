@@ -24,24 +24,31 @@
   "categories": ["education", "safety", "utilities"],
   "shortcuts": [
     {
-      "name": "Cek Risiko Lokasi",
-      "short_name": "Risiko",
-      "description": "Analisis risiko bencana lokasi Anda",
-      "url": "/risk",
+      "name": "Darurat SOS",
+      "short_name": "SOS",
+      "description": "Akses cepat bantuan darurat",
+      "url": "/#/sos",
       "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Lapor Dampak",
-      "short_name": "Lapor",
-      "description": "Upload foto kerusakan untuk analisis",
-      "url": "/report",
+      "name": "Cek Risiko Lokasi",
+      "short_name": "Risiko",
+      "description": "Analisis risiko bencana lokasi Anda",
+      "url": "/#/risk",
       "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "CegahBot",
       "short_name": "Chat",
       "description": "Tanya AI tentang kesiapsiagaan bencana",
-      "url": "/chat",
+      "url": "/#/chat",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Lapor Dampak",
+      "short_name": "Lapor",
+      "description": "Upload foto kerusakan untuk analisis",
+      "url": "/#/report",
       "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     }
   ],

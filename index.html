@@ -110,6 +110,36 @@
       .animate-bounce-soft {
         animation: bounceSoft 1s ease-in-out infinite;
       }
+      /* Staggered animation */
+      @keyframes scaleIn {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
+      }
+      .animate-scale-in {
+        animation: scaleIn 0.3s ease-out;
+      }
+      /* SOS ring animation */
+      @keyframes sosRing {
+        0% { transform: scale(1); opacity: 0.5; }
+        100% { transform: scale(1.5); opacity: 0; }
+      }
+      .animate-sos-ring {
+        animation: sosRing 1.5s ease-out infinite;
+      }
+      /* Accessibility: respect reduced motion preferences */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+      /* Focus visible for keyboard navigation */
+      *:focus-visible {
+        outline: 2px solid #ef4444;
+        outline-offset: 2px;
+        border-radius: 8px;
+      }
       /* Hover card lift effect */
       .hover-card {
         transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -124,6 +154,46 @@
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
+      }
+      /* Leaflet mobile fixes */
+      .leaflet-map-container .leaflet-container {
+          z-index: 1;
+      }
+      .custom-div-marker {
+          background: none !important;
+          border: none !important;
+      }
+      .leaflet-map-container .leaflet-control-zoom {
+          border: none !important;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+          border-radius: 12px !important;
+          overflow: hidden;
+      }
+      .leaflet-map-container .leaflet-control-zoom a {
+          width: 34px !important;
+          height: 34px !important;
+          line-height: 34px !important;
+          font-size: 16px !important;
+      }
+      .leaflet-map-container .leaflet-popup-content-wrapper {
+          border-radius: 14px !important;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.12) !important;
+      }
+      .leaflet-map-container .leaflet-popup-tip {
+          box-shadow: none !important;
+      }
+      @media (max-width: 767px) {
+          .leaflet-map-container .leaflet-popup-content {
+              margin: 10px 12px !important;
+              font-size: 12px !important;
+          }
+          .leaflet-map-container .leaflet-control-attribution {
+              font-size: 9px !important;
+              max-width: 55%;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+          }
       }
     </style>
   <script type="importmap">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Home, MessageSquare, Camera, MapPin, Menu, X, Shield, ChevronLeft, ChevronRight, Package, Activity, Sun, Moon } from 'lucide-react';
+import { Home, MessageSquare, Camera, MapPin, Menu, X, Shield, ChevronLeft, ChevronRight, Package, Activity, Sun, Moon, Siren, Users } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import OfflineBanner from './OfflineBanner';
 
@@ -16,9 +16,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const navItems = [
     { path: '/', icon: Home, label: 'Beranda', desc: 'Dashboard utama' },
+    { path: '/sos', icon: Siren, label: 'Darurat SOS', desc: 'Bantuan darurat cepat' },
     { path: '/risk', icon: MapPin, label: 'Peta Rawan', desc: 'Analisis risiko lokasi' },
     { path: '/earthquakes', icon: Activity, label: 'Gempa', desc: 'Riwayat gempa BMKG' },
     { path: '/report', icon: Camera, label: 'Lapor', desc: 'Lapor kerusakan' },
+    { path: '/community', icon: Users, label: 'Komunitas', desc: 'Laporan warga' },
     { path: '/checklist', icon: Package, label: 'Tas Siaga', desc: 'Persiapan darurat' },
     { path: '/chat', icon: MessageSquare, label: 'CegahBot', desc: 'Asisten AI bencana' },
   ];

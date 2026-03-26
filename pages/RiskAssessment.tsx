@@ -131,7 +131,7 @@ const RiskAssessment: React.FC = () => {
 
               {/* Interactive Map */}
               {coords && (
-                <div className="animate-slide-up">
+                <div className="animate-fade-in">
                   <MapView
                     lat={coords.lat}
                     lon={coords.lon}
