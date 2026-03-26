@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Activity, PhoneCall, Loader2, Zap, ArrowRight, MapPin, Camera, MessageSquare, Radio, AlertCircle, CloudRain, Siren, Sparkles, Brain } from 'lucide-react';
+import { Activity, PhoneCall, Loader2, ArrowRight, MapPin, Camera, MessageSquare, Radio, AlertCircle, CloudRain, Siren, Sparkles, Brain } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { DisasterStat } from '../types';
 import { getRealTimeDisasterStats, getLatestEarthquakeInfo, getWeatherWarnings, StatsMetadata } from '../services/bmkg';
