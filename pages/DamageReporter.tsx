@@ -171,7 +171,7 @@ const DamageReporter: React.FC = () => {
       doc.setFontSize(8);
       doc.setTextColor(150, 150, 150);
       doc.text('Laporan dibuat oleh Cegah.AI - Solusi Kesiapsiagaan Bencana Indonesia', 15, footerY);
-      doc.text('Diberdayakan oleh Google Gemini AI', 15, footerY + 4);
+      doc.text('Analisis kerusakan berbasis teknologi AI', 15, footerY + 4);
 
       doc.save(`Laporan-Kerusakan-CegahAI-${new Date().toISOString().split('T')[0]}.pdf`);
     } catch (err) {

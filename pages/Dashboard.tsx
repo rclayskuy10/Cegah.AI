@@ -401,7 +401,7 @@ const Dashboard: React.FC = () => {
                 Siapkan tas siaga bencana berisi dokumen penting, obat-obatan, air minum, senter, dan makanan tahan lama untuk bertahan minimal 3 hari.
               </p>
             )}
-            <p className="text-[10px] text-indigo-400 dark:text-indigo-500 mt-2 font-medium">Diberdayakan oleh Google Gemini AI</p>
+
           </div>
         </div>
       </div>

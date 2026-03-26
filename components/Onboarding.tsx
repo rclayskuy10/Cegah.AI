@@ -18,7 +18,7 @@ const FEATURES = [
     title: 'CegahBot - Asisten AI Bencana',
     desc: 'Tanya apapun tentang kesiapsiagaan bencana. Mendukung input suara untuk situasi darurat.',
     color: 'from-blue-500 to-indigo-500',
-    highlight: 'Didukung Google Gemini AI dengan konteks bencana Indonesia.',
+    highlight: 'Didukung teknologi AI canggih dengan konteks bencana Indonesia.',
   },
   {
     icon: Camera,

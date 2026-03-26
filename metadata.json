@@ -1,6 +1,6 @@
 {
   "name": "Cegah.AI",
-  "description": "AI-powered disaster preparedness companion for Indonesia. Features real-time AI chat with voice input, visual damage assessment, location-based risk analysis, emergency SOS with shake detection, family safety broadcasting, community disaster reporting, and comprehensive offline emergency guides — all powered by Google Gemini AI and real-time BMKG data.",
+  "description": "AI-powered disaster preparedness companion for Indonesia. Features real-time AI chat with voice input, visual damage assessment, location-based risk analysis, emergency SOS with shake detection, family safety broadcasting, community disaster reporting, and comprehensive offline emergency guides — powered by AI and real-time BMKG data.",
   "requestFramePermissions": [
     "camera",
     "microphone",
