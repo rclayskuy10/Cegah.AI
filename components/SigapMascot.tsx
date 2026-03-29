@@ -247,9 +247,9 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
               <animate attributeName="cx" values="62;58;62;66;62" dur="4s" repeatCount="indefinite" />
             </circle>
             <circle cx="55" cy="91" r="1.4" fill="white" opacity="0.7" />
-            <path d="M 45,97 Q 58,102 71,97" stroke="#1A0A02" strokeWidth="1.8"
-              fill="none" strokeLinecap="round" />
           </g>
+          <path d="M 45,97 Q 58,102 71,97" stroke="#1A0A02" strokeWidth="1.8"
+            fill="none" strokeLinecap="round" />
           {/* Kanan — dengan animasi kedip + iris lihat kiri-kanan */}
           <ellipse cx="102" cy="86" rx="13" ry="13" fill="white">
             <animate attributeName="ry" values="13;13;13;1;13;13;13;13;13;13;1;13;13;13" dur="5s" repeatCount="indefinite" />
@@ -269,9 +269,9 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
               <animate attributeName="cx" values="106;102;106;110;106" dur="4s" repeatCount="indefinite" />
             </circle>
             <circle cx="99" cy="91" r="1.4" fill="white" opacity="0.7" />
-            <path d="M 89,97 Q 102,102 115,97" stroke="#1A0A02" strokeWidth="1.8"
-              fill="none" strokeLinecap="round" />
           </g>
+          <path d="M 89,97 Q 102,102 115,97" stroke="#1A0A02" strokeWidth="1.8"
+            fill="none" strokeLinecap="round" />
           {/* Pipi kemerahan natural — pulse lembut */}
           <ellipse cx="43"  cy="106" rx="13" ry="7" fill="#C06030" opacity="0.22">
             <animate attributeName="opacity" values="0.15;0.35;0.15" dur="2.5s" repeatCount="indefinite" />
@@ -315,7 +315,7 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
             <animate attributeName="cx" values="55;53;55;57;55" dur="3s" repeatCount="indefinite" />
             <animate attributeName="cy" values="82;80;82;81;82" dur="3s" repeatCount="indefinite" />
           </circle>
-          <circle cx="58" cy="79" r="2.6" fill="white">
+          <circle cx="55" cy="79" r="2.6" fill="white">
             <animate attributeName="cx" values="55;53;55;57;55" dur="3s" repeatCount="indefinite" />
             <animate attributeName="cy" values="79;77;79;78;79" dur="3s" repeatCount="indefinite" />
           </circle>
@@ -333,7 +333,7 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
             <animate attributeName="cx" values="99;97;99;101;99" dur="3s" repeatCount="indefinite" />
             <animate attributeName="cy" values="82;80;82;81;82" dur="3s" repeatCount="indefinite" />
           </circle>
-          <circle cx="102" cy="79" r="2.6" fill="white">
+          <circle cx="99" cy="79" r="2.6" fill="white">
             <animate attributeName="cx" values="99;97;99;101;99" dur="3s" repeatCount="indefinite" />
             <animate attributeName="cy" values="79;77;79;78;79" dur="3s" repeatCount="indefinite" />
           </circle>
@@ -538,6 +538,15 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
           </line>
           <path d="M 45,97 Q 58,102 71,97" stroke="#1A0A02" strokeWidth="1.8"
             fill="none" strokeLinecap="round" />
+          {/* Lingkaran radar pulse di mata kiri */}
+          <circle cx="58" cy="87" r="10" fill="none" stroke="#DC2626" strokeWidth="0.8" opacity="0">
+            <animate attributeName="r" values="10;20;30" dur="2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.6;0.2;0" dur="2s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="58" cy="87" r="10" fill="none" stroke="#DC2626" strokeWidth="0.5" opacity="0">
+            <animate attributeName="r" values="10;20;30" dur="2s" begin="1s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.4;0.15;0" dur="2s" begin="1s" repeatCount="indefinite" />
+          </circle>
 
           {/* === Mata Kanan — 100% identik dengan idle + scan line overlay === */}
           <ellipse cx="102" cy="86" rx="13" ry="13" fill="white" />
