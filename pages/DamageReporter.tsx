@@ -35,7 +35,7 @@ const DamageReporter: React.FC = () => {
       const result = await analyzeDamageImage(base64Data);
       setAnalysis(result);
     } catch (err) {
-      setError("Gagal menganalisis gambar. Pastikan gambar jelas dan coba lagi.");
+      setError(err instanceof Error ? err.message : "Gagal menganalisis gambar. Pastikan gambar jelas dan coba lagi.");
     } finally {
       setLoading(false);
     }
@@ -199,7 +199,7 @@ const DamageReporter: React.FC = () => {
   return (
     <div className="p-4 md:p-8 space-y-6">
       <div className="mb-2 animate-fade-in">
-        <h2 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-white">Lapor & Analisis</h2>
+        <h2 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-white">Analisis Foto</h2>
         <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">Unggah foto kerusakan untuk analisis cepat berbasis AI.</p>
       </div>
 

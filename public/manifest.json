@@ -45,9 +45,9 @@
       "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Lapor Dampak",
-      "short_name": "Lapor",
-      "description": "Upload foto kerusakan untuk analisis",
+      "name": "Analisis Foto",
+      "short_name": "Analisis Foto",
+      "description": "Upload foto kerusakan untuk analisis AI",
       "url": "/#/report",
       "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     }

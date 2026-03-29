@@ -38,7 +38,7 @@ const RiskAssessment: React.FC = () => {
       const data = await analyzeLocationRisk(lat, lon);
       setReport(data);
     } catch (err) {
-      setError("Gagal menganalisis risiko lokasi.");
+      setError(err instanceof Error ? err.message : "Gagal menganalisis risiko lokasi.");
     } finally {
       setLoading(false);
     }
@@ -59,8 +59,8 @@ const RiskAssessment: React.FC = () => {
   return (
     <div className="p-4 md:p-8 space-y-6">
       <div className="mb-2 animate-fade-in">
-        <h2 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-white">Peta Rawan</h2>
-        <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">Analisis risiko berbasis AI untuk indikasi awal, bukan pengganti data resmi BMKG/BNPB.</p>
+        <h2 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-white">Cek Lokasi</h2>
+        <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">Analisis risiko bencana di lokasi Anda berbasis AI, sebagai referensi awal.</p>
       </div>
 
       {!report && !loading && (

@@ -516,47 +516,51 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
 
         {/* ── SCANNING ── */}
         {mood === 'scanning' && <>
-          {/* Kiri — mata menyipit fokus */}
-          <ellipse cx="58"  cy="87" rx="13" ry="8.5" fill="white" />
-          <path d="M 45,81 Q 58,74 71,81" stroke="#1A0A02" strokeWidth="3.8"
+          {/* === Mata Kiri — identik dengan idle + iris scan lebih cepat === */}
+          <ellipse cx="58" cy="86" rx="13" ry="13" fill="white" />
+          <path d="M 45,78 Q 58,70 71,78" stroke="#1A0A02" strokeWidth="3.8"
             fill="#1A0A02" strokeLinecap="round" />
-          <path d="M 45,93 Q 58,89 71,93" stroke="#1A0A02" strokeWidth="2.8"
+          <circle cx="58" cy="87" r="9" fill={`url(#${ir})`}>
+            <animate attributeName="cx" values="58;54;58;62;58" dur="2s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="58" cy="88" r="5" fill="#050202">
+            <animate attributeName="cx" values="58;54;58;62;58" dur="2s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="62" cy="83" r="3.2" fill="white">
+            <animate attributeName="cx" values="62;58;62;66;62" dur="2s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="55" cy="91" r="1.4" fill="white" opacity="0.7" />
+          {/* Scan line mata kiri */}
+          <line x1="50" y1="87" x2="66" y2="87" stroke="#DC2626"
+            strokeWidth="1.5" strokeLinecap="round" opacity="0.7">
+            <animate attributeName="y1" values="80;94;80" dur="1.2s" repeatCount="indefinite" />
+            <animate attributeName="y2" values="80;94;80" dur="1.2s" repeatCount="indefinite" />
+          </line>
+          <path d="M 45,97 Q 58,102 71,97" stroke="#1A0A02" strokeWidth="1.8"
             fill="none" strokeLinecap="round" />
-          <circle cx="58"  cy="87" r="6.5" fill={`url(#${ir})`}>
-            <animate attributeName="cx" values="55;61;55" dur="2s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="58"  cy="88" r="3.5" fill="#050202">
-            <animate attributeName="cx" values="55;61;55" dur="2s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="61"  cy="84" r="2"   fill="white">
-            <animate attributeName="cx" values="58;64;58" dur="2s" repeatCount="indefinite" />
-          </circle>
-          {/* Kanan — mata normal dengan scan line */}
+
+          {/* === Mata Kanan — 100% identik dengan idle + scan line overlay === */}
           <ellipse cx="102" cy="86" rx="13" ry="13" fill="white" />
           <path d="M 89,78 Q 102,70 115,78" stroke="#1A0A02" strokeWidth="3.8"
             fill="#1A0A02" strokeLinecap="round" />
-          <circle cx="102" cy="87" r="9"    fill={`url(#${ir})`}>
-            <animate attributeName="cx" values="99;105;99" dur="2s" repeatCount="indefinite" />
+          <circle cx="102" cy="87" r="9" fill={`url(#${ir})`}>
+            <animate attributeName="cx" values="102;98;102;106;102" dur="2s" repeatCount="indefinite" />
           </circle>
-          <circle cx="102" cy="88" r="5"    fill="#050202">
-            <animate attributeName="cx" values="99;105;99" dur="2s" repeatCount="indefinite" />
+          <circle cx="102" cy="88" r="5" fill="#050202">
+            <animate attributeName="cx" values="102;98;102;106;102" dur="2s" repeatCount="indefinite" />
           </circle>
-          <circle cx="106" cy="83" r="3.2"  fill="white">
-            <animate attributeName="cx" values="103;109;103" dur="2s" repeatCount="indefinite" />
+          <circle cx="106" cy="83" r="3.2" fill="white">
+            <animate attributeName="cx" values="106;102;106;110;106" dur="2s" repeatCount="indefinite" />
           </circle>
-          <path d="M 89,96 Q 102,101 115,96" stroke="#1A0A02" strokeWidth="1.8"
+          <circle cx="99" cy="91" r="1.4" fill="white" opacity="0.7" />
+          {/* Scan line — sweep di atas iris (y80-y94, di dalam sclera) */}
+          <line x1="94" y1="87" x2="110" y2="87" stroke="#DC2626"
+            strokeWidth="1.5" strokeLinecap="round" opacity="0.7">
+            <animate attributeName="y1" values="80;94;80" dur="1.2s" repeatCount="indefinite" />
+            <animate attributeName="y2" values="80;94;80" dur="1.2s" repeatCount="indefinite" />
+          </line>
+          <path d="M 89,97 Q 102,102 115,97" stroke="#1A0A02" strokeWidth="1.8"
             fill="none" strokeLinecap="round" />
-          {/* Garis scan merah bergantian */}
-          <line x1="90" y1="86" x2="115" y2="86" stroke="#DC2626"
-            strokeWidth="1.8" strokeLinecap="round">
-            <animate attributeName="y1" values="79;95;79" dur="1s" repeatCount="indefinite" />
-            <animate attributeName="y2" values="79;95;79" dur="1s" repeatCount="indefinite" />
-          </line>
-          <line x1="90" y1="86" x2="115" y2="86" stroke="#FCA5A5"
-            strokeWidth="0.8" strokeLinecap="round" opacity="0.5">
-            <animate attributeName="y1" values="79;95;79" dur="1s" repeatCount="indefinite" />
-            <animate attributeName="y2" values="79;95;79" dur="1s" repeatCount="indefinite" />
-          </line>
           {/* Lingkaran radar pulse di mata kanan */}
           <circle cx="102" cy="87" r="10" fill="none" stroke="#DC2626" strokeWidth="0.8" opacity="0">
             <animate attributeName="r" values="10;20;30" dur="2s" repeatCount="indefinite" />

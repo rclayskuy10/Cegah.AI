@@ -17,9 +17,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navItems = [
     { path: '/', icon: Home, label: 'Beranda', desc: 'Dashboard utama' },
     { path: '/sos', icon: Siren, label: 'Darurat SOS', desc: 'Bantuan darurat cepat' },
-    { path: '/risk', icon: MapPin, label: 'Peta Rawan', desc: 'Analisis risiko lokasi' },
+    { path: '/risk', icon: MapPin, label: 'Cek Lokasi', desc: 'Analisis risiko lokasi' },
     { path: '/earthquakes', icon: Activity, label: 'Gempa', desc: 'Riwayat gempa BMKG' },
-    { path: '/report', icon: Camera, label: 'Lapor', desc: 'Lapor kerusakan' },
+    { path: '/report', icon: Camera, label: 'Analisis Foto', desc: 'Analisis kerusakan via foto' },
     { path: '/community', icon: Users, label: 'Komunitas', desc: 'Laporan warga' },
     { path: '/checklist', icon: Package, label: 'Tas Siaga', desc: 'Persiapan darurat' },
     { path: '/chat', icon: MessageSquare, label: 'CegahBot', desc: 'Asisten AI bencana' },

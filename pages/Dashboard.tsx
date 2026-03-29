@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Activity, PhoneCall, Loader2, ArrowRight, MapPin, Camera, MessageSquare, Radio, AlertCircle, CloudRain, Siren, Sparkles, Brain } from 'lucide-react';
+import { Activity, PhoneCall, Loader2, ArrowRight, MapPin, Camera, MessageSquare, Radio, AlertCircle, CloudRain, Siren, Sparkles } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { DisasterStat } from '../types';
 import { getRealTimeDisasterStats, getLatestEarthquakeInfo, getWeatherWarnings, StatsMetadata } from '../services/bmkg';
-import { getAIDailyInsight } from '../services/gemini';
+
 import SigapMascot from '../components/SigapMascot';
 
 const FALLBACK_STATS: DisasterStat[] = [
@@ -22,8 +22,7 @@ const Dashboard: React.FC = () => {
   const [loadingQuake, setLoadingQuake] = useState(true);
   const [weatherWarning, setWeatherWarning] = useState<any>(null);
   const [statsMeta, setStatsMeta] = useState<StatsMetadata | null>(null);
-  const [aiInsight, setAiInsight] = useState<string>('');
-  const [loadingInsight, setLoadingInsight] = useState(true);
+
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -68,15 +67,7 @@ const Dashboard: React.FC = () => {
         setWeatherWarning(null);
       }
 
-      // Fetch AI daily insight
-      try {
-        const quakeData = quakeResult.status === 'fulfilled' ? quakeResult.value : null;
-        const insight = await getAIDailyInsight(quakeData);
-        setAiInsight(insight);
-      } catch {
-        setAiInsight('');
-      }
-      setLoadingInsight(false);
+
     };
 
     fetchAllData();
@@ -180,8 +171,8 @@ const Dashboard: React.FC = () => {
             <MapPin size={22} />
           </div>
           <div className="text-center">
-            <span className="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-sm">Cek Risiko</span>
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 hidden md:block">Analisis lokasi</p>
+            <span className="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-sm">Cek Lokasi</span>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 hidden md:block">Analisis risiko</p>
           </div>
         </button>
 
@@ -193,8 +184,8 @@ const Dashboard: React.FC = () => {
             <Camera size={22} />
           </div>
           <div className="text-center">
-            <span className="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-sm">Lapor Dampak</span>
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 hidden md:block">Upload foto</p>
+            <span className="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-sm">Analisis Foto</span>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 hidden md:block">Deteksi kerusakan</p>
           </div>
         </button>
 
@@ -386,32 +377,22 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* AI Daily Insight */}
+      {/* Tips Kesiapsiagaan */}
       <div className="animate-slide-up bg-gradient-to-r from-indigo-50 via-blue-50 to-purple-50 dark:from-indigo-900/20 dark:via-blue-900/20 dark:to-purple-900/20 border border-indigo-100/50 dark:border-indigo-800/50 p-5 rounded-2xl hover-card">
         <div className="flex items-start gap-4">
           <SigapMascot
-            mood={loadingInsight ? 'thinking' : 'happy'}
+            mood="happy"
             size={72}
             className="flex-shrink-0 -mt-2"
           />
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1.5">
-              <h4 className="font-bold text-indigo-900 dark:text-indigo-200 text-sm">Analisis AI Hari Ini</h4>
+              <h4 className="font-bold text-indigo-900 dark:text-indigo-200 text-sm">Tips dari SIGAP</h4>
               <Sparkles className="w-3.5 h-3.5 text-yellow-500" />
             </div>
-            {loadingInsight ? (
-              <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500">
-                <Loader2 className="w-3 h-3 animate-spin" />
-                <span className="text-xs">AI sedang menganalisis situasi terkini...</span>
-              </div>
-            ) : aiInsight ? (
-              <p className="text-indigo-700 dark:text-indigo-300 text-sm leading-relaxed">{aiInsight}</p>
-            ) : (
-              <p className="text-indigo-700 dark:text-indigo-300 text-sm leading-relaxed">
-                Siapkan tas siaga bencana berisi dokumen penting, obat-obatan, air minum, senter, dan makanan tahan lama untuk bertahan minimal 3 hari.
-              </p>
-            )}
-
+            <p className="text-indigo-700 dark:text-indigo-300 text-sm leading-relaxed">
+              Siapkan tas siaga bencana berisi dokumen penting, obat-obatan, air minum, senter, dan makanan tahan lama untuk bertahan minimal 3 hari.
+            </p>
           </div>
         </div>
       </div>

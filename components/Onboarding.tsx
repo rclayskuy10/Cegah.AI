@@ -29,7 +29,7 @@ const FEATURES = [
   },
   {
     icon: MapPin,
-    title: 'Peta Rawan & Risiko Lokasi',
+    title: 'Cek Lokasi & Risiko Bencana',
     desc: 'Analisis risiko bencana berdasarkan lokasi GPS Anda dengan peta interaktif.',
     color: 'from-green-500 to-emerald-500',
     highlight: 'Penilaian risiko gempa, banjir, longsor berbasis koordinat.',
