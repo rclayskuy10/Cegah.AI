@@ -3,6 +3,7 @@ import { Camera, Upload, AlertTriangle, CheckCircle, XCircle, Loader2, ArrowRigh
 import { analyzeDamageImage } from '../services/gemini';
 import { DamageAnalysis } from '../types';
 import { jsPDF } from 'jspdf';
+import SigapMascot from '../components/SigapMascot';
 
 const DamageReporter: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -208,9 +209,7 @@ const DamageReporter: React.FC = () => {
             onClick={() => fileInputRef.current?.click()}
             className="group border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl h-72 flex flex-col items-center justify-center bg-gradient-to-b from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 cursor-pointer hover:border-red-300 dark:hover:border-red-600 hover:bg-gradient-to-b hover:from-red-50/30 hover:to-orange-50/20 dark:hover:from-red-900/20 dark:hover:to-orange-900/10 transition-all duration-300"
           >
-            <div className="bg-gradient-to-br from-red-500/10 to-orange-500/10 p-5 rounded-3xl mb-4 group-hover:scale-110 transition-transform duration-300">
-              <ImagePlus className="w-10 h-10 text-red-400 group-hover:text-red-500 transition-colors" />
-            </div>
+            <SigapMascot mood="idle" size={100} className="mb-1 group-hover:scale-105 transition-transform duration-300" />
             <p className="font-bold text-slate-700 dark:text-slate-200 text-base">Ambil Foto atau Upload</p>
             <p className="text-xs text-slate-400 dark:text-slate-500 mt-1.5">Mendukung format JPG & PNG</p>
             <div className="mt-4 bg-red-50 text-red-500 px-4 py-2 rounded-full text-xs font-semibold border border-red-100 group-hover:bg-red-500 group-hover:text-white transition-all duration-300">
@@ -248,14 +247,8 @@ const DamageReporter: React.FC = () => {
           {/* Loading State */}
           {loading && (
             <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 text-center">
-              <div className="relative inline-block">
-                <div className="w-16 h-16 border-4 border-slate-100 dark:border-slate-700 rounded-full"></div>
-                <div className="w-16 h-16 border-4 border-red-500 border-t-transparent rounded-full animate-spin absolute inset-0"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-red-500" />
-                </div>
-              </div>
-              <h3 className="font-bold text-slate-800 dark:text-slate-200 mt-4 text-lg">Menganalisis Kerusakan...</h3>
+              <SigapMascot mood="scanning" size={110} className="mx-auto" />
+              <h3 className="font-bold text-slate-800 dark:text-slate-200 mt-2 text-lg">Menganalisis Kerusakan...</h3>
               <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">AI sedang memproses tingkat keparahan gambar Anda.</p>
             </div>
           )}
@@ -278,12 +271,19 @@ const DamageReporter: React.FC = () => {
             <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-lg border border-slate-100 dark:border-slate-700 overflow-hidden animate-slide-up">
               <div className="p-5 md:p-6 border-b border-slate-100 dark:border-slate-700">
                 <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <Sparkles className="w-4 h-4 text-yellow-500" />
-                        <span className="text-[11px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">Hasil Analisis AI</span>
+                    <div className="flex items-center gap-3">
+                      <SigapMascot
+                        mood={analysis.severity === 'Minor' ? 'happy' : 'alert'}
+                        size={64}
+                        className="flex-shrink-0"
+                      />
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <Sparkles className="w-4 h-4 text-yellow-500" />
+                          <span className="text-[11px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">Hasil Analisis AI</span>
+                        </div>
+                        <h3 className="font-black text-xl text-slate-800 dark:text-white">Laporan Kerusakan</h3>
                       </div>
-                      <h3 className="font-black text-xl text-slate-800 dark:text-white">Laporan Kerusakan</h3>
                     </div>
                     <span className={`text-xs font-bold px-3 py-1.5 rounded-xl border ${getSeverityColor(analysis.severity)}`}>
                         {analysis.severity}

@@ -5,6 +5,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { DisasterStat } from '../types';
 import { getRealTimeDisasterStats, getLatestEarthquakeInfo, getWeatherWarnings, StatsMetadata } from '../services/bmkg';
 import { getAIDailyInsight } from '../services/gemini';
+import SigapMascot from '../components/SigapMascot';
 
 const FALLBACK_STATS: DisasterStat[] = [
   { name: 'Banjir', count: 42, color: '#3b82f6' },
@@ -91,18 +92,25 @@ const Dashboard: React.FC = () => {
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-orange-500 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
         </div>
         <div className="relative z-10">
-          <h2 className="text-3xl md:text-4xl font-black mb-3 leading-tight">Siaga Bencana<br/>Dimulai dari <span className="gradient-text">Kesiapan.</span></h2>
-          <p className="text-slate-300 text-sm md:text-base mb-6 max-w-lg leading-relaxed">
-            Indonesia rawan bencana. Persiapkan diri Anda dan keluarga dengan informasi yang tepat dan akurat berbasis AI.
-          </p>
-          <button 
-            onClick={() => navigate('/chat')}
-            className="group bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-2xl text-sm font-bold shadow-lg shadow-red-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-red-500/30 flex items-center gap-2 w-full sm:w-auto justify-center"
-          >
-            <MessageSquare className="w-4 h-4" />
-            Tanya CegahBot Sekarang
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
+          <div className="flex items-end justify-between gap-4">
+            <div className="flex-1">
+              <h2 className="text-3xl md:text-4xl font-black mb-3 leading-tight">Siaga Bencana<br/>Dimulai dari <span className="gradient-text">Kesiapan.</span></h2>
+              <p className="text-slate-300 text-sm md:text-base mb-6 max-w-lg leading-relaxed">
+                Indonesia rawan bencana. Persiapkan diri Anda dan keluarga dengan informasi yang tepat dan akurat berbasis AI.
+              </p>
+              <button 
+                onClick={() => navigate('/chat')}
+                className="group bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-2xl text-sm font-bold shadow-lg shadow-red-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-red-500/30 flex items-center gap-2 w-full sm:w-auto justify-center"
+              >
+                <MessageSquare className="w-4 h-4" />
+                Tanya SIGAP Sekarang
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+            <div className="hidden sm:flex flex-col items-center flex-shrink-0">
+              <SigapMascot mood="idle" size={120} />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -381,9 +389,11 @@ const Dashboard: React.FC = () => {
       {/* AI Daily Insight */}
       <div className="animate-slide-up bg-gradient-to-r from-indigo-50 via-blue-50 to-purple-50 dark:from-indigo-900/20 dark:via-blue-900/20 dark:to-purple-900/20 border border-indigo-100/50 dark:border-indigo-800/50 p-5 rounded-2xl hover-card">
         <div className="flex items-start gap-4">
-          <div className="bg-gradient-to-br from-indigo-500 to-purple-500 p-2.5 rounded-xl text-white flex-shrink-0 shadow-lg shadow-indigo-500/20">
-            <Brain size={18} />
-          </div>
+          <SigapMascot
+            mood={loadingInsight ? 'thinking' : 'happy'}
+            size={72}
+            className="flex-shrink-0 -mt-2"
+          />
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1.5">
               <h4 className="font-bold text-indigo-900 dark:text-indigo-200 text-sm">Analisis AI Hari Ini</h4>

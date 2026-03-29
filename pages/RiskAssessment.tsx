@@ -3,6 +3,7 @@ import { MapPin, Navigation, AlertTriangle, ShieldCheck, Info, Sparkles, Compass
 import { analyzeLocationRisk } from '../services/gemini';
 import { RiskReport } from '../types';
 import MapView from '../components/MapView';
+import SigapMascot from '../components/SigapMascot';
 
 const RiskAssessment: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -64,14 +65,7 @@ const RiskAssessment: React.FC = () => {
 
       {!report && !loading && (
           <div className="animate-slide-up bg-white dark:bg-slate-800 rounded-3xl p-8 md:p-12 text-center shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col items-center">
-            <div className="relative mb-6">
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-3xl">
-                <Compass size={48} className="text-blue-500 animate-pulse-soft" />
-              </div>
-              <div className="absolute -bottom-1 -right-1 bg-gradient-to-r from-red-500 to-orange-500 p-1.5 rounded-xl">
-                <Sparkles className="w-4 h-4 text-white" />
-              </div>
-            </div>
+            <SigapMascot mood="idle" size={130} label="SIGAP siap menganalisis lokasimu" className="mb-2" />
             <h3 className="font-black text-xl md:text-2xl mb-2 text-slate-800 dark:text-white">Dimana Anda berada?</h3>
             <p className="text-slate-400 dark:text-slate-500 text-sm mb-8 max-w-sm leading-relaxed">Izinkan kami mengakses lokasi Anda untuk memberikan analisis indikatif berbasis AI sebagai referensi awal.</p>
             <button 
@@ -85,20 +79,10 @@ const RiskAssessment: React.FC = () => {
       )}
 
       {loading && (
-          <div className="animate-fade-in flex flex-col items-center justify-center py-20">
-              <div className="relative">
-                <div className="w-20 h-20 border-4 border-red-100 dark:border-red-900 rounded-full animate-ping absolute"></div>
-                <div className="w-20 h-20 bg-gradient-to-br from-red-500 to-orange-500 rounded-full flex items-center justify-center text-white relative z-10 shadow-xl shadow-red-500/30">
-                    <Navigation className="animate-pulse-soft w-8 h-8" />
-                </div>
-              </div>
-              <p className="mt-8 font-bold text-lg text-slate-700 dark:text-slate-200">Menganalisis Data Geografis...</p>
+          <div className="animate-fade-in flex flex-col items-center justify-center py-12">
+              <SigapMascot mood="scanning" size={130} />
+              <p className="mt-4 font-bold text-lg text-slate-700 dark:text-slate-200">Menganalisis Data Geografis...</p>
               <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">Menyusun estimasi risiko berbasis AI dari koordinat lokasi.</p>
-              <div className="mt-4 flex gap-1">
-                <div className="w-2 h-2 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                <div className="w-2 h-2 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                <div className="w-2 h-2 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-              </div>
           </div>
       )}
 
@@ -117,16 +101,23 @@ const RiskAssessment: React.FC = () => {
       {report && !loading && (
           <div className="space-y-4 animate-slide-up">
               
-              {/* Location Card */}
-              <div className="bg-white dark:bg-slate-800 p-5 md:p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
-                <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-2">
-                    <div className="bg-blue-50 dark:bg-blue-900/30 p-1 rounded-lg">
-                      <MapPin size={12} className="text-blue-500" />
-                    </div>
-                    Lokasi Terdeteksi
+              {/* Location Card with Mascot */}
+              <div className="bg-white dark:bg-slate-800 p-5 md:p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 flex items-center gap-4">
+                <SigapMascot
+                  mood={report.riskLevel === 'Low' ? 'happy' : report.riskLevel === 'Critical' || report.riskLevel === 'High' ? 'alert' : 'idle'}
+                  size={72}
+                  className="flex-shrink-0"
+                />
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-2">
+                      <div className="bg-blue-50 dark:bg-blue-900/30 p-1 rounded-lg">
+                        <MapPin size={12} className="text-blue-500" />
+                      </div>
+                      Lokasi Terdeteksi
+                  </div>
+                  <h2 className="text-xl md:text-2xl font-black text-slate-800 dark:text-white">{report.locationName}</h2>
+                  {coords && <p className="text-xs text-slate-400 dark:text-slate-500 font-mono mt-1.5 bg-slate-50 dark:bg-slate-700 inline-block px-2 py-1 rounded-lg">{coords.lat.toFixed(4)}, {coords.lon.toFixed(4)}</p>}
                 </div>
-                <h2 className="text-xl md:text-2xl font-black text-slate-800 dark:text-white">{report.locationName}</h2>
-                {coords && <p className="text-xs text-slate-400 dark:text-slate-500 font-mono mt-1.5 bg-slate-50 dark:bg-slate-700 inline-block px-2 py-1 rounded-lg">{coords.lat.toFixed(4)}, {coords.lon.toFixed(4)}</p>}
               </div>
 
               {/* Interactive Map */}

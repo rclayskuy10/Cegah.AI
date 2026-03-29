@@ -1,15 +1,16 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { Send, Bot, User, Loader2, Sparkles, Mic, MicOff } from 'lucide-react';
+import { Send, Shield, User, Loader2, Sparkles, Mic, MicOff, ShieldCheck } from 'lucide-react';
 import { ChatMessage, MessageRole } from '../types';
 import { sendMessageToGemini } from '../services/gemini';
 import MessageContent from '../components/MessageContent';
+import SigapMascot from '../components/SigapMascot';
 
 const ChatAssistant: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
       role: MessageRole.MODEL,
-      text: 'Halo! Saya CegahBot. Ada yang bisa saya bantu terkait kesiapsiagaan bencana atau pertolongan pertama?',
+      text: 'Halo! Saya **SIGAP** \u2014 asisten AI keselamatan bencana dari **Cegah.AI** \ud83d\udee1\n\nSaya siap membantu kamu dengan:\n- Panduan evakuasi & kesiapsiagaan bencana\n- Analisis risiko wilayah Indonesia\n- Pertolongan pertama & protokol darurat\n- Informasi dari BMKG, BNPB, dan Basarnas\n\nAda situasi yang perlu diantisipasi? Ceritakan, saya di sini.',
       timestamp: new Date(),
     },
   ]);
@@ -78,10 +79,25 @@ const ChatAssistant: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const history = messages.map(m => ({
-        role: m.role === MessageRole.USER ? 'user' : 'model',
-        parts: [{ text: m.text }]
-      }));
+      // Build valid history for Gemini Chat API:
+      // 1. Exclude error messages (isError: true)
+      // 2. Start from first USER message (skip initial bot greeting)
+      // 3. Only include complete user+model pairs (history must end with model)
+      const validMessages = messages.filter(m => !m.isError);
+      const firstUserIndex = validMessages.findIndex(m => m.role === MessageRole.USER);
+      const history: { role: string; parts: { text: string }[] }[] = [];
+
+      if (firstUserIndex >= 0) {
+        const conversationMessages = validMessages.slice(firstUserIndex);
+        for (let i = 0; i + 1 < conversationMessages.length; i += 2) {
+          const userM = conversationMessages[i];
+          const modelM = conversationMessages[i + 1];
+          if (userM?.role === MessageRole.USER && modelM?.role === MessageRole.MODEL) {
+            history.push({ role: 'user', parts: [{ text: userM.text }] });
+            history.push({ role: 'model', parts: [{ text: modelM.text }] });
+          }
+        }
+      }
 
       const responseText = await sendMessageToGemini(userMsg.text, history);
 
@@ -118,9 +134,11 @@ const ChatAssistant: React.FC = () => {
   }, []);
 
   const quickActions = useMemo(() => [
-    'Apa yang harus dilakukan saat gempa?',
-    'Cara evakuasi saat banjir',
-    'Tanda-tanda tsunami',
+    '🌊 Tanda-tanda tsunami?',
+    '🏃 Cara evakuasi saat gempa',
+    '🌧️ Persiapan musim hujan',
+    '🎒 Isi tas siaga bencana',
+    '📞 Nomor darurat bencana',
   ], []);
 
   return (
@@ -129,17 +147,17 @@ const ChatAssistant: React.FC = () => {
       <div className="glass dark:glass-dark border-b border-slate-100 dark:border-slate-700 px-4 md:px-6 py-4">
         <div className="flex items-center gap-3">
           <div className="relative">
-            <div className="bg-gradient-to-br from-red-500 to-orange-500 p-2.5 rounded-2xl shadow-lg shadow-red-500/20">
-              <Bot className="w-5 h-5 text-white" />
+            <div className="bg-gradient-to-br from-red-600 to-rose-500 p-2.5 rounded-2xl shadow-lg shadow-red-500/30">
+              <ShieldCheck className="w-5 h-5 text-white" />
             </div>
-            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-white"></div>
+            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-white dark:border-slate-900"></div>
           </div>
           <div>
             <h3 className="font-bold text-slate-800 dark:text-white flex items-center gap-1.5">
-              CegahBot
+              SIGAP
               <Sparkles className="w-3.5 h-3.5 text-yellow-500" />
             </h3>
-            <p className="text-[11px] text-green-500 font-medium">Online - Siap membantu</p>
+            <p className="text-[11px] text-green-500 font-medium">Aktif · Penjaga Keselamatan AI</p>
           </div>
         </div>
       </div>
@@ -162,13 +180,13 @@ const ChatAssistant: React.FC = () => {
                 className={`flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center shadow-sm ${
                   msg.role === MessageRole.USER
                     ? 'bg-gradient-to-br from-slate-700 to-slate-800 text-white'
-                    : 'bg-gradient-to-br from-red-50 to-orange-50 text-red-500 border border-red-100'
+                    : 'bg-gradient-to-br from-red-600 to-rose-500 text-white shadow-md shadow-red-500/20'
                 }`}
               >
                 {msg.role === MessageRole.USER ? (
                   <User size={14} />
                 ) : (
-                  <Bot size={14} />
+                  <Shield size={14} />
                 )}
               </div>
               <div>
@@ -196,7 +214,9 @@ const ChatAssistant: React.FC = () => {
 
         {/* Quick Actions - show only when there's just the greeting */}
         {messages.length === 1 && !isLoading && (
-          <div className="flex flex-wrap gap-2 mt-2 animate-slide-up">
+          <div className="flex flex-col items-center gap-4 mt-2 animate-slide-up">
+            <SigapMascot mood="idle" size={130} label="SIGAP siap membantu kamu" />
+          <div className="flex flex-wrap gap-2 justify-center">
             {quickActions.map((action, idx) => (
               <button
                 key={idx}
@@ -207,21 +227,22 @@ const ChatAssistant: React.FC = () => {
               </button>
             ))}
           </div>
+          </div>
         )}
 
         {isLoading && (
           <div className="flex justify-start w-full animate-fade-in">
             <div className="flex flex-row gap-2.5 max-w-[80%]">
-              <div className="flex-shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-red-50 to-orange-50 text-red-500 flex items-center justify-center border border-red-100 shadow-sm">
-                <Bot size={14} />
+              <div className="flex-shrink-0 w-9 h-9 flex items-center justify-center">
+                <SigapMascot mood="thinking" size={36} />
               </div>
               <div className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-4 py-3 rounded-2xl rounded-tl-md shadow-sm flex items-center gap-2">
                 <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                  <div className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                  <div className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                  <div className="w-2 h-2 bg-red-300 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                  <div className="w-2 h-2 bg-red-300 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                  <div className="w-2 h-2 bg-red-300 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
                 </div>
-                <span className="ml-1 text-xs text-slate-400 font-medium">Sedang berpikir...</span>
+                <span className="ml-1 text-xs text-slate-400 font-medium">SIGAP menganalisis...</span>
               </div>
             </div>
           </div>
@@ -252,7 +273,7 @@ const ChatAssistant: React.FC = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={isListening ? 'Mendengarkan...' : 'Ketik atau bicara tentang bencana...'}
+            placeholder={isListening ? '🎙️ SIGAP sedang mendengarkan...' : 'Tanya SIGAP tentang kesiapsiagaan bencana...'}
             className={`flex-1 px-5 py-3.5 bg-slate-50 dark:bg-slate-800 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-300 dark:focus:border-red-600 text-[15px] text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 transition-all duration-200 ${
               isListening ? 'border-red-300 dark:border-red-600 ring-2 ring-red-500/20' : 'border-slate-200 dark:border-slate-700'
             }`}
