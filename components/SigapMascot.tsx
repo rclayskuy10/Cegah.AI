@@ -38,10 +38,11 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          {/* Sawo matang — kulit khas Indonesia (cokelat kekuningan hangat) */}
-          <radialGradient id={sk} cx="42%" cy="32%" r="65%">
-            <stop offset="0%"   stopColor="#D4955A" />
-            <stop offset="100%" stopColor="#A0622A" />
+          {/* Sawo matang — 3-stop gradient for natural depth */}
+          <radialGradient id={sk} cx="45%" cy="30%" r="68%">
+            <stop offset="0%"   stopColor="#DAAA70" />
+            <stop offset="60%"  stopColor="#C8905A" />
+            <stop offset="100%" stopColor="#A87038" />
           </radialGradient>
           {/* Iris cokelat tua / hitam — khas mata orang Indonesia */}
           <radialGradient id={ir} cx="35%" cy="28%" r="65%">
@@ -49,20 +50,20 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
             <stop offset="55%"  stopColor="#3D1A0A" />
             <stop offset="100%" stopColor="#0A0402" />
           </radialGradient>
-          {/* Seragam SAR/BASARNAS cokelat khaki */}
+          {/* Seragam SAR — richer khaki gradient */}
           <linearGradient id={ou} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stopColor="#8B6914" />
-            <stop offset="100%" stopColor="#5C430A" />
+            <stop offset="0%"   stopColor="#8B6E18" />
+            <stop offset="100%" stopColor="#5E460C" />
           </linearGradient>
-          {/* Rambut hitam berkilau Indonesia */}
+          {/* Rambut hitam — subtler sheen with mid-tone */}
           <radialGradient id={hr} cx="38%" cy="10%" r="65%">
-            <stop offset="0%"   stopColor="#2A2020" />
-            <stop offset="60%"  stopColor="#0D0808" />
-            <stop offset="100%" stopColor="#000000" />
+            <stop offset="0%"   stopColor="#2E2424" />
+            <stop offset="50%"  stopColor="#141010" />
+            <stop offset="100%" stopColor="#020101" />
           </radialGradient>
-          {/* Baret orange SAR Indonesia */}
+          {/* Baret orange — softer warm start */}
           <radialGradient id={bt} cx="40%" cy="25%" r="65%">
-            <stop offset="0%"   stopColor="#F97316" />
+            <stop offset="0%"   stopColor="#FB923C" />
             <stop offset="100%" stopColor="#C2410C" />
           </radialGradient>
           {/* Lencana bulat merah-putih bendera Indonesia */}
@@ -97,54 +98,71 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
           {mood === 'scanning' && <animateTransform attributeName="transform" type="translate" values="0,0;-2,-2;0,-3;2,-2;0,0" dur="1.8s" repeatCount="indefinite" />}
 
         {/* ══════════════════ BADAN / SERAGAM SAR ══════════════════ */}
-        {/* Tubuh utama seragam cokelat khaki */}
-        <path d="M 34,170 Q 80,160 126,170 L 138,205 L 22,205 Z" fill={`url(#${ou})`} />
+        {/* Tubuh utama — curved shoulders for natural shape */}
+        <path d="M 36,167 Q 80,157 124,167 Q 136,177 140,205 L 20,205 Q 24,177 36,167 Z" fill={`url(#${ou})`} />
+        {/* Body outline */}
+        <path d="M 36,167 Q 80,157 124,167 Q 136,177 140,205 L 20,205 Q 24,177 36,167 Z" fill="none" stroke="#4A3008" strokeWidth="1" opacity="0.18" />
+        {/* Fabric fold lines for depth */}
+        <path d="M 58,174 Q 60,186 58,198" stroke="#5C430A" strokeWidth="0.7" fill="none" opacity="0.2" strokeLinecap="round" />
+        <path d="M 102,174 Q 100,186 102,198" stroke="#5C430A" strokeWidth="0.7" fill="none" opacity="0.2" strokeLinecap="round" />
+        <path d="M 76,166 Q 80,188 84,166" stroke="#5C430A" strokeWidth="0.5" fill="none" opacity="0.12" strokeLinecap="round" />
 
-        {/* Kerah V seragam */}
-        <path d="M 67,164 L 80,178 L 93,164"
-          stroke="#F5DEB3" strokeWidth="2.2" fill="none"
-          strokeLinecap="round" strokeLinejoin="round" opacity="0.8" />
+        {/* V-neck collar */}
+        <path d="M 68,162 L 80,176 L 92,162"
+          stroke="#F5DEB3" strokeWidth="2" fill="none"
+          strokeLinecap="round" strokeLinejoin="round" opacity="0.75" />
 
-        {/* Epaulette (tanda pangkat di bahu) — kiri */}
-        <rect x="28" y="168" width="22" height="6" rx="3" fill="#C2410C" opacity="0.9" />
-        <rect x="30" y="169" width="4" height="4" rx="1" fill="#FBBF24" />
-        <rect x="36" y="169" width="4" height="4" rx="1" fill="#FBBF24" />
+        {/* Epaulette kiri */}
+        <rect x="30" y="165" width="20" height="5.5" rx="2.8" fill="#C2410C" opacity="0.85" />
+        <rect x="32" y="166" width="3.5" height="3.5" rx="1" fill="#FBBF24" />
+        <rect x="37" y="166" width="3.5" height="3.5" rx="1" fill="#FBBF24" />
         {/* Epaulette kanan */}
-        <rect x="110" y="168" width="22" height="6" rx="3" fill="#C2410C" opacity="0.9" />
-        <rect x="126" y="169" width="4" height="4" rx="1" fill="#FBBF24" />
-        <rect x="120" y="169" width="4" height="4" rx="1" fill="#FBBF24" />
+        <rect x="110" y="165" width="20" height="5.5" rx="2.8" fill="#C2410C" opacity="0.85" />
+        <rect x="124.5" y="166" width="3.5" height="3.5" rx="1" fill="#FBBF24" />
+        <rect x="119" y="166" width="3.5" height="3.5" rx="1" fill="#FBBF24" />
 
-        {/* Saku dada kiri */}
-        <rect x="50" y="172" width="20" height="14" rx="3"
-          fill="#7A5C10" stroke="#C2A040" strokeWidth="0.8" />
-        {/* Lencana SAR merah-putih di saku — berdenyut */}
-        <circle cx="60" cy="179" r="6" fill={`url(#${bg})`}
-          stroke="#E5E5E5" strokeWidth="0.8">
-          <animate attributeName="r" values="6;7;6" dur="2s" repeatCount="indefinite" />
+        {/* Saku dada kiri with flap */}
+        <rect x="50" y="172" width="18" height="13" rx="2.5"
+          fill="#7A5C10" stroke="#B89840" strokeWidth="0.7" />
+        {/* Pocket flap */}
+        <path d="M 50,172 L 68,172" stroke="#6A4C08" strokeWidth="1.2" strokeLinecap="round" />
+        {/* Lencana SAR merah-putih */}
+        <circle cx="59" cy="179" r="5.5" fill={`url(#${bg})`}
+          stroke="#D4D4D4" strokeWidth="0.7">
+          <animate attributeName="r" values="5.5;6.2;5.5" dur="2s" repeatCount="indefinite" />
         </circle>
-        {/* Bintang kecil di tengah lencana */}
-        <text x="56.5" y="182" fontSize="5" fill="#F5D060" fontWeight="bold">★</text>
+        <text x="55.5" y="182" fontSize="4.5" fill="#F5D060" fontWeight="bold">★</text>
 
-        {/* Sabuk / ikat pinggang cokelat tua */}
-        <rect x="25" y="162" width="110" height="7" rx="3.5" fill="#3D2200" />
-        <rect x="73" y="162" width="14" height="7" rx="2" fill="#C2A040" />
-        <rect x="75" y="163.5" width="10" height="4" rx="1.5" fill="#3D2200" />
+        {/* Sabuk */}
+        <rect x="24" y="160" width="112" height="6.5" rx="3.2" fill="#3D2200" />
+        <rect x="72" y="160" width="16" height="6.5" rx="2" fill="#C2A040" />
+        <rect x="74.5" y="161.5" width="11" height="3.5" rx="1.5" fill="#3D2200" />
 
         {/* ══════════════════ LEHER ══════════════════ */}
         <rect x="69" y="150" width="22" height="16" rx="8" fill={`url(#${sk})`} />
+        {/* Under-chin shadow */}
+        <ellipse cx="80" cy="150" rx="12" ry="4" fill="#8B5820" opacity="0.15" />
 
         {/* ══════════════════ RAMBUT BELAKANG ══════════════════ */}
         {/* Rambut hitam pendek-rapi khas Indonesia (bukan panjang menjuntai) */}
         <ellipse cx="80" cy="86" rx="52" ry="56" fill={`url(#${hr})`} />
 
         {/* ══════════════════ TELINGA ══════════════════ */}
-        <ellipse cx="29" cy="96" rx="8"   ry="10"  fill={`url(#${sk})`} />
-        <ellipse cx="131" cy="96" rx="8"  ry="10"  fill={`url(#${sk})`} />
-        <ellipse cx="29" cy="96" rx="4.5" ry="6.5" fill="#8B5520" opacity="0.35" />
-        <ellipse cx="131" cy="96" rx="4.5" ry="6.5" fill="#8B5520" opacity="0.35" />
+        <ellipse cx="29" cy="96" rx="8"   ry="10"  fill={`url(#${sk})`} stroke="#A87838" strokeWidth="0.6" opacity="0.9" />
+        <ellipse cx="131" cy="96" rx="8"  ry="10"  fill={`url(#${sk})`} stroke="#A87838" strokeWidth="0.6" opacity="0.9" />
+        <ellipse cx="29" cy="96" rx="4.5" ry="6.5" fill="#8B5520" opacity="0.25" />
+        <ellipse cx="131" cy="96" rx="4.5" ry="6.5" fill="#8B5520" opacity="0.25" />
 
         {/* ══════════════════ WAJAH ══════════════════ */}
         <ellipse cx="80" cy="98" rx="48" ry="52" fill={`url(#${sk})`} />
+        {/* Face outline for cohesion */}
+        <ellipse cx="80" cy="98" rx="48" ry="52" fill="none" stroke="#A87838" strokeWidth="0.8" opacity="0.15" />
+        {/* Forehead highlight */}
+        <ellipse cx="74" cy="76" rx="20" ry="10" fill="white" opacity="0.07" />
+        {/* Cheek highlight (left) */}
+        <ellipse cx="55" cy="100" rx="10" ry="8" fill="white" opacity="0.05" />
+        {/* Jawline shadow */}
+        <path d="M 40,130 Q 80,152 120,130 Q 128,140 80,150 Q 32,140 40,130 Z" fill="#7A5020" opacity="0.08" />
 
         {/* ══════════════════ RAMBUT DEPAN (potongan pendek rapi) ══════════════════ */}
         {/* Garis rambut rata / fringe pendek */}
@@ -162,65 +180,67 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
           fill={`url(#${hr})`} />
         <path d="M 106,58 Q 111,36 120,34 Q 126,36 123,58 Q 120,46 117,48 Q 114,52 110,66 Z"
           fill={`url(#${hr})`} />
-        {/* Kilap rambut hitam */}
-        <path d="M 48,36 Q 60,26 72,28" stroke="#4A3A3A" strokeWidth="2.5" fill="none"
-          strokeLinecap="round" opacity="0.6" />
-        <path d="M 56,32 Q 64,26 72,27" stroke="#6A5A5A" strokeWidth="1.2" fill="none"
-          strokeLinecap="round" opacity="0.4" />
+        {/* Hair shine */}
+        <path d="M 48,36 Q 60,26 72,28" stroke="#3A2A2A" strokeWidth="2.2" fill="none"
+          strokeLinecap="round" opacity="0.5" />
+        <path d="M 56,32 Q 64,26 72,27" stroke="#5A4A4A" strokeWidth="1" fill="none"
+          strokeLinecap="round" opacity="0.35" />
 
         {/* ══════════════════ BARET SAR INDONESIA ══════════════════ */}
-        {/* Baret orange khas SAR/BASARNAS Indonesia */}
-        {/* Lingkaran baret bawah */}
+        {/* Baret SAR Indonesia */}
         <ellipse cx="80" cy="42" rx="53" ry="12" fill={`url(#${bt})`} />
         {/* Dome baret */}
         <path d="M 27,42 Q 26,10 80,8 Q 134,10 133,42 Z" fill={`url(#${bt})`} />
-        {/* Shadow/gelap di sisi baret */}
-        <path d="M 27,42 Q 26,10 80,8" stroke="#9A3412" strokeWidth="1.5"
-          fill="none" strokeLinecap="round" opacity="0.5" />
-        {/* Kilap baret */}
-        <path d="M 44,20 Q 58,12 72,13" stroke="#FED7AA" strokeWidth="2.5" fill="none"
-          strokeLinecap="round" opacity="0.55" />
-        {/* Tali baret kiri — karet hitam */}
-        <path d="M 27,43 Q 22,50 28,60" stroke="#1A1A1A" strokeWidth="3"
+        {/* Baret structure line */}
+        <path d="M 27,42 Q 26,10 80,8" stroke="#9A3412" strokeWidth="1.2"
+          fill="none" strokeLinecap="round" opacity="0.4" />
+        {/* Baret outline */}
+        <path d="M 27,42 Q 26,10 80,8 Q 134,10 133,42" fill="none" stroke="#7C2D12" strokeWidth="0.8" opacity="0.2" />
+        {/* Baret highlight */}
+        <path d="M 44,20 Q 58,12 72,13" stroke="#FED7AA" strokeWidth="2.2" fill="none"
+          strokeLinecap="round" opacity="0.5" />
+        {/* Under-baret shadow on forehead */}
+        <ellipse cx="80" cy="48" rx="48" ry="6" fill="#3D1A0A" opacity="0.08" />
+        {/* Tali baret */}
+        <path d="M 27,43 Q 22,50 28,60" stroke="#1A1A1A" strokeWidth="2.8"
           fill="none" strokeLinecap="round" />
-        {/* Lencana di baret — lingkaran hitam + bintang emas berkedip */}
-        <circle cx="62" cy="26" r="9" fill="#1A1200" stroke="#C2A040" strokeWidth="1.5" />
-        <circle cx="62" cy="26" r="6.5" fill="#0A0800" />
-        <text x="57.5" y="29.5" fontSize="7.5" fill="#F5D060" fontWeight="bold">★</text>
-        {/* Kilap bintang baret */}
-        <circle cx="62" cy="26" r="8" fill="none" stroke="#FBBF24" strokeWidth="0.6" opacity="0">
-          <animate attributeName="opacity" values="0;0.8;0" dur="2.5s" repeatCount="indefinite" />
-          <animate attributeName="r" values="8;12;8" dur="2.5s" repeatCount="indefinite" />
+        {/* Lencana baret */}
+        <circle cx="62" cy="26" r="8.5" fill="#1A1200" stroke="#C2A040" strokeWidth="1.2" />
+        <circle cx="62" cy="26" r="6" fill="#0A0800" />
+        <text x="57.8" y="29.2" fontSize="7" fill="#F5D060" fontWeight="bold">★</text>
+        {/* Badge glow */}
+        <circle cx="62" cy="26" r="7.5" fill="none" stroke="#FBBF24" strokeWidth="0.5" opacity="0">
+          <animate attributeName="opacity" values="0;0.7;0" dur="2.5s" repeatCount="indefinite" />
+          <animate attributeName="r" values="7.5;11;7.5" dur="2.5s" repeatCount="indefinite" />
         </circle>
-        {/* Tulisan "SAR" kecil di bawah bintang */}
-        <text x="55" y="38" fontSize="4.2" fill="#F5D060" fontWeight="bold"
+        {/* SAR text */}
+        <text x="55" y="38" fontSize="4" fill="#F5D060" fontWeight="bold"
           letterSpacing="0.8">SAR</text>
 
         {/* ══════════════════ ALIS ══════════════════ */}
-        {/* Alis tebal hitam khas Indonesia */}
+        {/* Alis — refined weight */}
         {(mood === 'idle' || mood === 'scanning') && <>
-          <path d="M 46,74 Q 58,68 70,72" stroke="#1A0A02" strokeWidth="3.8"
+          <path d="M 52,78 Q 62,73 72,76" stroke="#1A0A02" strokeWidth="3.2"
             strokeLinecap="round" fill="none" />
-          <path d="M 90,72 Q 102,68 114,74" stroke="#1A0A02" strokeWidth="3.8"
+          <path d="M 88,76 Q 98,73 108,78" stroke="#1A0A02" strokeWidth="3.2"
             strokeLinecap="round" fill="none" />
         </>}
         {mood === 'thinking' && <>
-          <path d="M 46,72 Q 58,64 70,70" stroke="#1A0A02" strokeWidth="3.8"
+          <path d="M 52,76 Q 62,70 72,74" stroke="#1A0A02" strokeWidth="3.2"
             strokeLinecap="round" fill="none" />
-          <path d="M 90,66 Q 102,60 114,66" stroke="#1A0A02" strokeWidth="3.8"
+          <path d="M 88,70 Q 98,66 108,72" stroke="#1A0A02" strokeWidth="3.2"
             strokeLinecap="round" fill="none" />
         </>}
         {mood === 'happy' && <>
-          <path d="M 46,72 Q 58,66 70,71" stroke="#1A0A02" strokeWidth="3.8"
+          <path d="M 52,77 Q 62,73 72,76" stroke="#1A0A02" strokeWidth="3.2"
             strokeLinecap="round" fill="none" />
-          <path d="M 90,71 Q 102,66 114,72" stroke="#1A0A02" strokeWidth="3.8"
+          <path d="M 88,76 Q 98,73 108,77" stroke="#1A0A02" strokeWidth="3.2"
             strokeLinecap="round" fill="none" />
         </>}
         {mood === 'alert' && <>
-          {/* Mengernyit ke dalam — ekspresi waspada */}
-          <path d="M 46,74 Q 58,78 70,70" stroke="#1A0A02" strokeWidth="4.2"
+          <path d="M 52,79 Q 62,82 72,75" stroke="#1A0A02" strokeWidth="3.5"
             strokeLinecap="round" fill="none" />
-          <path d="M 90,70 Q 102,78 114,74" stroke="#1A0A02" strokeWidth="4.2"
+          <path d="M 88,75 Q 98,82 108,79" stroke="#1A0A02" strokeWidth="3.5"
             strokeLinecap="round" fill="none" />
         </>}
 
@@ -228,116 +248,114 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
 
         {/* ── IDLE ── */}
         {mood === 'idle' && <>
-          {/* Kiri — dengan animasi kedip + iris lihat kiri-kanan */}
-          <ellipse cx="58" cy="86" rx="13" ry="13" fill="white">
-            <animate attributeName="ry" values="13;13;13;1;13;13;13;13;13;13;1;13;13;13" dur="5s" repeatCount="indefinite" />
+          {/* Left eye — reduced size, outlined sclera */}
+          <ellipse cx="62" cy="88" rx="10" ry="10.5" fill="white" stroke="#2A1A0A" strokeWidth="0.5">
+            <animate attributeName="ry" values="10.5;10.5;10.5;0.5;10.5;10.5;10.5;10.5;10.5;10.5;0.5;10.5;10.5;10.5" dur="5s" repeatCount="indefinite" />
           </ellipse>
-          <path d="M 45,78 Q 58,70 71,78" stroke="#1A0A02" strokeWidth="3.8"
+          <path d="M 52,82 Q 62,76 72,82" stroke="#1A0A02" strokeWidth="3"
             fill="#1A0A02" strokeLinecap="round" />
-          {/* Grup iris kiri — hilang saat kedip */}
           <g>
             <animate attributeName="opacity" values="1;1;1;0;1;1;1;1;1;1;0;1;1;1" dur="5s" repeatCount="indefinite" />
-            <circle cx="58" cy="87" r="9" fill={`url(#${ir})`}>
-              <animate attributeName="cx" values="58;54;58;62;58" dur="4s" repeatCount="indefinite" />
+            <circle cx="62" cy="89" r="7" fill={`url(#${ir})`}>
+              <animate attributeName="cx" values="62;59;62;65;62" dur="4s" repeatCount="indefinite" />
             </circle>
-            <circle cx="58" cy="88" r="5" fill="#050202">
-              <animate attributeName="cx" values="58;54;58;62;58" dur="4s" repeatCount="indefinite" />
+            <circle cx="62" cy="89.5" r="3.5" fill="#050202">
+              <animate attributeName="cx" values="62;59;62;65;62" dur="4s" repeatCount="indefinite" />
             </circle>
-            <circle cx="62" cy="83" r="3.2" fill="white">
-              <animate attributeName="cx" values="62;58;62;66;62" dur="4s" repeatCount="indefinite" />
+            <circle cx="65" cy="86" r="2.5" fill="white">
+              <animate attributeName="cx" values="65;62;65;68;65" dur="4s" repeatCount="indefinite" />
             </circle>
-            <circle cx="55" cy="91" r="1.4" fill="white" opacity="0.7" />
+            <circle cx="60" cy="92" r="1.1" fill="white" opacity="0.6" />
           </g>
-          <path d="M 45,97 Q 58,102 71,97" stroke="#1A0A02" strokeWidth="1.8"
+          <path d="M 52,96 Q 62,100 72,96" stroke="#1A0A02" strokeWidth="1.4"
             fill="none" strokeLinecap="round" />
-          {/* Kanan — dengan animasi kedip + iris lihat kiri-kanan */}
-          <ellipse cx="102" cy="86" rx="13" ry="13" fill="white">
-            <animate attributeName="ry" values="13;13;13;1;13;13;13;13;13;13;1;13;13;13" dur="5s" repeatCount="indefinite" />
+          {/* Right eye */}
+          <ellipse cx="98" cy="88" rx="10" ry="10.5" fill="white" stroke="#2A1A0A" strokeWidth="0.5">
+            <animate attributeName="ry" values="10.5;10.5;10.5;0.5;10.5;10.5;10.5;10.5;10.5;10.5;0.5;10.5;10.5;10.5" dur="5s" repeatCount="indefinite" />
           </ellipse>
-          <path d="M 89,78 Q 102,70 115,78" stroke="#1A0A02" strokeWidth="3.8"
+          <path d="M 88,82 Q 98,76 108,82" stroke="#1A0A02" strokeWidth="3"
             fill="#1A0A02" strokeLinecap="round" />
-          {/* Grup iris kanan — hilang saat kedip */}
           <g>
             <animate attributeName="opacity" values="1;1;1;0;1;1;1;1;1;1;0;1;1;1" dur="5s" repeatCount="indefinite" />
-            <circle cx="102" cy="87" r="9" fill={`url(#${ir})`}>
-              <animate attributeName="cx" values="102;98;102;106;102" dur="4s" repeatCount="indefinite" />
+            <circle cx="98" cy="89" r="7" fill={`url(#${ir})`}>
+              <animate attributeName="cx" values="98;95;98;101;98" dur="4s" repeatCount="indefinite" />
             </circle>
-            <circle cx="102" cy="88" r="5" fill="#050202">
-              <animate attributeName="cx" values="102;98;102;106;102" dur="4s" repeatCount="indefinite" />
+            <circle cx="98" cy="89.5" r="3.5" fill="#050202">
+              <animate attributeName="cx" values="98;95;98;101;98" dur="4s" repeatCount="indefinite" />
             </circle>
-            <circle cx="106" cy="83" r="3.2" fill="white">
-              <animate attributeName="cx" values="106;102;106;110;106" dur="4s" repeatCount="indefinite" />
+            <circle cx="101" cy="86" r="2.5" fill="white">
+              <animate attributeName="cx" values="101;98;101;104;101" dur="4s" repeatCount="indefinite" />
             </circle>
-            <circle cx="99" cy="91" r="1.4" fill="white" opacity="0.7" />
+            <circle cx="96" cy="92" r="1.1" fill="white" opacity="0.6" />
           </g>
-          <path d="M 89,97 Q 102,102 115,97" stroke="#1A0A02" strokeWidth="1.8"
+          <path d="M 88,96 Q 98,100 108,96" stroke="#1A0A02" strokeWidth="1.4"
             fill="none" strokeLinecap="round" />
-          {/* Pipi kemerahan natural — pulse lembut */}
-          <ellipse cx="43"  cy="106" rx="13" ry="7" fill="#C06030" opacity="0.22">
-            <animate attributeName="opacity" values="0.15;0.35;0.15" dur="2.5s" repeatCount="indefinite" />
-            <animate attributeName="rx" values="13;15;13" dur="2.5s" repeatCount="indefinite" />
+          {/* Cheeks — softer pulse */}
+          <ellipse cx="46" cy="105" rx="11" ry="6" fill="#C06030" opacity="0.18">
+            <animate attributeName="opacity" values="0.12;0.28;0.12" dur="2.5s" repeatCount="indefinite" />
+            <animate attributeName="rx" values="11;13;11" dur="2.5s" repeatCount="indefinite" />
           </ellipse>
-          <ellipse cx="117" cy="106" rx="13" ry="7" fill="#C06030" opacity="0.22">
-            <animate attributeName="opacity" values="0.15;0.35;0.15" dur="2.5s" repeatCount="indefinite" />
-            <animate attributeName="rx" values="13;15;13" dur="2.5s" repeatCount="indefinite" />
+          <ellipse cx="114" cy="105" rx="11" ry="6" fill="#C06030" opacity="0.18">
+            <animate attributeName="opacity" values="0.12;0.28;0.12" dur="2.5s" repeatCount="indefinite" />
+            <animate attributeName="rx" values="11;13;11" dur="2.5s" repeatCount="indefinite" />
           </ellipse>
-          {/* ── Lengan kanan — lambaian ── */}
+          {/* Right arm — waving with finger detail */}
           <g>
-            {/* Sleeve (seragam) */}
-            <path d="M 132,172 Q 140,165 144,157" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
-            {/* Forearm (kulit) */}
-            <path d="M 144,157 Q 148,149 150,143" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
-            {/* Tangan (mitten kanan - telapak + ibu jari) */}
-            <path d="M 145,143 Q 147,137 152,136 Q 157,136 157,140 Q 157,144 152,145 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.6" />
-            <ellipse cx="145" cy="139" rx="2.5" ry="3" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
+            <path d="M 130,170 Q 138,163 142,155" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
+            <path d="M 142,155 Q 146,147 148,141" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
+            {/* Hand with finger bumps */}
+            <path d="M 144,142 Q 145,137 148,135 Q 150,133 152,135 Q 153,133.5 154.5,135 Q 155.5,134 156.5,136 Q 158,138 156,142 Q 153,144 148,143 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.6" strokeLinejoin="round" />
+            {/* Thumb */}
+            <path d="M 144,140 Q 142,138 143,136 Q 144.5,135 145,137.5" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
             <animateTransform attributeName="transform" type="rotate"
-              values="0 132 172;-12 132 172;0 132 172;-12 132 172;0 132 172;0 132 172;0 132 172"
+              values="0 130 170;-12 130 170;0 130 170;-12 130 170;0 130 170;0 130 170;0 130 170"
               dur="3s" repeatCount="indefinite" />
           </g>
-          {/* ── Lengan kiri — rileks di sisi ── */}
-          <path d="M 28,172 Q 18,180 14,188" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
-          <path d="M 14,188 Q 12,194 11,198" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
-          {/* Tangan kiri rileks (kepalan ringan) */}
-          <path d="M 8,199 Q 7,195 10,193 Q 14,193 15,197 Q 15,201 11,202 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
+          {/* Left arm — relaxed with finger hints */}
+          <path d="M 30,170 Q 20,178 16,186" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
+          <path d="M 16,186 Q 14,192 13,196" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
+          <path d="M 10,197 Q 9,193 12,191 Q 15,190 16.5,193 Q 17,196 14,198 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" strokeLinejoin="round" />
+          <path d="M 10,195 Q 8.5,193 9.5,191.5" fill="none" stroke="#8B5520" strokeWidth="0.5" strokeLinecap="round" />
+          <path d="M 12.5,191.5 Q 14,190.5 15.5,191.5" fill="none" stroke="#9B6520" strokeWidth="0.4" opacity="0.3" strokeLinecap="round" />
         </>}
 
         {/* ── THINKING ── */}
         {mood === 'thinking' && <>
-          {/* Kiri — iris bergerak ke atas-kiri (berpikir) */}
-          <ellipse cx="58" cy="86" rx="12" ry="12" fill="white" />
-          <path d="M 46,79 Q 58,71 70,79" stroke="#1A0A02" strokeWidth="3.8"
+          {/* Left eye — looking up-left */}
+          <ellipse cx="62" cy="88" rx="10" ry="10" fill="white" stroke="#2A1A0A" strokeWidth="0.5" />
+          <path d="M 52,83 Q 62,77 72,83" stroke="#1A0A02" strokeWidth="3"
             fill="#1A0A02" strokeLinecap="round" />
-          <circle cx="55" cy="82" r="8.5" fill={`url(#${ir})`}>
-            <animate attributeName="cx" values="55;53;55;57;55" dur="3s" repeatCount="indefinite" />
-            <animate attributeName="cy" values="82;80;82;81;82" dur="3s" repeatCount="indefinite" />
+          <circle cx="60" cy="85" r="6.5" fill={`url(#${ir})`}>
+            <animate attributeName="cx" values="60;58;60;62;60" dur="3s" repeatCount="indefinite" />
+            <animate attributeName="cy" values="85;83;85;84;85" dur="3s" repeatCount="indefinite" />
           </circle>
-          <circle cx="55" cy="82" r="4.5" fill="#050202">
-            <animate attributeName="cx" values="55;53;55;57;55" dur="3s" repeatCount="indefinite" />
-            <animate attributeName="cy" values="82;80;82;81;82" dur="3s" repeatCount="indefinite" />
+          <circle cx="60" cy="85" r="3.5" fill="#050202">
+            <animate attributeName="cx" values="60;58;60;62;60" dur="3s" repeatCount="indefinite" />
+            <animate attributeName="cy" values="85;83;85;84;85" dur="3s" repeatCount="indefinite" />
           </circle>
-          <circle cx="55" cy="79" r="2.6" fill="white">
-            <animate attributeName="cx" values="55;53;55;57;55" dur="3s" repeatCount="indefinite" />
-            <animate attributeName="cy" values="79;77;79;78;79" dur="3s" repeatCount="indefinite" />
+          <circle cx="62" cy="82.5" r="2.2" fill="white">
+            <animate attributeName="cx" values="62;60;62;64;62" dur="3s" repeatCount="indefinite" />
+            <animate attributeName="cy" values="82.5;80.5;82.5;81.5;82.5" dur="3s" repeatCount="indefinite" />
           </circle>
-          <path d="M 46,95 Q 58,100 70,95" stroke="#1A0A02" strokeWidth="1.8"
+          <path d="M 52,95 Q 62,99 72,95" stroke="#1A0A02" strokeWidth="1.4"
             fill="none" strokeLinecap="round" />
-          {/* Kanan */}
-          <ellipse cx="102" cy="86" rx="12" ry="12" fill="white" />
-          <path d="M 90,79 Q 102,71 114,79" stroke="#1A0A02" strokeWidth="3.8"
+          {/* Right eye */}
+          <ellipse cx="98" cy="88" rx="10" ry="10" fill="white" stroke="#2A1A0A" strokeWidth="0.5" />
+          <path d="M 88,83 Q 98,77 108,83" stroke="#1A0A02" strokeWidth="3"
             fill="#1A0A02" strokeLinecap="round" />
-          <circle cx="99" cy="82" r="8.5" fill={`url(#${ir})`}>
-            <animate attributeName="cx" values="99;97;99;101;99" dur="3s" repeatCount="indefinite" />
-            <animate attributeName="cy" values="82;80;82;81;82" dur="3s" repeatCount="indefinite" />
+          <circle cx="96" cy="85" r="6.5" fill={`url(#${ir})`}>
+            <animate attributeName="cx" values="96;94;96;98;96" dur="3s" repeatCount="indefinite" />
+            <animate attributeName="cy" values="85;83;85;84;85" dur="3s" repeatCount="indefinite" />
           </circle>
-          <circle cx="99" cy="82" r="4.5" fill="#050202">
-            <animate attributeName="cx" values="99;97;99;101;99" dur="3s" repeatCount="indefinite" />
-            <animate attributeName="cy" values="82;80;82;81;82" dur="3s" repeatCount="indefinite" />
+          <circle cx="96" cy="85" r="3.5" fill="#050202">
+            <animate attributeName="cx" values="96;94;96;98;96" dur="3s" repeatCount="indefinite" />
+            <animate attributeName="cy" values="85;83;85;84;85" dur="3s" repeatCount="indefinite" />
           </circle>
-          <circle cx="99" cy="79" r="2.6" fill="white">
-            <animate attributeName="cx" values="99;97;99;101;99" dur="3s" repeatCount="indefinite" />
-            <animate attributeName="cy" values="79;77;79;78;79" dur="3s" repeatCount="indefinite" />
+          <circle cx="98" cy="82.5" r="2.2" fill="white">
+            <animate attributeName="cx" values="98;96;98;100;98" dur="3s" repeatCount="indefinite" />
+            <animate attributeName="cy" values="82.5;80.5;82.5;81.5;82.5" dur="3s" repeatCount="indefinite" />
           </circle>
-          <path d="M 90,95 Q 102,100 114,95" stroke="#1A0A02" strokeWidth="1.8"
+          <path d="M 88,95 Q 98,99 108,95" stroke="#1A0A02" strokeWidth="1.4"
             fill="none" strokeLinecap="round" />
           {/* Gelembung pikiran — animasi muncul bergelombang */}
           <circle cx="118" cy="64" r="2.3" fill="#E2E8F0">
@@ -356,46 +374,42 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
             <animate attributeName="opacity" values="0.3;1;0.3" dur="0.8s" repeatCount="indefinite" />
           </circle>
           <circle cx="138" cy="42" r="1.2" fill="#94A3B8" />
-          {/* ── Lengan kiri — ke dagu (gesture berpikir) ── */}
+          {/* Left arm — chin gesture with finger articulation */}
           <g>
-            {/* Sleeve */}
-            <path d="M 28,172 Q 14,156 18,142" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
-            {/* Forearm */}
-            <path d="M 18,142 Q 28,132 66,126" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
-            {/* Tangan di dagu (kepalan di bawah mulut) */}
-            <path d="M 63,127 Q 65,121 70,120 Q 75,120 75,125 Q 74,128 69,128 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
+            <path d="M 30,170 Q 16,154 20,140" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
+            <path d="M 20,140 Q 30,130 66,124" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
+            <path d="M 63,125 Q 65,120 68,118 Q 70,117 72,118 Q 73.5,117.5 74.5,119 Q 75,121 73.5,124 Q 71,126 66,126 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" strokeLinejoin="round" />
+            <path d="M 63,123.5 Q 61,122 62,120 Q 63.5,119 64,121" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
             <animateTransform attributeName="transform" type="translate"
               values="0,0;0,-2;0,0" dur="3s" repeatCount="indefinite" />
           </g>
-          {/* ── Lengan kanan — rileks di sisi ── */}
-          <path d="M 132,172 Q 142,180 146,188" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
-          <path d="M 146,188 Q 148,194 149,198" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
-          {/* Tangan kanan rileks (kepalan ringan) */}
-          <path d="M 146,199 Q 145,195 148,193 Q 152,193 153,197 Q 153,201 149,202 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
+          {/* Right arm — relaxed with finger hints */}
+          <path d="M 130,170 Q 140,178 144,186" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
+          <path d="M 144,186 Q 146,192 147,196" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
+          <path d="M 144,197 Q 143,193 146,191 Q 149,190 150.5,193 Q 151,196 148,198 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" strokeLinejoin="round" />
+          <path d="M 144,195 Q 142.5,193 143.5,191.5" fill="none" stroke="#8B5520" strokeWidth="0.5" strokeLinecap="round" />
           {/* Pipi */}
-          <ellipse cx="43"  cy="106" rx="13" ry="7" fill="#C06030" opacity="0.16" />
-          <ellipse cx="117" cy="106" rx="13" ry="7" fill="#C06030" opacity="0.16" />
+          <ellipse cx="46" cy="105" rx="11" ry="6" fill="#C06030" opacity="0.14" />
+          <ellipse cx="114" cy="105" rx="11" ry="6" fill="#C06030" opacity="0.14" />
         </>}
-
-        {/* ── HAPPY ── */}
         {mood === 'happy' && <>
-          {/* Mata tertutup ^^ — ekspresi senang / lega */}
-          <path d="M 45,85 Q 58,74 71,85" stroke="#1A0A02" strokeWidth="4.8"
+          {/* Closed happy eyes ^^ — refined weight */}
+          <path d="M 52,87 Q 62,78 72,87" stroke="#1A0A02" strokeWidth="4"
             fill="#1A0A02" strokeLinecap="round" />
-          <path d="M 45,85 Q 58,93 71,85" stroke="#1A0A02" strokeWidth="1.8"
-            fill="none" strokeLinecap="round" opacity="0.3" />
-          <path d="M 89,85 Q 102,74 115,85" stroke="#1A0A02" strokeWidth="4.8"
+          <path d="M 52,87 Q 62,94 72,87" stroke="#1A0A02" strokeWidth="1.4"
+            fill="none" strokeLinecap="round" opacity="0.25" />
+          <path d="M 88,87 Q 98,78 108,87" stroke="#1A0A02" strokeWidth="4"
             fill="#1A0A02" strokeLinecap="round" />
-          <path d="M 89,85 Q 102,93 115,85" stroke="#1A0A02" strokeWidth="1.8"
-            fill="none" strokeLinecap="round" opacity="0.3" />
-          {/* Pipi merona terang — berdenyut gembira */}
-          <ellipse cx="42"  cy="104" rx="16" ry="9" fill="#DC6030" opacity="0.38">
-            <animate attributeName="opacity" values="0.25;0.5;0.25" dur="1.5s" repeatCount="indefinite" />
-            <animate attributeName="rx" values="16;18;16" dur="1.5s" repeatCount="indefinite" />
+          <path d="M 88,87 Q 98,94 108,87" stroke="#1A0A02" strokeWidth="1.4"
+            fill="none" strokeLinecap="round" opacity="0.25" />
+          {/* Cheeks — warm glow */}
+          <ellipse cx="45" cy="103" rx="14" ry="8" fill="#DC6030" opacity="0.32">
+            <animate attributeName="opacity" values="0.2;0.42;0.2" dur="1.5s" repeatCount="indefinite" />
+            <animate attributeName="rx" values="14;16;14" dur="1.5s" repeatCount="indefinite" />
           </ellipse>
-          <ellipse cx="118" cy="104" rx="16" ry="9" fill="#DC6030" opacity="0.38">
-            <animate attributeName="opacity" values="0.25;0.5;0.25" dur="1.5s" repeatCount="indefinite" />
-            <animate attributeName="rx" values="16;18;16" dur="1.5s" repeatCount="indefinite" />
+          <ellipse cx="115" cy="103" rx="14" ry="8" fill="#DC6030" opacity="0.32">
+            <animate attributeName="opacity" values="0.2;0.42;0.2" dur="1.5s" repeatCount="indefinite" />
+            <animate attributeName="rx" values="14;16;14" dur="1.5s" repeatCount="indefinite" />
           </ellipse>
           {/* Bintang kecil — berputar & berdenyut */}
           <g>
@@ -424,50 +438,48 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
             <animateTransform attributeName="transform" type="translate" values="0,0;2,-18;4,-36" dur="3s" repeatCount="indefinite" />
             <animate attributeName="opacity" values="0;0.8;0" dur="3s" repeatCount="indefinite" />
           </g>
-          {/* ── Lambaian kedua tangan senang ── */}
+          {/* Both arms waving with finger detail */}
           <g>
-            <path d="M 132,172 Q 142,162 146,152" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
-            <path d="M 146,152 Q 150,144 152,138" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
-            {/* Tangan kanan (mitten wave - telapak + ibu jari) */}
-            <path d="M 147,140 Q 149,134 154,133 Q 159,133 159,137 Q 159,141 154,142 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.6" />
-            <ellipse cx="147" cy="136" rx="2.5" ry="3" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
-            <animateTransform attributeName="transform" type="rotate" values="0 132 172;-18 132 172;0 132 172;-18 132 172;0 132 172" dur="0.8s" repeatCount="indefinite" />
+            <path d="M 130,170 Q 140,160 144,150" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
+            <path d="M 144,150 Q 148,142 150,136" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
+            <path d="M 146,138 Q 147,133 150,131 Q 152,129.5 154,131 Q 155,130 156.5,132 Q 157.5,131 158.5,133 Q 160,136 157,140 Q 154,142 149,141 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.6" strokeLinejoin="round" />
+            <path d="M 146,137 Q 144,135 145,133 Q 146.5,132 147,134" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
+            <animateTransform attributeName="transform" type="rotate" values="0 130 170;-18 130 170;0 130 170;-18 130 170;0 130 170" dur="0.8s" repeatCount="indefinite" />
           </g>
           <g>
-            <path d="M 28,172 Q 18,162 14,152" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
-            <path d="M 14,152 Q 10,144 8,138" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
-            {/* Tangan kiri (mitten wave) */}
-            <path d="M 13,140 Q 11,134 6,133 Q 1,133 1,137 Q 1,141 6,142 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.6" />
-            <ellipse cx="13" cy="136" rx="2.5" ry="3" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
-            <animateTransform attributeName="transform" type="rotate" values="0 28 172;18 28 172;0 28 172;18 28 172;0 28 172" dur="0.8s" repeatCount="indefinite" />
+            <path d="M 30,170 Q 20,160 16,150" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
+            <path d="M 16,150 Q 12,142 10,136" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
+            <path d="M 14,138 Q 13,133 10,131 Q 8,129.5 6,131 Q 5,130 3.5,132 Q 2.5,131 1.5,133 Q 0,136 3,140 Q 6,142 11,141 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.6" strokeLinejoin="round" />
+            <path d="M 14,137 Q 16,135 15,133 Q 13.5,132 13,134" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
+            <animateTransform attributeName="transform" type="rotate" values="0 30 170;18 30 170;0 30 170;18 30 170;0 30 170" dur="0.8s" repeatCount="indefinite" />
           </g>
         </>}
 
         {/* ── ALERT ── */}
         {mood === 'alert' && <>
-          {/* Mata melotot waspada — pupil mengecil membesar */}
-          <ellipse cx="58"  cy="87" rx="14" ry="14" fill="white" />
-          <path d="M 44,77 Q 58,68 72,77" stroke="#1A0A02" strokeWidth="3.8"
+          {/* Alert eyes — proportional with sclera outline */}
+          <ellipse cx="62" cy="88" rx="11" ry="11.5" fill="white" stroke="#2A1A0A" strokeWidth="0.6" />
+          <path d="M 51,80 Q 62,73 73,80" stroke="#1A0A02" strokeWidth="3"
             fill="#1A0A02" strokeLinecap="round" />
-          <circle cx="58"  cy="89" r="10.5" fill={`url(#${ir})`} />
-          <circle cx="58"  cy="90" r="5.5"  fill="#050202">
-            <animate attributeName="r" values="5.5;3.5;5.5" dur="0.8s" repeatCount="indefinite" />
+          <circle cx="62" cy="90" r="8" fill={`url(#${ir})`} />
+          <circle cx="62" cy="90.5" r="4" fill="#050202">
+            <animate attributeName="r" values="4;2.5;4" dur="0.8s" repeatCount="indefinite" />
           </circle>
-          <circle cx="63"  cy="84" r="3.5"  fill="white" />
-          <circle cx="55"  cy="93" r="1.6"  fill="white" opacity="0.65" />
-          <path d="M 44,99 Q 58,105 72,99" stroke="#1A0A02" strokeWidth="1.8"
+          <circle cx="65" cy="86" r="2.8" fill="white" />
+          <circle cx="59" cy="93" r="1.3" fill="white" opacity="0.6" />
+          <path d="M 51,98 Q 62,103 73,98" stroke="#1A0A02" strokeWidth="1.4"
             fill="none" strokeLinecap="round" />
-          {/* Kanan */}
-          <ellipse cx="102" cy="87" rx="14" ry="14" fill="white" />
-          <path d="M 88,77 Q 102,68 116,77" stroke="#1A0A02" strokeWidth="3.8"
+          {/* Right alert eye */}
+          <ellipse cx="98" cy="88" rx="11" ry="11.5" fill="white" stroke="#2A1A0A" strokeWidth="0.6" />
+          <path d="M 87,80 Q 98,73 109,80" stroke="#1A0A02" strokeWidth="3"
             fill="#1A0A02" strokeLinecap="round" />
-          <circle cx="102" cy="89" r="10.5" fill={`url(#${ir})`} />
-          <circle cx="102" cy="90" r="5.5"  fill="#050202">
-            <animate attributeName="r" values="5.5;3.5;5.5" dur="0.8s" repeatCount="indefinite" />
+          <circle cx="98" cy="90" r="8" fill={`url(#${ir})`} />
+          <circle cx="98" cy="90.5" r="4" fill="#050202">
+            <animate attributeName="r" values="4;2.5;4" dur="0.8s" repeatCount="indefinite" />
           </circle>
-          <circle cx="107" cy="84" r="3.5"  fill="white" />
-          <circle cx="99"  cy="93" r="1.6"  fill="white" opacity="0.65" />
-          <path d="M 88,99 Q 102,105 116,99" stroke="#1A0A02" strokeWidth="1.8"
+          <circle cx="101" cy="86" r="2.8" fill="white" />
+          <circle cx="95" cy="93" r="1.3" fill="white" opacity="0.6" />
+          <path d="M 87,98 Q 98,103 109,98" stroke="#1A0A02" strokeWidth="1.4"
             fill="none" strokeLinecap="round" />
           {/* Tetes keringat di dahi — animasi jatuh */}
           <g>
@@ -493,165 +505,164 @@ const SigapMascot: React.FC<SigapMascotProps> = ({
             <text x="18" y="62" fontSize="12" fill="#DC2626" fontWeight="bold">！</text>
             <animate attributeName="opacity" values="1;0;1" dur="0.8s" repeatCount="indefinite" />
           </g>
-          {/* ── Lengan kanan — tegang di sisi ── */}
+          {/* Right arm — tense fist with knuckle detail */}
           <g>
-            <path d="M 132,172 Q 138,178 140,184" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
-            <path d="M 140,184 Q 142,190 142,194" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
-            {/* Tangan kanan (kepalan tegang) */}
-            <path d="M 139,195 Q 138,191 141,189 Q 145,189 146,193 Q 146,197 142,198 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
+            <path d="M 130,170 Q 136,176 138,182" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
+            <path d="M 138,182 Q 140,188 140,192" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
+            <path d="M 137,193 Q 136,189 139,187 Q 142,186.5 143.5,190 Q 143.5,193 140,195 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" strokeLinejoin="round" />
+            <path d="M 139.5,188 Q 141,187 142.5,188.5" fill="none" stroke="#9B6520" strokeWidth="0.4" opacity="0.35" strokeLinecap="round" />
+            <path d="M 137,192 Q 136,190 137,188.5" fill="none" stroke="#8B5520" strokeWidth="0.5" strokeLinecap="round" />
             <animateTransform attributeName="transform" type="translate" values="0,0;-1,0;1,0;0,0" dur="0.35s" repeatCount="indefinite" />
           </g>
-          {/* ── Lengan kiri — tegang di sisi ── */}
+          {/* Left arm — tense fist */}
           <g>
-            <path d="M 28,172 Q 22,178 20,184" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
-            <path d="M 20,184 Q 18,190 18,194" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
-            {/* Tangan kiri (kepalan tegang) */}
-            <path d="M 15,195 Q 14,191 17,189 Q 21,189 22,193 Q 22,197 18,198 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
+            <path d="M 30,170 Q 24,176 22,182" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
+            <path d="M 22,182 Q 20,188 20,192" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
+            <path d="M 17,193 Q 16,189 19,187 Q 22,186.5 23.5,190 Q 23.5,193 20,195 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" strokeLinejoin="round" />
+            <path d="M 19.5,188 Q 21,187 22.5,188.5" fill="none" stroke="#9B6520" strokeWidth="0.4" opacity="0.35" strokeLinecap="round" />
+            <path d="M 17,192 Q 16,190 17,188.5" fill="none" stroke="#8B5520" strokeWidth="0.5" strokeLinecap="round" />
             <animateTransform attributeName="transform" type="translate" values="0,0;1,0;-1,0;0,0" dur="0.35s" repeatCount="indefinite" />
           </g>
           {/* Pipi */}
-          <ellipse cx="43"  cy="106" rx="13" ry="7" fill="#C06030" opacity="0.18" />
-          <ellipse cx="117" cy="106" rx="13" ry="7" fill="#C06030" opacity="0.18" />
+          <ellipse cx="46" cy="105" rx="11" ry="6" fill="#C06030" opacity="0.15" />
+          <ellipse cx="114" cy="105" rx="11" ry="6" fill="#C06030" opacity="0.15" />
         </>}
 
         {/* ── SCANNING ── */}
         {mood === 'scanning' && <>
-          {/* === Mata Kiri — identik dengan idle + iris scan lebih cepat === */}
-          <ellipse cx="58" cy="86" rx="13" ry="13" fill="white" />
-          <path d="M 45,78 Q 58,70 71,78" stroke="#1A0A02" strokeWidth="3.8"
+          {/* Left eye — proportional with outline */}
+          <ellipse cx="62" cy="88" rx="10" ry="10.5" fill="white" stroke="#2A1A0A" strokeWidth="0.5" />
+          <path d="M 52,82 Q 62,76 72,82" stroke="#1A0A02" strokeWidth="3"
             fill="#1A0A02" strokeLinecap="round" />
-          <circle cx="58" cy="87" r="9" fill={`url(#${ir})`}>
-            <animate attributeName="cx" values="58;54;58;62;58" dur="2s" repeatCount="indefinite" />
+          <circle cx="62" cy="89" r="7" fill={`url(#${ir})`}>
+            <animate attributeName="cx" values="62;59;62;65;62" dur="2s" repeatCount="indefinite" />
           </circle>
-          <circle cx="58" cy="88" r="5" fill="#050202">
-            <animate attributeName="cx" values="58;54;58;62;58" dur="2s" repeatCount="indefinite" />
+          <circle cx="62" cy="89.5" r="3.5" fill="#050202">
+            <animate attributeName="cx" values="62;59;62;65;62" dur="2s" repeatCount="indefinite" />
           </circle>
-          <circle cx="62" cy="83" r="3.2" fill="white">
-            <animate attributeName="cx" values="62;58;62;66;62" dur="2s" repeatCount="indefinite" />
+          <circle cx="65" cy="86" r="2.5" fill="white">
+            <animate attributeName="cx" values="65;62;65;68;65" dur="2s" repeatCount="indefinite" />
           </circle>
-          <circle cx="55" cy="91" r="1.4" fill="white" opacity="0.7" />
-          {/* Scan line mata kiri */}
-          <line x1="50" y1="87" x2="66" y2="87" stroke="#DC2626"
-            strokeWidth="1.5" strokeLinecap="round" opacity="0.7">
-            <animate attributeName="y1" values="80;94;80" dur="1.2s" repeatCount="indefinite" />
-            <animate attributeName="y2" values="80;94;80" dur="1.2s" repeatCount="indefinite" />
+          <circle cx="60" cy="92" r="1.1" fill="white" opacity="0.6" />
+          {/* Scan line */}
+          <line x1="54" y1="89" x2="70" y2="89" stroke="#DC2626"
+            strokeWidth="1.3" strokeLinecap="round" opacity="0.65">
+            <animate attributeName="y1" values="82;96;82" dur="1.2s" repeatCount="indefinite" />
+            <animate attributeName="y2" values="82;96;82" dur="1.2s" repeatCount="indefinite" />
           </line>
-          <path d="M 45,97 Q 58,102 71,97" stroke="#1A0A02" strokeWidth="1.8"
+          <path d="M 52,96 Q 62,100 72,96" stroke="#1A0A02" strokeWidth="1.4"
             fill="none" strokeLinecap="round" />
-          {/* Lingkaran radar pulse di mata kiri */}
-          <circle cx="58" cy="87" r="10" fill="none" stroke="#DC2626" strokeWidth="0.8" opacity="0">
-            <animate attributeName="r" values="10;20;30" dur="2s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.6;0.2;0" dur="2s" repeatCount="indefinite" />
+          {/* Radar pulse */}
+          <circle cx="62" cy="89" r="8" fill="none" stroke="#DC2626" strokeWidth="0.7" opacity="0">
+            <animate attributeName="r" values="8;18;28" dur="2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.5;0.15;0" dur="2s" repeatCount="indefinite" />
           </circle>
-          <circle cx="58" cy="87" r="10" fill="none" stroke="#DC2626" strokeWidth="0.5" opacity="0">
-            <animate attributeName="r" values="10;20;30" dur="2s" begin="1s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.4;0.15;0" dur="2s" begin="1s" repeatCount="indefinite" />
+          <circle cx="62" cy="89" r="8" fill="none" stroke="#DC2626" strokeWidth="0.4" opacity="0">
+            <animate attributeName="r" values="8;18;28" dur="2s" begin="1s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.35;0.1;0" dur="2s" begin="1s" repeatCount="indefinite" />
           </circle>
 
-          {/* === Mata Kanan — 100% identik dengan idle + scan line overlay === */}
-          <ellipse cx="102" cy="86" rx="13" ry="13" fill="white" />
-          <path d="M 89,78 Q 102,70 115,78" stroke="#1A0A02" strokeWidth="3.8"
+          {/* Right eye */}
+          <ellipse cx="98" cy="88" rx="10" ry="10.5" fill="white" stroke="#2A1A0A" strokeWidth="0.5" />
+          <path d="M 88,82 Q 98,76 108,82" stroke="#1A0A02" strokeWidth="3"
             fill="#1A0A02" strokeLinecap="round" />
-          <circle cx="102" cy="87" r="9" fill={`url(#${ir})`}>
-            <animate attributeName="cx" values="102;98;102;106;102" dur="2s" repeatCount="indefinite" />
+          <circle cx="98" cy="89" r="7" fill={`url(#${ir})`}>
+            <animate attributeName="cx" values="98;95;98;101;98" dur="2s" repeatCount="indefinite" />
           </circle>
-          <circle cx="102" cy="88" r="5" fill="#050202">
-            <animate attributeName="cx" values="102;98;102;106;102" dur="2s" repeatCount="indefinite" />
+          <circle cx="98" cy="89.5" r="3.5" fill="#050202">
+            <animate attributeName="cx" values="98;95;98;101;98" dur="2s" repeatCount="indefinite" />
           </circle>
-          <circle cx="106" cy="83" r="3.2" fill="white">
-            <animate attributeName="cx" values="106;102;106;110;106" dur="2s" repeatCount="indefinite" />
+          <circle cx="101" cy="86" r="2.5" fill="white">
+            <animate attributeName="cx" values="101;98;101;104;101" dur="2s" repeatCount="indefinite" />
           </circle>
-          <circle cx="99" cy="91" r="1.4" fill="white" opacity="0.7" />
-          {/* Scan line — sweep di atas iris (y80-y94, di dalam sclera) */}
-          <line x1="94" y1="87" x2="110" y2="87" stroke="#DC2626"
-            strokeWidth="1.5" strokeLinecap="round" opacity="0.7">
-            <animate attributeName="y1" values="80;94;80" dur="1.2s" repeatCount="indefinite" />
-            <animate attributeName="y2" values="80;94;80" dur="1.2s" repeatCount="indefinite" />
+          <circle cx="96" cy="92" r="1.1" fill="white" opacity="0.6" />
+          {/* Scan line */}
+          <line x1="90" y1="89" x2="106" y2="89" stroke="#DC2626"
+            strokeWidth="1.3" strokeLinecap="round" opacity="0.65">
+            <animate attributeName="y1" values="82;96;82" dur="1.2s" repeatCount="indefinite" />
+            <animate attributeName="y2" values="82;96;82" dur="1.2s" repeatCount="indefinite" />
           </line>
-          <path d="M 89,97 Q 102,102 115,97" stroke="#1A0A02" strokeWidth="1.8"
+          <path d="M 88,96 Q 98,100 108,96" stroke="#1A0A02" strokeWidth="1.4"
             fill="none" strokeLinecap="round" />
-          {/* Lingkaran radar pulse di mata kanan */}
-          <circle cx="102" cy="87" r="10" fill="none" stroke="#DC2626" strokeWidth="0.8" opacity="0">
-            <animate attributeName="r" values="10;20;30" dur="2s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.6;0.2;0" dur="2s" repeatCount="indefinite" />
+          {/* Radar pulse */}
+          <circle cx="98" cy="89" r="8" fill="none" stroke="#DC2626" strokeWidth="0.7" opacity="0">
+            <animate attributeName="r" values="8;18;28" dur="2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.5;0.15;0" dur="2s" repeatCount="indefinite" />
           </circle>
-          <circle cx="102" cy="87" r="10" fill="none" stroke="#DC2626" strokeWidth="0.5" opacity="0">
-            <animate attributeName="r" values="10;20;30" dur="2s" begin="1s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.4;0.15;0" dur="2s" begin="1s" repeatCount="indefinite" />
+          <circle cx="98" cy="89" r="8" fill="none" stroke="#DC2626" strokeWidth="0.4" opacity="0">
+            <animate attributeName="r" values="8;18;28" dur="2s" begin="1s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.35;0.1;0" dur="2s" begin="1s" repeatCount="indefinite" />
           </circle>
-          {/* ── Lengan kanan — salute/visor ── */}
+          {/* Right arm — salute with finger detail */}
           <g>
-            <path d="M 132,172 Q 142,162 144,154" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
-            <path d="M 144,154 Q 148,146 150,140" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
-            {/* Tangan kanan salute (telapak datar) */}
-            <path d="M 146,141 Q 148,135 153,134 Q 158,134 158,138 Q 158,142 153,143 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
+            <path d="M 130,170 Q 140,160 142,152" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
+            <path d="M 142,152 Q 146,144 148,138" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
+            <path d="M 144,140 Q 145,135 149,133 Q 152,132 155,133 Q 157,134 157,137 Q 156,140 152,141 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" strokeLinejoin="round" />
+            <line x1="150" y1="133.5" x2="150" y2="138" stroke="#9B6520" strokeWidth="0.35" opacity="0.3" strokeLinecap="round" />
+            <line x1="153" y1="133" x2="153" y2="137.5" stroke="#9B6520" strokeWidth="0.35" opacity="0.3" strokeLinecap="round" />
+            <path d="M 144,138.5 Q 143,137 143.5,135" fill="none" stroke="#8B5520" strokeWidth="0.5" strokeLinecap="round" />
             <animateTransform attributeName="transform" type="translate" values="0,0;2,-1;0,0" dur="1.8s" repeatCount="indefinite" />
           </g>
-          {/* ── Lengan kiri — rileks di sisi ── */}
-          <path d="M 28,172 Q 18,180 14,188" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
-          <path d="M 14,188 Q 12,194 11,198" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
-          {/* Tangan kiri rileks (kepalan ringan) */}
-          <path d="M 8,199 Q 7,195 10,193 Q 14,193 15,197 Q 15,201 11,202 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" />
+          {/* Left arm — relaxed with finger hints */}
+          <path d="M 30,170 Q 20,178 16,186" stroke={`url(#${ou})`} strokeWidth="10" fill="none" strokeLinecap="round" />
+          <path d="M 16,186 Q 14,192 13,196" stroke={`url(#${sk})`} strokeWidth="8" fill="none" strokeLinecap="round" />
+          <path d="M 10,197 Q 9,193 12,191 Q 15,190 16.5,193 Q 17,196 14,198 Z" fill={`url(#${sk})`} stroke="#8B5520" strokeWidth="0.5" strokeLinejoin="round" />
+          <path d="M 10,195 Q 8.5,193 9.5,191.5" fill="none" stroke="#8B5520" strokeWidth="0.5" strokeLinecap="round" />
+          <path d="M 12.5,191.5 Q 14,190.5 15.5,191.5" fill="none" stroke="#9B6520" strokeWidth="0.4" opacity="0.3" strokeLinecap="round" />
           {/* Pipi */}
-          <ellipse cx="43"  cy="106" rx="13" ry="7" fill="#C06030" opacity="0.16" />
-          <ellipse cx="117" cy="106" rx="13" ry="7" fill="#C06030" opacity="0.16" />
+          <ellipse cx="46" cy="105" rx="11" ry="6" fill="#C06030" opacity="0.14" />
+          <ellipse cx="114" cy="105" rx="11" ry="6" fill="#C06030" opacity="0.14" />
         </>}
 
         {/* ══════════════════ HIDUNG & MULUT ══════════════════ */}
-        {/* Hidung kecil — lurus khas Asia */}
-        <ellipse cx="80" cy="108" rx="2.5" ry="2" fill="#7A4520" opacity="0.55" />
+        {/* Hidung */}
+        <ellipse cx="80" cy="108" rx="2.5" ry="1.8" fill="#7A4520" opacity="0.5" />
+        {/* Nose bridge highlight */}
+        <path d="M 79,100 Q 80,96 81,100" stroke="white" strokeWidth="1.2" fill="none" opacity="0.1" strokeLinecap="round" />
 
         {/* Mulut per mood */}
         {mood === 'idle' && <>
-          <path d="M 68,120 Q 80,130 92,120"
-            stroke="#5C2C0A" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-          {/* Mulut bergerak sedikit — seperti bersenandung */}
-          <ellipse cx="80" cy="126" rx="5" ry="0" fill="#5C2C0A" opacity="0.3">
-            <animate attributeName="ry" values="0;2;0;0;0" dur="3s" repeatCount="indefinite" />
+          <path d="M 70,118 Q 80,127 90,118"
+            stroke="#5C2C0A" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+          <ellipse cx="80" cy="124" rx="4.5" ry="0" fill="#5C2C0A" opacity="0.25">
+            <animate attributeName="ry" values="0;1.8;0;0;0" dur="3s" repeatCount="indefinite" />
           </ellipse>
         </>}
         {mood === 'thinking' && <>
-          <path d="M 74,120 Q 80,116 86,120"
-            stroke="#5C2C0A" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-          {/* mulut maju-mundur mikir */}
-          <circle cx="80" cy="121" r="0" fill="#5C2C0A" opacity="0.2">
-            <animate attributeName="r" values="0;1.5;0" dur="2s" repeatCount="indefinite" />
+          <path d="M 74,118 Q 80,115 86,118"
+            stroke="#5C2C0A" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+          <circle cx="80" cy="119" r="0" fill="#5C2C0A" opacity="0.18">
+            <animate attributeName="r" values="0;1.3;0" dur="2s" repeatCount="indefinite" />
           </circle>
         </>}
         {mood === 'happy' && <>
-          <path d="M 62,118 Q 80,134 98,118"
-            stroke="#5C2C0A" strokeWidth="3" fill="none" strokeLinecap="round" />
-          {/* Gigi — senyum lebar + bernapas */}
-          <path d="M 68,122 Q 80,132 92,122"
-            fill="white" stroke="none" opacity="0.7">
-            <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.5s" repeatCount="indefinite" />
+          <path d="M 64,116 Q 80,131 96,116"
+            stroke="#5C2C0A" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          <path d="M 70,120 Q 80,130 90,120"
+            fill="white" stroke="none" opacity="0.65">
+            <animate attributeName="opacity" values="0.45;0.8;0.45" dur="1.5s" repeatCount="indefinite" />
           </path>
         </>}
         {mood === 'alert' && <>
-          <path d="M 73,120 Q 80,116 87,120"
-            stroke="#5C2C0A" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-          {/* Mulut tegang bergetar */}
-          <ellipse cx="80" cy="122" rx="4" ry="2" fill="#5C2C0A" opacity="0.12">
-            <animate attributeName="rx" values="4;5;4;3;4" dur="0.8s" repeatCount="indefinite" />
+          <path d="M 74,118 Q 80,115 86,118"
+            stroke="#5C2C0A" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+          <ellipse cx="80" cy="120" rx="3.5" ry="1.8" fill="#5C2C0A" opacity="0.1">
+            <animate attributeName="rx" values="3.5;4.5;3.5;3;3.5" dur="0.8s" repeatCount="indefinite" />
           </ellipse>
         </>}
         {mood === 'scanning' && <>
-          <path d="M 70,120 L 90,120"
-            stroke="#5C2C0A" strokeWidth="2.5" strokeLinecap="round" />
-          {/* Garis mulut berdenyut saat scan */}
-          <ellipse cx="80" cy="121" rx="6" ry="0.5" fill="#5C2C0A" opacity="0">
-            <animate attributeName="opacity" values="0;0.15;0" dur="1.8s" repeatCount="indefinite" />
-            <animate attributeName="ry" values="0.5;1.5;0.5" dur="1.8s" repeatCount="indefinite" />
+          <path d="M 72,118 L 88,118"
+            stroke="#5C2C0A" strokeWidth="2.2" strokeLinecap="round" />
+          <ellipse cx="80" cy="119" rx="5" ry="0.4" fill="#5C2C0A" opacity="0">
+            <animate attributeName="opacity" values="0;0.12;0" dur="1.8s" repeatCount="indefinite" />
+            <animate attributeName="ry" values="0.4;1.2;0.4" dur="1.8s" repeatCount="indefinite" />
           </ellipse>
         </>}
 
-        {/* Pipi natural untuk semua mood selain happy (sudah di dalam happy block) */}
-
-        </g>{/* tutup wrapper animasi utama */}
+        </g>{/* close animation wrapper */}
 
       </svg>
 
-      {/* Label opsional */}
       {label && (
         <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 text-center leading-tight">
           {label}
