@@ -50,10 +50,10 @@ const DamageReporter: React.FC = () => {
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'Severe': return 'bg-red-50 text-red-600 border-red-200';
-      case 'Moderate': return 'bg-orange-50 text-orange-600 border-orange-200';
-      case 'Minor': return 'bg-yellow-50 text-yellow-600 border-yellow-200';
-      default: return 'bg-slate-50 text-slate-600';
+      case 'Severe': return 'bg-red-50 text-red-600 border-red-200 dark:bg-red-950/30 dark:text-red-400 dark:border-red-800/40';
+      case 'Moderate': return 'bg-orange-50 text-orange-600 border-orange-200 dark:bg-orange-950/30 dark:text-orange-400 dark:border-orange-800/40';
+      case 'Minor': return 'bg-yellow-50 text-yellow-600 border-yellow-200 dark:bg-yellow-950/30 dark:text-yellow-400 dark:border-yellow-800/40';
+      default: return 'bg-slate-50 text-slate-600 dark:bg-slate-800 dark:text-slate-300';
     }
   };
 
@@ -256,12 +256,12 @@ const DamageReporter: React.FC = () => {
           {/* Error State */}
           {error && (
             <div className="bg-red-50 dark:bg-red-900/30 border border-red-100 dark:border-red-800 text-red-700 dark:text-red-300 p-5 rounded-2xl flex items-center gap-3 animate-fade-in">
-              <div className="bg-red-100 p-2 rounded-xl flex-shrink-0">
+              <div className="bg-red-100 dark:bg-red-900/40 p-2 rounded-xl flex-shrink-0">
                 <AlertTriangle className="w-5 h-5" />
               </div>
               <div>
                 <p className="font-semibold text-sm">Terjadi Kesalahan</p>
-                <p className="text-xs text-red-600 mt-0.5">{error}</p>
+                <p className="text-xs text-red-600 dark:text-red-400 mt-0.5">{error}</p>
               </div>
             </div>
           )}

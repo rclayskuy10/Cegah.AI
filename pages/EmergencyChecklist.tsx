@@ -106,15 +106,15 @@ const EmergencyChecklist: React.FC = () => {
 
   const getCategoryColor = (category: string) => {
     const colors: { [key: string]: string } = {
-      'Dokumen & Uang': 'bg-blue-50 border-blue-200 text-blue-700',
-      'Kebutuhan Dasar': 'bg-green-50 border-green-200 text-green-700',
-      'Kesehatan': 'bg-red-50 border-red-200 text-red-700',
-      'Komunikasi & Penerangan': 'bg-yellow-50 border-yellow-200 text-yellow-700',
-      'Kebersihan': 'bg-purple-50 border-purple-200 text-purple-700',
-      'Perlengkapan Khusus': 'bg-pink-50 border-pink-200 text-pink-700',
-      'Alat Tambahan': 'bg-orange-50 border-orange-200 text-orange-700',
+      'Dokumen & Uang': 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-950/30 dark:border-blue-800/40 dark:text-blue-300',
+      'Kebutuhan Dasar': 'bg-green-50 border-green-200 text-green-700 dark:bg-green-950/30 dark:border-green-800/40 dark:text-green-300',
+      'Kesehatan': 'bg-red-50 border-red-200 text-red-700 dark:bg-red-950/30 dark:border-red-800/40 dark:text-red-300',
+      'Komunikasi & Penerangan': 'bg-yellow-50 border-yellow-200 text-yellow-700 dark:bg-yellow-950/30 dark:border-yellow-800/40 dark:text-yellow-300',
+      'Kebersihan': 'bg-purple-50 border-purple-200 text-purple-700 dark:bg-purple-950/30 dark:border-purple-800/40 dark:text-purple-300',
+      'Perlengkapan Khusus': 'bg-pink-50 border-pink-200 text-pink-700 dark:bg-pink-950/30 dark:border-pink-800/40 dark:text-pink-300',
+      'Alat Tambahan': 'bg-orange-50 border-orange-200 text-orange-700 dark:bg-orange-950/30 dark:border-orange-800/40 dark:text-orange-300',
     };
-    return colors[category] || 'bg-slate-50 border-slate-200 text-slate-700';
+    return colors[category] || 'bg-slate-50 border-slate-200 text-slate-700 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300';
   };
 
   return (

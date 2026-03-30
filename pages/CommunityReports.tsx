@@ -21,9 +21,9 @@ const DISASTER_TYPES = [
 ];
 
 const SEVERITY_CONFIG = {
-  ringan: { label: 'Ringan', color: 'bg-green-100 text-green-700 border-green-200' },
-  sedang: { label: 'Sedang', color: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
-  berat: { label: 'Berat', color: 'bg-red-100 text-red-700 border-red-200' },
+  ringan: { label: 'Ringan', color: 'bg-green-100 text-green-700 border-green-200 dark:bg-green-950/30 dark:text-green-300 dark:border-green-800/40' },
+  sedang: { label: 'Sedang', color: 'bg-yellow-100 text-yellow-700 border-yellow-200 dark:bg-yellow-950/30 dark:text-yellow-300 dark:border-yellow-800/40' },
+  berat: { label: 'Berat', color: 'bg-red-100 text-red-700 border-red-200 dark:bg-red-950/30 dark:text-red-300 dark:border-red-800/40' },
 };
 
 const CommunityReports: React.FC = () => {

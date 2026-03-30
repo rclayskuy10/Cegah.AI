@@ -46,10 +46,10 @@ const RiskAssessment: React.FC = () => {
 
   // Consolidated risk level style lookup - avoids 3 separate switch statements
   const RISK_STYLES: Record<string, { gradient: string; bg: string; text: string }> = {
-    Critical: { gradient: 'from-red-500 to-red-600',    bg: 'bg-red-50 border-red-100',       text: 'text-red-600' },
-    High:     { gradient: 'from-orange-500 to-orange-600', bg: 'bg-orange-50 border-orange-100', text: 'text-orange-600' },
-    Medium:   { gradient: 'from-yellow-500 to-yellow-600', bg: 'bg-yellow-50 border-yellow-100', text: 'text-yellow-600' },
-    Low:      { gradient: 'from-green-500 to-green-600',   bg: 'bg-green-50 border-green-100',   text: 'text-green-600' },
+    Critical: { gradient: 'from-red-500 to-red-600',    bg: 'bg-red-50 border-red-100 dark:bg-red-950/30 dark:border-red-900/40',       text: 'text-red-600 dark:text-red-400' },
+    High:     { gradient: 'from-orange-500 to-orange-600', bg: 'bg-orange-50 border-orange-100 dark:bg-orange-950/30 dark:border-orange-900/40', text: 'text-orange-600 dark:text-orange-400' },
+    Medium:   { gradient: 'from-yellow-500 to-yellow-600', bg: 'bg-yellow-50 border-yellow-100 dark:bg-yellow-950/30 dark:border-yellow-900/40', text: 'text-yellow-600 dark:text-yellow-400' },
+    Low:      { gradient: 'from-green-500 to-green-600',   bg: 'bg-green-50 border-green-100 dark:bg-green-950/30 dark:border-green-900/40',   text: 'text-green-600 dark:text-green-400' },
   };
   const getRiskStyle = useCallback((level: string) => RISK_STYLES[level] ?? RISK_STYLES.Low, []);
   const getRiskColor    = (level: string) => getRiskStyle(level).gradient;
@@ -88,10 +88,10 @@ const RiskAssessment: React.FC = () => {
 
       {error && !loading && (
           <div className="animate-fade-in bg-red-50 dark:bg-red-900/30 p-5 rounded-2xl border border-red-100 dark:border-red-800 text-center">
-              <div className="bg-red-100 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3">
+              <div className="bg-red-100 dark:bg-red-900/40 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3">
                 <AlertTriangle className="text-red-500 w-6 h-6" />
               </div>
-              <p className="text-red-700 font-semibold">{error}</p>
+              <p className="text-red-700 dark:text-red-300 font-semibold">{error}</p>
               <button onClick={getLocation} className="mt-3 bg-red-500 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-red-600 transition-colors">
                 Coba Lagi
               </button>

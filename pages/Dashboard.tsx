@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Activity, PhoneCall, Loader2, ArrowRight, MapPin, Camera, MessageSquare, Radio, AlertCircle, CloudRain, Siren, Sparkles } from 'lucide-react';
+import { Activity, PhoneCall, Loader2, ArrowRight, MapPin, Camera, MessageSquare, Radio, AlertCircle, CloudRain, Siren, Sparkles, Info, CheckCircle2 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { DisasterStat } from '../types';
 import { getRealTimeDisasterStats, getLatestEarthquakeInfo, getWeatherWarnings, StatsMetadata } from '../services/bmkg';
 
 import SigapMascot from '../components/SigapMascot';
+import WeatherWidget from '../components/WeatherWidget';
 
 const FALLBACK_STATS: DisasterStat[] = [
   { name: 'Banjir', count: 42, color: '#3b82f6' },
@@ -50,6 +51,12 @@ const Dashboard: React.FC = () => {
             'https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json',
             'https://data.bmkg.go.id/DataMKG/TEWS/gempadirasakan.json',
           ],
+          eventCounts: {
+            gempa: { count: 0, isReal: false, basis: 'API tidak tersedia' },
+            banjir: { count: 42, isReal: false, basis: 'Fallback baseline BNPB 2023' },
+            longsor: { count: 18, isReal: false, basis: 'Fallback baseline BNPB 2023' },
+            cuacaEkstrem: { count: 28, isReal: false, basis: 'Fallback baseline BNPB 2023' },
+          },
         });
       }
       setLoadingStats(false);
@@ -105,26 +112,29 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
+      {/* Real-time Weather Widget */}
+      <WeatherWidget className="animate-slide-up" />
+
       {/* Weather Warning Alert */}
       {weatherWarning && weatherWarning.warning && weatherWarning.warning.length > 0 && (
-        <div className="animate-slide-up bg-gradient-to-r from-yellow-50 via-orange-50 to-red-50 border-l-4 border-orange-500 p-4 md:p-5 rounded-2xl shadow-sm">
+        <div className="animate-slide-up bg-gradient-to-r from-yellow-50 via-orange-50 to-red-50 dark:from-orange-950/40 dark:via-red-950/30 dark:to-orange-950/20 border-l-4 border-orange-500 p-4 md:p-5 rounded-2xl shadow-sm">
           <div className="flex items-start gap-3">
             <div className="bg-orange-500 p-2 rounded-xl flex-shrink-0">
               <CloudRain className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
-              <h4 className="font-bold text-orange-900 text-sm md:text-base flex items-center gap-2">
+              <h4 className="font-bold text-orange-900 dark:text-orange-200 text-sm md:text-base flex items-center gap-2">
                 Peringatan Cuaca
                 <span className="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full">BMKG</span>
               </h4>
               <div className="mt-2 space-y-1">
                 {weatherWarning.warning.slice(0, 3).map((warning: string, idx: number) => (
-                  <p key={idx} className="text-xs md:text-sm text-orange-800 leading-relaxed">
+                  <p key={idx} className="text-xs md:text-sm text-orange-800 dark:text-orange-300 leading-relaxed">
                     • {warning}
                   </p>
                 ))}
               </div>
-              <p className="text-xs text-orange-600 mt-2 font-medium">
+              <p className="text-xs text-orange-600 dark:text-orange-400 mt-2 font-medium">
                 Tetap waspada dan ikuti arahan dari pihak berwenang.
               </p>
             </div>
@@ -205,14 +215,14 @@ const Dashboard: React.FC = () => {
 
       {/* Latest Earthquake Info - Real-time BMKG */}
       {loadingQuake ? (
-        <div className="animate-slide-up bg-gradient-to-br from-red-50 to-orange-50 p-5 md:p-6 rounded-3xl border border-red-100 shadow-sm">
+        <div className="animate-slide-up bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-950/30 dark:to-orange-950/20 p-5 md:p-6 rounded-3xl border border-red-100 dark:border-red-900/40 shadow-sm">
           <div className="flex items-center justify-center gap-2 text-slate-400">
             <Loader2 className="w-4 h-4 animate-spin" />
             <span className="text-xs font-medium">Memuat data gempa terkini...</span>
           </div>
         </div>
       ) : earthquakeInfo ? (
-        <div className="animate-slide-up bg-gradient-to-br from-red-50 to-orange-50 p-5 md:p-6 rounded-3xl border border-red-100 shadow-sm">
+        <div className="animate-slide-up bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-950/30 dark:to-orange-950/20 p-5 md:p-6 rounded-3xl border border-red-100 dark:border-red-900/40 shadow-sm">
           <div className="flex items-start gap-4">
             <div className="bg-red-500 p-3 rounded-2xl flex-shrink-0 shadow-lg shadow-red-500/30">
               <AlertCircle className="w-6 h-6 text-white" />
@@ -220,8 +230,8 @@ const Dashboard: React.FC = () => {
             <div className="flex-1">
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <h3 className="font-bold text-red-900 text-base md:text-lg">Gempa Terkini</h3>
-                  <p className="text-xs text-red-600 mt-0.5">Sumber: BMKG Indonesia</p>
+                  <h3 className="font-bold text-red-900 dark:text-red-200 text-base md:text-lg">Gempa Terkini</h3>
+                  <p className="text-xs text-red-600 dark:text-red-400 mt-0.5">Sumber: BMKG Indonesia</p>
                 </div>
                 <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
                   M {earthquakeInfo.magnitude}
@@ -231,17 +241,17 @@ const Dashboard: React.FC = () => {
                 <div className="flex items-start gap-2">
                   <MapPin className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-semibold text-slate-700">{earthquakeInfo.location}</p>
-                    <p className="text-xs text-slate-500">{earthquakeInfo.depth}</p>
+                    <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">{earthquakeInfo.location}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{earthquakeInfo.depth}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Activity className="w-4 h-4 text-red-500 flex-shrink-0" />
-                  <p className="text-xs text-slate-600">{earthquakeInfo.time}</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-300">{earthquakeInfo.time}</p>
                 </div>
                 {earthquakeInfo.potential && (
-                  <div className="mt-3 bg-white/60 backdrop-blur-sm p-3 rounded-xl border border-red-200">
-                    <p className="text-xs font-semibold text-red-700">{earthquakeInfo.potential}</p>
+                  <div className="mt-3 bg-white/60 dark:bg-white/5 backdrop-blur-sm p-3 rounded-xl border border-red-200 dark:border-red-800/40">
+                    <p className="text-xs font-semibold text-red-700 dark:text-red-300">{earthquakeInfo.potential}</p>
                   </div>
                 )}
               </div>
@@ -250,83 +260,150 @@ const Dashboard: React.FC = () => {
         </div>
       ) : null}
 
-      {/* Stats Section */}
-      <div className="animate-slide-up bg-white dark:bg-slate-800 p-5 md:p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 min-h-[300px]">
-        <div className="flex justify-between items-center mb-6">
+      {/* Stats Section — Risk Statistics */}
+      <div className="animate-slide-up bg-white dark:bg-slate-800 p-5 md:p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
+        <div className="flex justify-between items-center mb-4">
           <div>
-            <h3 className="font-bold text-lg text-slate-800 dark:text-white">Statistik Risiko</h3>
-            <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">Estimasi berbasis data gempa BMKG</p>
-          </div>
-          <span className={`text-[11px] font-semibold px-3 py-1.5 rounded-full border flex items-center gap-1 ${statsMeta?.dataQuality === 'fallback' ? 'text-amber-700 bg-amber-50 border-amber-100' : 'text-blue-700 bg-blue-50 border-blue-100'}`}>
-            <Radio className="w-3 h-3 animate-pulse" /> {statsMeta?.dataQuality === 'fallback' ? 'Data Cadangan' : 'Data Estimasi'}
-          </span>
-        </div>
-        {statsMeta && (
-          <div className="mb-5 bg-slate-50 dark:bg-slate-700/40 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 font-medium">{statsMeta.sourceDetail}</p>
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
-              Sumber: {statsMeta.source} | Update aplikasi: {new Date(statsMeta.lastUpdate).toLocaleString('id-ID')}
+            <h3 className="font-bold text-lg text-slate-800 dark:text-white">Statistik Risiko Bencana</h3>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
+              {statsMeta?.isRainySeason ? '🌧️ Musim Hujan · Risiko Banjir & Longsor Meningkat' : '☀️ Musim Kemarau · Risiko Kekeringan Meningkat'}
             </p>
           </div>
+          <span className={`text-[11px] font-semibold px-3 py-1.5 rounded-full border flex items-center gap-1 ${
+            statsMeta?.dataQuality === 'fallback'
+              ? 'text-amber-700 bg-amber-50 border-amber-100 dark:bg-amber-900/20 dark:text-amber-300 dark:border-amber-800'
+              : statsMeta?.dataQuality === 'realtime'
+              ? 'text-green-700 bg-green-50 border-green-100 dark:bg-green-900/20 dark:text-green-300 dark:border-green-800'
+              : 'text-blue-700 bg-blue-50 border-blue-100 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800'
+          }`}>
+            <Radio className="w-3 h-3 animate-pulse" />
+            {statsMeta?.dataQuality === 'fallback' ? 'Data Cadangan'
+              : statsMeta?.dataQuality === 'realtime' ? 'Real-time + BNPB'
+              : 'Estimasi BNPB'}
+          </span>
+        </div>
+
+        {/* Earthquake real-data callout */}
+        {statsMeta && statsMeta.earthquakeCount > 0 && (
+          <div className="mb-4 flex items-start gap-3 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800/40 rounded-2xl p-3">
+            <CheckCircle2 className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-xs font-bold text-red-800 dark:text-red-300">Data Gempa Real-time (BMKG TEWS)</p>
+              <p className="text-[11px] text-red-700 dark:text-red-400 mt-0.5">
+                {statsMeta.earthquakeCount} gempa terdeteksi terkini · {statsMeta.strongQuakes} gempa ≥ M5.0
+              </p>
+            </div>
+          </div>
         )}
-        
+
+        {/* Methodology note */}
+        {statsMeta && (
+          <div className="mb-5 flex items-start gap-2 bg-slate-50 dark:bg-slate-700/40 border border-slate-200 dark:border-slate-700 rounded-xl p-3">
+            <Info className="w-3.5 h-3.5 text-slate-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-[11px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed">{statsMeta.sourceDetail}</p>
+              <div className="flex flex-wrap gap-1 mt-1.5">
+                {statsMeta.references.map((ref, i) => (
+                  <a key={i} href={ref} target="_blank" rel="noopener noreferrer"
+                    className="text-[10px] text-blue-600 dark:text-blue-400 hover:underline truncate max-w-[200px]">
+                    {new URL(ref).hostname.replace('www.', '')}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {loadingStats ? (
-            <div className="h-48 w-full flex flex-col items-center justify-center text-slate-400">
-                <div className="relative">
-                  <div className="w-12 h-12 border-3 border-slate-100 rounded-full"></div>
-                  <div className="w-12 h-12 border-3 border-red-500 border-t-transparent rounded-full animate-spin absolute inset-0"></div>
-                </div>
-                <span className="text-xs mt-4 font-medium">Mengambil data terbaru...</span>
+          <div className="h-48 w-full flex flex-col items-center justify-center text-slate-400">
+            <div className="relative">
+              <div className="w-12 h-12 border-3 border-slate-100 rounded-full"></div>
+              <div className="w-12 h-12 border-3 border-red-500 border-t-transparent rounded-full animate-spin absolute inset-0"></div>
             </div>
+            <span className="text-xs mt-4 font-medium">Mengambil data terbaru...</span>
+          </div>
         ) : (
-            <div className="md:flex md:items-center md:gap-8">
-                <div className="h-48 w-full md:w-1/2 relative">
-                    <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                        <Pie
-                        data={stats}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={55}
-                        outerRadius={85}
-                        paddingAngle={4}
-                        dataKey="count"
-                        stroke="none"
-                        >
-                        {stats.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                        </Pie>
-                        <Tooltip 
-                          contentStyle={{ 
-                            borderRadius: '12px', 
-                            border: '1px solid #e2e8f0', 
-                            boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
-                            fontSize: '12px',
-                            fontWeight: '600'
-                          }} 
-                        />
-                    </PieChart>
-                    </ResponsiveContainer>
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div className="text-center">
-                          <span className="text-2xl font-black text-slate-700">{stats.reduce((a, b) => a + b.count, 0)}</span>
-                          <p className="text-[10px] text-slate-400 font-medium">Total %</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="grid grid-cols-2 gap-3 mt-4 md:mt-0 md:flex-1">
-                    {stats.map((stat) => (
-                        <div key={stat.name} className="flex items-center gap-3 bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl">
-                            <div className="w-3 h-3 rounded-full flex-shrink-0" style={{backgroundColor: stat.color}}></div>
-                            <div>
-                              <p className="text-xs font-bold text-slate-700 dark:text-slate-200">{stat.name}</p>
-                              <p className="text-[10px] text-slate-400 dark:text-slate-500">{stat.count}%</p>
-                            </div>
-                        </div>
+          <div className="md:flex md:items-start md:gap-8">
+            {/* Pie chart */}
+            <div className="h-48 w-full md:w-5/12 relative flex-shrink-0">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={stats}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={52}
+                    outerRadius={82}
+                    paddingAngle={4}
+                    dataKey="count"
+                    stroke="none"
+                  >
+                    {stats.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
+                  </Pie>
+                  <Tooltip
+                    formatter={(val: number) => [`${val}%`, 'Proporsi risiko']}
+                    contentStyle={{
+                      borderRadius: '12px',
+                      border: '1px solid #e2e8f0',
+                      boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="text-center">
+                  <span className="text-xl font-black text-slate-700 dark:text-white">Proporsi</span>
+                  <p className="text-[10px] text-slate-400 font-medium">Risiko Bulan Ini</p>
                 </div>
+              </div>
             </div>
+
+            {/* Stat cards with real counts */}
+            <div className="grid grid-cols-2 gap-3 mt-4 md:mt-0 md:flex-1">
+              {stats.map((stat) => {
+                const evKey = stat.name === 'Gempa' ? 'gempa'
+                  : stat.name === 'Banjir' ? 'banjir'
+                  : stat.name === 'Longsor' ? 'longsor'
+                  : 'cuacaEkstrem';
+                const ev = statsMeta?.eventCounts?.[evKey];
+                return (
+                  <div key={stat.name} className="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-2xl border border-slate-100 dark:border-slate-600/30">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: stat.color }}></div>
+                      <p className="text-xs font-bold text-slate-700 dark:text-slate-200">{stat.name}</p>
+                    </div>
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <p className="text-lg font-black" style={{ color: stat.color }}>{stat.count}%</p>
+                        <p className="text-[10px] text-slate-400 dark:text-slate-500">proporsi risiko</p>
+                      </div>
+                      {ev && (
+                        <div className="text-right">
+                          <p className="text-xs font-bold text-slate-600 dark:text-slate-300">~{ev.count}</p>
+                          <p className="text-[9px] text-slate-400 flex items-center gap-0.5 justify-end">
+                            {ev.isReal
+                              ? <><CheckCircle2 className="w-2.5 h-2.5 text-green-500" /> Real</>  
+                              : <><Info className="w-2.5 h-2.5 text-amber-400" /> Est.</>}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Update timestamp */}
+        {statsMeta && (
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-4 text-right">
+            Diperbarui: {new Date(statsMeta.lastUpdate).toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'short' })}
+          </p>
         )}
       </div>
 
